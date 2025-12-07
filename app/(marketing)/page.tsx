@@ -300,12 +300,11 @@ export const getUser = async (id: string) => {
                   Get help, share your wins, and vibe with 10,000+ other builders in our exclusive Discord community.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                  <Button variant="outline" className="h-12 px-8 rounded-full border-white/10 text-white hover:bg-white/10">
-                      Join Discord
-                  </Button>
-                  <Button variant="outline" className="h-12 px-8 rounded-full border-white/10 text-white hover:bg-white/10">
-                      Follow on Twitter
-                  </Button>
+                  <Link href="#hero">
+                      <Button variant="outline" className="h-12 px-8 rounded-full border-white/10 text-white hover:bg-white/10">
+                          Join Waitlist
+                      </Button>
+                  </Link>
               </div>
           </div>
       </section>
@@ -380,7 +379,7 @@ export const getUser = async (id: string) => {
                      }
                  ].map((t, i) => (
                      <div key={i} className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
-                         <div className="flex gap-1 mb-4 text-purple-400">
+                         <div className="flex gap-1 mb-4 text-white">
                              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                          </div>
                          <p className="text-white/70 font-light italic mb-6 leading-relaxed">&quot;{t.quote}&quot;</p>
