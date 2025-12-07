@@ -127,7 +127,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body 
+      <body
         className={`${inter.className} antialiased min-h-screen bg-background text-foreground font-light selection:bg-purple-500/30`}
         suppressHydrationWarning
       >

@@ -44,12 +44,22 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Tutorial",
           subtitle: "Your First Vibe Check",
           missions: [
-            { id: "dictionary-of-power", title: "Dictionary of Power", description: "Learn the Vibe Dictionary: API = Menu, Database = Fridge, etc.", xpReward: 10 },
-            { id: "setup", title: "Setup", description: "Install Node, Cursor, and GitHub Desktop", xpReward: 10 }
+            { 
+              id: "dictionary-of-power", 
+              title: "Dictionary of Power", 
+              description: "What is vibecoding? API = Menu, Database = Fridge, Frontend = Waiter, Backend = Kitchen", 
+              xpReward: 10 
+            },
+            { 
+              id: "setup", 
+              title: "Setup", 
+              description: "Install Node, Install Cursor, Install GitHub Desktop. Win Condition: Terminal prints 'VIBE CHECK PASSED'", 
+              xpReward: 10 
+            }
           ],
           blackBox: {
-            title: "HTML, CSS, JS & The DOM",
-            description: "What actually happens when you load a page."
+            title: "What HTML, CSS, JS actually do",
+            description: "DOM explained simply"
           }
         }
       ]
@@ -69,7 +79,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "manifesto", title: "The Vibe Coder Manifesto", description: "Speed > Perfection", xpReward: 10 },
             { id: "tool-stack", title: "Your Tool Stack", description: "Cursor + V0 + Supabase + Claude", xpReward: 10 },
             { id: "context-game", title: "The Context Game", description: "Feeding docs without hallucination", xpReward: 10 },
-            { id: "hello-world", title: "Hello World", description: "Deploy your first site in 15 minutes", xpReward: 10 }
+            { id: "hello-world", title: "Deploy your 'Hello World' site in 15 minutes", xpReward: 10 }
           ],
           blackBox: {
             title: "How the browser renders your page",
@@ -88,9 +98,9 @@ export const curriculum: { phases: Phase[] } = {
           subtitle: "Coding becomes English class",
           missions: [
             { id: "composer-mastery", title: "Cursor Composer Mastery", xpReward: 10 },
-            { id: "v0-to-code", title: "V0 to Code Pipeline", xpReward: 10 },
-            { id: "iterative-prompting", title: "Iterative Prompting", xpReward: 10 },
-            { id: "landing-page-project", title: "Build a Landing Page", description: "Use only natural language. No manual CSS.", xpReward: 10 }
+            { id: "v0-to-code", title: "V0 → Code Pipeline", xpReward: 10 },
+            { id: "iterative-prompting", title: "Iterative prompting", xpReward: 10 },
+            { id: "landing-page-project", title: "Build a full landing page using only natural language", description: "No manual CSS allowed", xpReward: 10 }
           ],
           blackBox: {
             title: "React re-renders",
@@ -120,7 +130,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "env-vars", title: "Environment Variables", xpReward: 10 },
             { id: "frontend-connection", title: "Connect Frontend ↔ Backend", xpReward: 10 }
           ],
-          project: "Your first real app: A Waitlist with database storage.",
+          project: "Your first real app: a Waitlist app with database storage.",
           blackBox: {
             title: "SQL basics, Primary & Foreign Keys",
             description: "Database fundamentals."
@@ -141,7 +151,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "route-protection", title: "Route Protection", xpReward: 10 },
             { id: "user-profiles", title: "User Profiles", xpReward: 10 }
           ],
-          project: "Turn your Waitlist into a Private Dashboard.",
+          project: "Turn your Waitlist into a private dashboard.",
           blackBox: {
             title: "Sessions, cookies, JWTs",
             description: "Authentication mechanisms explained."
@@ -179,15 +189,15 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Fixer (Debugging)",
           subtitle: "The most important world.",
           missions: [
-            { id: "recognizing-hallucinations", title: "Recognizing Hallucinations", xpReward: 10 },
-            { id: "ai-fixes", title: "Using AI to Fix AI", xpReward: 10 },
-            { id: "copy-paste-debug", title: "Copy-Paste Debugging", xpReward: 10 },
-            { id: "git-save-game", title: "GitHub Desktop 'Save Game'", xpReward: 10 }
+            { id: "recognizing-hallucinations", title: "Recognizing AI errors", xpReward: 10 },
+            { id: "ai-fixes", title: "Using the AI to fix its own mistakes", xpReward: 10 },
+            { id: "copy-paste-debug", title: "Copy-paste debugging", xpReward: 10 },
+            { id: "git-save-game", title: "GitHub Desktop 'Save Game' strategy", xpReward: 10 }
           ],
           project: "We break a repo → You fix it with AI.",
           blackBox: {
-            title: "Console Errors & Network Tab",
-            description: "Debugging tools in the browser."
+            title: "Console errors",
+            description: "Network tab"
           },
           secretDrop: {
             title: "No-Error Loop",
@@ -201,11 +211,11 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Polish (UI and UX)",
           subtitle: "Make it look expensive",
           missions: [
-            { id: "shadcn-customization", title: "Shadcn Customization", xpReward: 10 },
-            { id: "mobile-fixes", title: "Mobile Fixes", xpReward: 10 },
-            { id: "responsiveness", title: "Responsiveness Prompts", xpReward: 10 },
-            { id: "dark-mode", title: "Dark Mode Toggle", xpReward: 10 },
-            { id: "toasts", title: "Toasts & Micro-interactions", xpReward: 10 }
+            { id: "shadcn-customization", title: "Customizing Shadcn", xpReward: 10 },
+            { id: "mobile-fixes", title: "Mobile fixes", xpReward: 10 },
+            { id: "responsiveness", title: "Responsiveness prompts", xpReward: 10 },
+            { id: "dark-mode", title: "Dark mode toggle", xpReward: 10 },
+            { id: "toasts", title: "Toasts and micro-interactions", xpReward: 10 }
           ],
           project: "UI Audit: Make your dashboard feel premium."
         }
@@ -224,33 +234,33 @@ export const curriculum: { phases: Phase[] } = {
           subtitle: "Let the app pay you",
           missions: [
             { id: "payment-provider", title: "Stripe vs LemonSqueezy", xpReward: 10 },
-            { id: "checkout", title: "Setting up Checkout", xpReward: 10 },
-            { id: "paywalls", title: "Gating Features", xpReward: 10 },
-            { id: "webhooks-pro", title: "Webhooks for 'Pro' Status", xpReward: 10 }
+            { id: "checkout", title: "Setting up checkout", xpReward: 10 },
+            { id: "paywalls", title: "Gating features behind paywall", xpReward: 10 },
+            { id: "webhooks-pro", title: "Webhooks for 'Pro' status", xpReward: 10 }
           ],
           project: "Make yourself a real $1 payment.",
           blackBox: {
-            title: "Webhook Security",
-            description: "Signature verification and secure patterns."
+            title: "Signature verification",
+            description: "Secure webhook patterns"
           }
         },
         {
           id: 9,
           phaseId: 4,
           slug: "the-launch",
-          title: "The Launch",
-          subtitle: "Unlock your Founder Badge",
+          title: "THE LAUNCH",
+          subtitle: "You unlock this world only by deploying the app.",
           lockedByDefault: true,
           missions: [
             { id: "domains", title: "Domain + DNS", xpReward: 10 },
-            { id: "seo", title: "SEO Optimization via AI", xpReward: 10 },
-            { id: "opengraph", title: "Open Graph Images", xpReward: 10 },
-            { id: "posthog", title: "Posthog Analytics", xpReward: 10 }
+            { id: "seo", title: "SEO optimization via AI", xpReward: 10 },
+            { id: "opengraph", title: "Open Graph images", xpReward: 10 },
+            { id: "posthog", title: "Posthog analytics setup", xpReward: 10 }
           ],
-          project: "Deploy your SaaS.",
+          project: "Deploy your SaaS and unlock your Founder Badge.",
           secretDrop: {
-            title: "The Founder Protocol",
-            description: "Golden Prompts Library download included."
+            title: "Golden Prompts Library download → Founder Protocol",
+            description: "Unlock the complete library of prompts and the Founder Protocol when you complete this world."
           }
         },
         {
@@ -260,10 +270,10 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Public Build (Bonus)",
           subtitle: "The Growth Engine",
           missions: [
-            { id: "recording-content", title: "Recording Coding Content", xpReward: 10 },
-            { id: "build-in-public", title: "Build-in-Public Templates", xpReward: 10 },
-            { id: "distribution", title: "Distribution Tactics", xpReward: 10 },
-            { id: "community-flywheel", title: "Vibe Coder Community Flywheel", xpReward: 10 }
+            { id: "recording-content", title: "How to record coding for content", xpReward: 10 },
+            { id: "build-in-public", title: "Build-in-public templates", xpReward: 10 },
+            { id: "distribution", title: "Distribution tactics", xpReward: 10 },
+            { id: "community-flywheel", title: "Vibe Coder community flywheel", xpReward: 10 }
           ]
         }
       ]

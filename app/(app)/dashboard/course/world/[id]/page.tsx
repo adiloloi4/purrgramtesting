@@ -3,7 +3,7 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift, Play } from 'lucide-react';
 import { curriculum } from '@/data/curriculum';
 import { useCourseStore } from '@/store/courseStore';
 import { Button } from '@/components/ui/button';
@@ -127,21 +127,22 @@ export default function WorldPage() {
                         key={mission.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
+                        onClick={() => router.push(`/dashboard/course/world/${worldId}/mission/${mission.id}`)}
                         className={cn(
-                            "p-6 rounded-xl border transition-all flex items-start justify-between group",
+                            "p-6 rounded-xl border transition-all flex items-start justify-between group cursor-pointer",
                             isMissionDone 
-                                ? "bg-green-500/5 border-green-500/20" 
-                                : "bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.07]"
+                                ? "bg-green-500/5 border-green-500/20 hover:border-green-500/30" 
+                                : "bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.07] hover:border-purple-500/30"
                         )}
                     >
-                        <div className="flex items-start gap-5">
-                            <div onClick={() => !isMissionDone && handleCompleteMission(mission.id)} className={cn(
-                                "cursor-pointer p-1 rounded-full transition-colors mt-0.5",
+                        <div className="flex items-start gap-5 flex-1">
+                            <div className={cn(
+                                "p-1 rounded-full transition-colors mt-0.5",
                                 isMissionDone ? "text-green-500" : "text-white/20 group-hover:text-white/40"
                             )}>
                                 {isMissionDone ? <CheckCircle className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
                             </div>
-                            <div>
+                            <div className="flex-1">
                                 <h3 className={cn("text-lg font-light mb-1", isMissionDone ? "text-white/40 line-through decoration-white/20" : "text-white")}>
                                     {mission.title}
                                 </h3>
@@ -150,8 +151,11 @@ export default function WorldPage() {
                                 )}
                             </div>
                         </div>
-                        <div className="text-xs text-white/20 font-mono pt-1">
-                            +{mission.xpReward} XP
+                        <div className="flex items-center gap-3">
+                            <div className="text-xs text-white/20 font-mono pt-1">
+                                +{mission.xpReward} XP
+                            </div>
+                            <Play className="w-4 h-4 text-white/30 group-hover:text-purple-400 transition-colors" />
                         </div>
                     </motion.div>
                 );
