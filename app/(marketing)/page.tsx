@@ -212,34 +212,34 @@ export default function LandingPage() {
                         The Vibe Coding Manifesto
                      </div>
                      <h2 className="text-4xl md:text-5xl font-extralight mb-8 tracking-tight leading-tight">
-                        Stop coding like it's 2015. <br/>
+                        Stop coding like it&apos;s 2015. <br/>
                         <span className="text-white/40">Start shipping like a founder.</span>
                      </h2>
                      <div className="space-y-8">
                          <div className="flex gap-4">
-                             <div className="w-10 h-10 rounded-full bg-white/5 flex-shrink-0 flex items-center justify-center mt-1">
+                             <div className="w-10 h-10 rounded-full bg-white/5 shrink-0 flex items-center justify-center mt-1">
                                  <Terminal className="w-5 h-5 text-white/60" />
                              </div>
                              <div>
                                  <h3 className="text-xl font-light text-white mb-2">Context is King</h3>
                                  <p className="text-white/50 font-light leading-relaxed">
-                                     Don't write boilerplate. Learn how to feed context to LLMs so they understand your entire project structure instantly.
+                                     Don&apos;t write boilerplate. Learn how to feed context to LLMs so they understand your entire project structure instantly.
                                  </p>
                              </div>
                          </div>
                          <div className="flex gap-4">
-                             <div className="w-10 h-10 rounded-full bg-white/5 flex-shrink-0 flex items-center justify-center mt-1">
+                             <div className="w-10 h-10 rounded-full bg-white/5 shrink-0 flex items-center justify-center mt-1">
                                  <Code2 className="w-5 h-5 text-white/60" />
                              </div>
                              <div>
                                  <h3 className="text-xl font-light text-white mb-2">Iterative Prompting</h3>
                                  <p className="text-white/50 font-light leading-relaxed">
-                                     Coding is now conversation. Master the art of "prompt transfusion" to refine features in loops rather than writing lines character by character.
+                                     Coding is now conversation. Master the art of &quot;prompt transfusion&quot; to refine features in loops rather than writing lines character by character.
                                  </p>
                              </div>
                          </div>
                          <div className="flex gap-4">
-                             <div className="w-10 h-10 rounded-full bg-white/5 flex-shrink-0 flex items-center justify-center mt-1">
+                             <div className="w-10 h-10 rounded-full bg-white/5 shrink-0 flex items-center justify-center mt-1">
                                  <Rocket className="w-5 h-5 text-white/60" />
                              </div>
                              <div>
@@ -383,7 +383,7 @@ export const getUser = async (id: string) => {
                          <div className="flex gap-1 mb-4 text-purple-400">
                              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                          </div>
-                         <p className="text-white/70 font-light italic mb-6 leading-relaxed">"{t.quote}"</p>
+                         <p className="text-white/70 font-light italic mb-6 leading-relaxed">&quot;{t.quote}&quot;</p>
                          <div className="flex items-center gap-3">
                              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold overflow-hidden relative">
                                  {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -450,7 +450,7 @@ export const getUser = async (id: string) => {
                   <AccordionItem value="item-1" className="border-white/10">
                       <AccordionTrigger className="text-white/80 font-light hover:text-white">Do I need to know how to code?</AccordionTrigger>
                       <AccordionContent className="text-white/50 font-light leading-relaxed">
-                          Basic HTML/CSS knowledge helps, but it's not strictly required. We teach you how to use AI to write the complex logic. You need to be good at logic and systems thinking, not syntax.
+                          Basic HTML/CSS knowledge helps, but it&apos;s not strictly required. We teach you how to use AI to write the complex logic. You need to be good at logic and systems thinking, not syntax.
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-2" className="border-white/10">
@@ -462,7 +462,7 @@ export const getUser = async (id: string) => {
                   <AccordionItem value="item-3" className="border-white/10">
                       <AccordionTrigger className="text-white/80 font-light hover:text-white">What stack do you teach?</AccordionTrigger>
                       <AccordionContent className="text-white/50 font-light leading-relaxed">
-                          We focus on the "Vibe Stack": Next.js 15, Tailwind CSS, Shadcn UI, Supabase, and Cursor AI. It's the fastest way to ship production SaaS today.
+                          We focus on the &quot;Vibe Stack&quot;: Next.js 15, Tailwind CSS, Shadcn UI, Supabase, and Cursor AI. It&apos;s the fastest way to ship production SaaS today.
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-4" className="border-white/10">
@@ -474,7 +474,7 @@ export const getUser = async (id: string) => {
                   <AccordionItem value="item-5" className="border-white/10">
                       <AccordionTrigger className="text-white/80 font-light hover:text-white">What if I get stuck?</AccordionTrigger>
                       <AccordionContent className="text-white/50 font-light leading-relaxed">
-                          Every mission has a specialized "Black Box" deep dive if you want to understand the underlying tech. Plus, our Discord community is active 24/7 with other Vibe Coders helping each other debug.
+                          Every mission has a specialized &quot;Black Box&quot; deep dive if you want to understand the underlying tech. Plus, our Discord community is active 24/7 with other Vibe Coders helping each other debug.
                       </AccordionContent>
                   </AccordionItem>
               </Accordion>
@@ -485,7 +485,7 @@ export const getUser = async (id: string) => {
       <section className="py-24 border-t border-white/5 bg-white/[0.02]">
           <div className="container mx-auto px-6 text-center">
               <h2 className="text-3xl md:text-5xl font-extralight mb-8 tracking-tight">Get Early Access</h2>
-              <p className="text-white/60 mb-8 max-w-md mx-auto">We're currently in private beta. Join the waitlist to secure your spot.</p>
+              <p className="text-white/60 mb-8 max-w-md mx-auto">We&apos;re currently in private beta. Join the waitlist to secure your spot.</p>
               <div className="flex justify-center">
                   <WaitlistForm />
               </div>
