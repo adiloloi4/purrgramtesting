@@ -44,14 +44,14 @@ export const Sidebar = () => {
                 key={item.label}
                 href={item.disabled ? '#' : item.href}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-light transition-colors",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-light transition-all duration-200",
                   isActive 
-                    ? "bg-white/10 text-white border border-white/10" 
+                    ? "bg-white/10 text-white border border-white/10 shadow-[0_0_15px_-3px_rgba(255,255,255,0.1)]" 
                     : "text-white/60 hover:text-white hover:bg-white/5",
                    item.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
                 )}
               >
-                <Icon className={cn("w-4 h-4", isActive ? "text-purple-400" : "text-white/40")} />
+                <Icon className={cn("w-4 h-4", isActive ? "text-purple-300" : "text-white/40")} />
                 {item.label}
               </Link>
             );

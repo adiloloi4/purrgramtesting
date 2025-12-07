@@ -6,32 +6,36 @@ import { useRouter } from 'next/navigation';
 import { curriculum } from '@/data/curriculum';
 import { useCourseStore } from '@/store/courseStore';
 import { WorldCard } from '@/components/course/WorldCard';
-import { Separator } from '@/components/ui/separator';
 
 export default function CourseMapPage() {
   const router = useRouter();
   const { isWorldUnlocked, isWorldCompleted } = useCourseStore();
 
   return (
-    <div className="max-w-2xl mx-auto py-12 relative">
+    <div className="max-w-2xl mx-auto py-12 relative text-white">
       <div className="text-center mb-16">
-         <h1 className="text-4xl font-bold text-white mb-4">Vibe Coding Course</h1>
-         <p className="text-slate-400">Follow the path. Build the future.</p>
+         <h1 className="text-4xl md:text-5xl font-extralight text-white mb-4 tracking-tight">Vibe Coding Course</h1>
+         <p className="text-white/40 font-light">Follow the path. Build the future.</p>
       </div>
 
       <div className="relative">
         {/* Central Path Line */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500/0 via-purple-500/20 to-purple-500/0 -translate-x-1/2 z-0" />
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-purple-500/0 via-purple-500/20 to-purple-500/0 -translate-x-1/2 z-0" />
 
         <div className="space-y-24">
           {curriculum.phases.map((phase) => (
             <div key={phase.id} className="relative z-10">
               <div className="flex items-center gap-4 mb-12">
-                 <Separator className="flex-1 bg-slate-800" />
-                 <h2 className="text-lg font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap px-4 py-1 rounded-full bg-slate-900 border border-slate-800">
-                    {phase.title}
-                 </h2>
-                 <Separator className="flex-1 bg-slate-800" />
+                 <div className="flex-1 h-px bg-linear-to-r from-transparent to-white/10" />
+                 <div className="flex flex-col items-center">
+                    <h2 className="text-xs font-bold text-white/30 uppercase tracking-[0.2em] whitespace-nowrap px-4 py-1.5 rounded-full bg-black border border-white/10 backdrop-blur-xl">
+                        {phase.title}
+                    </h2>
+                    {phase.subtitle && (
+                        <span className="text-[10px] text-white/20 mt-2 font-light uppercase tracking-widest">{phase.subtitle}</span>
+                    )}
+                 </div>
+                 <div className="flex-1 h-px bg-linear-to-l from-transparent to-white/10" />
               </div>
 
               <div className="space-y-16">
@@ -67,7 +71,7 @@ export default function CourseMapPage() {
           
           {/* End of path indicator */}
           <div className="flex justify-center pt-8">
-              <div className="w-4 h-4 rounded-full bg-slate-800 ring-4 ring-slate-900" />
+              <div className="w-3 h-3 rounded-full bg-white/10 ring-4 ring-black border border-white/10" />
           </div>
         </div>
       </div>
