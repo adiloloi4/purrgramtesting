@@ -396,6 +396,7 @@ export default function Hero({
 
 declare module '@react-three/fiber' {
   interface ThreeElements {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     cPPNShaderMaterial: any;
   }
 }
