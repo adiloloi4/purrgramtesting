@@ -4,12 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
-  ArrowRight, Map, Brain, Trophy, Rocket, 
-  Terminal, Zap, Code2, Users, Check,
-  ChevronDown, Star, Monitor, MessageCircle
+  Map, Brain, Trophy, Rocket, 
+  Terminal, Zap, Code2, Check,
+  Star, Monitor, MessageCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import Hero from '@/components/ui/neural-network-hero';
 import { WaitlistForm } from '@/components/marketing/WaitlistForm';
 import { 
@@ -94,7 +93,7 @@ export default function LandingPage() {
             <div className="mb-20">
                 <h2 className="text-3xl md:text-5xl font-extralight mb-6 tracking-tight">Not just another <br/>coding tutorial.</h2>
                 <p className="text-white/60 text-lg font-light max-w-xl leading-relaxed">
-                    Most courses teach you syntax you'll forget. We teach you the workflow to build products you'll launch.
+                    Most courses teach you syntax you&apos;ll forget. We teach you the workflow to build products you&apos;ll launch.
                 </p>
             </div>
 
@@ -112,7 +111,7 @@ export default function LandingPage() {
                         </div>
                         <h3 className="text-xl font-light text-white mb-3 tracking-tight">Game Map Curriculum</h3>
                         <p className="text-white/60 text-sm leading-relaxed font-light">
-                            Forget linear tutorials. Navigate a Duolingo-style world map, unlocking worlds like "The Brain" (Backend) and "The Cash Register" (Payments).
+                            Forget linear tutorials. Navigate a Duolingo-style world map, unlocking worlds like &quot;The Brain&quot; (Backend) and &quot;The Cash Register&quot; (Payments).
                         </p>
                     </div>
                 </motion.div>
@@ -124,7 +123,7 @@ export default function LandingPage() {
                         </div>
                         <h3 className="text-xl font-light text-white mb-3 tracking-tight">AI Powered Workflows</h3>
                         <p className="text-white/60 text-sm leading-relaxed font-light">
-                            Learn the "God Mode" workflow. We don't teach syntax memorization; we teach you how to orchestrate Cursor and Claude to write 80% of your code.
+                            Learn the &quot;God Mode&quot; workflow. We don&apos;t teach syntax memorization; we teach you how to orchestrate Cursor and Claude to write 80% of your code.
                         </p>
                     </div>
                 </motion.div>
@@ -136,7 +135,7 @@ export default function LandingPage() {
                         </div>
                         <h3 className="text-xl font-light text-white mb-3 tracking-tight">Gamified Progress</h3>
                         <p className="text-white/60 text-sm leading-relaxed font-light">
-                            Earn XP, keep your streak alive, and unlock secret drops like "Founder Protocols" and "Golden Prompts" as you complete missions.
+                            Earn XP, keep your streak alive, and unlock secret drops like &quot;Founder Protocols&quot; and &quot;Golden Prompts&quot; as you complete missions.
                         </p>
                     </div>
                 </motion.div>
