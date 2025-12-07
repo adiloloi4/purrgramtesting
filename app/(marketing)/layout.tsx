@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/branding/Logo';
@@ -8,23 +10,50 @@ export default function MarketingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-black/20 backdrop-blur-md">
+      <header 
+        className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+          scrolled 
+            ? 'border-b border-white/10 bg-black/40 backdrop-blur-xl' 
+            : 'border-b border-transparent bg-transparent backdrop-blur-none'
+        }`}
+      >
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
             <Link href="/" className="hover:opacity-80 transition-opacity">
                 <Logo variant="minimal" />
             </Link>
             
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
                 <Link href="#features" className="text-sm font-light text-white/60 hover:text-white transition-colors">
                     Features
+                </Link>
+                <Link href="#comparison" className="text-sm font-light text-white/60 hover:text-white transition-colors">
+                    Comparison
+                </Link>
+                <Link href="#philosophy" className="text-sm font-light text-white/60 hover:text-white transition-colors">
+                    Philosophy
                 </Link>
                 <Link href="#how-it-works" className="text-sm font-light text-white/60 hover:text-white transition-colors">
                     How It Works
                 </Link>
-                <Link href="#curriculum" className="text-sm font-light text-white/60 hover:text-white transition-colors">
+                <Link href="#course-teaser" className="text-sm font-light text-white/60 hover:text-white transition-colors">
                     Curriculum
+                </Link>
+                <Link href="#faq" className="text-sm font-light text-white/60 hover:text-white transition-colors">
+                    FAQ
                 </Link>
             </nav>
 

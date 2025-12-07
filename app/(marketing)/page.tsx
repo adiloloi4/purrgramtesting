@@ -39,18 +39,22 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="overflow-hidden bg-black min-h-screen text-white">
+    <>
       {/* Hero Section */}
-      <Hero 
-        title="Turn ideas into apps with vibe coding."
-        description="A gamified coding platform that lets you build SaaS with AI, without drowning in docs. Join the waitlist for early access."
-        badgeText="Private Beta"
-        badgeLabel="New"
-        ctaButtons={[]}
-        microDetails={["Gamified Learning", "AI Workflows", "Founder Badges"]}
-      >
-        <WaitlistForm />
-      </Hero>
+      <div id="hero" className="relative w-screen h-screen">
+        <Hero 
+          title="Turn ideas into apps with vibe coding."
+          description="A gamified coding platform that lets you build SaaS with AI, without drowning in docs. Join the waitlist for early access."
+          badgeText="Private Beta"
+          badgeLabel="New"
+          ctaButtons={[]}
+          microDetails={["Gamified Learning", "AI Workflows", "Founder Badges"]}
+        >
+          <WaitlistForm />
+        </Hero>
+      </div>
+      
+      <div className="bg-black text-white">
 
       {/* Tools Marquee / Social Proof */}
       <section className="py-12 border-y border-white/5 bg-white/[0.02]">
@@ -69,7 +73,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 border-b border-white/5 bg-black">
+      <section id="stats" className="py-24 border-b border-white/5 bg-black">
           <div className="container mx-auto px-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
                   {[
@@ -144,7 +148,7 @@ export default function LandingPage() {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-32 bg-white/[0.02] border-y border-white/5">
+      <section id="comparison" className="py-32 bg-white/[0.02] border-y border-white/5">
           <div className="container mx-auto px-6 max-w-7xl">
               <div className="text-center mb-20">
                   <h2 className="text-3xl md:text-5xl font-extralight mb-6">The Old Way vs. The Vibe Way</h2>
@@ -203,7 +207,7 @@ export default function LandingPage() {
       </section>
 
       {/* Philosophy / Deep Dive Section */}
-      <section className="py-32 bg-black">
+      <section id="philosophy" className="py-32 bg-black">
          <div className="container mx-auto px-6 max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                 <div>
@@ -290,7 +294,7 @@ export const getUser = async (id: string) => {
       </section>
 
       {/* Community Section */}
-      <section className="py-24 border-t border-white/5 bg-white/[0.02]">
+      <section id="community" className="py-24 border-t border-white/5 bg-white/[0.02]">
           <div className="container mx-auto px-6 max-w-4xl text-center">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-800 flex items-center justify-center mx-auto mb-8 shadow-lg shadow-purple-500/30">
                   <MessageCircle className="w-8 h-8 text-white" />
@@ -442,7 +446,7 @@ export const getUser = async (id: string) => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-32 border-t border-white/5">
+      <section id="faq" className="py-32 border-t border-white/5">
           <div className="container mx-auto px-6 max-w-3xl">
               <h2 className="text-3xl font-extralight mb-12 text-center">Frequently Asked Questions</h2>
               <Accordion type="single" collapsible className="w-full">
@@ -490,6 +494,7 @@ export const getUser = async (id: string) => {
               </div>
           </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

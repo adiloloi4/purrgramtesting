@@ -1,20 +1,15 @@
 'use client';
 
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
 
-// Note: SplitText is a premium GSAP plugin. 
-// For this open implementation, we'll use a standard animation.
-// If you have the premium plugin, uncomment the import and registration.
-// import { SplitText } from 'gsap/SplitText';
-
-// gsap.registerPlugin(SplitText, useGSAP);
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(SplitText, useGSAP);
 
 // ===================== SHADER =====================
 const vertexShader = `
@@ -186,14 +181,20 @@ function ShaderPlane() {
     </mesh>
   );
 }
+
 function ShaderBackground() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
   
   const camera = useMemo(() => ({ position: [0, 0, 1] as [number, number, number], fov: 75, near: 0.1, far: 1000 }), []);
   
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
   useGSAP(
     () => {
-      if (!canvasRef.current) return;
+      if (!canvasRef.current || !mounted) return;
       
       gsap.set(canvasRef.current, {
         filter: 'blur(20px)',
@@ -210,16 +211,20 @@ function ShaderBackground() {
         delay: 0.3
       });
     },
-    { scope: canvasRef }
+    { scope: canvasRef, dependencies: [mounted] }
   );
   
+  if (!mounted) {
+    return <div className="bg-black absolute inset-0 w-full h-full" aria-hidden />;
+  }
+
   return (
-    <div ref={canvasRef} className="bg-black absolute inset-0 -z-10 w-full h-full" aria-hidden>
+    <div ref={canvasRef} className="bg-black absolute inset-0 w-full h-full" aria-hidden style={{ zIndex: 0 }}>
       <Canvas
         camera={camera}
-        gl={{ antialias: true, alpha: false }}
+        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
         dpr={[1, 2]}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, display: 'block' }}
       >
         <ShaderPlane />
       </Canvas>
@@ -260,21 +265,18 @@ export default function Hero({
   const microItem1Ref = useRef<HTMLLIElement | null>(null);
   const microItem2Ref = useRef<HTMLLIElement | null>(null);
   const microItem3Ref = useRef<HTMLLIElement | null>(null);
-  const extraContentRef = useRef<HTMLDivElement | null>(null);
 
   useGSAP(
     () => {
       if (!headerRef.current) return;
 
       document.fonts.ready.then(() => {
-        // Fallback for SplitText (premium plugin)
-        // const split = new SplitText(headerRef.current!, {
-        //   type: 'lines',
-        //   wordsClass: 'lines',
-        // });
+        const split = new SplitText(headerRef.current!, {
+          type: 'lines',
+          wordsClass: 'lines',
+        });
 
-        // Standard GSAP animation
-        gsap.set(headerRef.current, {
+        gsap.set(split.lines, {
           filter: 'blur(16px)',
           yPercent: 30,
           autoAlpha: 0,
@@ -295,9 +297,6 @@ export default function Hero({
         if (microItems.length > 0) {
           gsap.set(microItems, { autoAlpha: 0, y: 6 });
         }
-        if (extraContentRef.current) {
-            gsap.set(extraContentRef.current, { autoAlpha: 0, y: 10 });
-        }
 
         const tl = gsap.timeline({
           defaults: { ease: 'power3.out' },
@@ -308,13 +307,14 @@ export default function Hero({
         }
 
         tl.to(
-          headerRef.current,
+          split.lines,
           {
             filter: 'blur(0px)',
             yPercent: 0,
             autoAlpha: 1,
             scale: 1,
             duration: 0.9,
+            stagger: 0.15,
           },
           0.1,
         );
@@ -325,9 +325,6 @@ export default function Hero({
         if (ctaRef.current) {
           tl.to(ctaRef.current, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.35');
         }
-        if (extraContentRef.current) {
-            tl.to(extraContentRef.current, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.35');
-        }
         if (microItems.length > 0) {
           tl.to(microItems, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1 }, '-=0.25');
         }
@@ -337,10 +334,10 @@ export default function Hero({
   );
 
   return (
-    <section id="hero" ref={sectionRef} className="relative h-screen w-screen overflow-hidden">
+    <section ref={sectionRef} className="relative h-screen w-screen" style={{ position: 'relative', overflow: 'hidden' }}>
       <ShaderBackground />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
         <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
           <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
           <span className="h-1 w-1 rounded-full bg-white/40" />
@@ -370,11 +367,11 @@ export default function Hero({
             </a>
           ))}
         </div>
-        
+
         {children && (
-            <div ref={extraContentRef} className="w-full max-w-md pt-4">
-                {children}
-            </div>
+          <div className="w-full max-w-md mt-4">
+            {children}
+          </div>
         )}
 
         <ul ref={microRef} className="mt-8 flex flex-wrap gap-6 text-xs font-extralight tracking-tight text-white/60">
@@ -400,4 +397,3 @@ declare module '@react-three/fiber' {
     cPPNShaderMaterial: any;
   }
 }
-
