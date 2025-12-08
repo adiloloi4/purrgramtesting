@@ -9,6 +9,11 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow dashboard routes
+  if (pathname.startsWith('/dashboard')) {
+    return NextResponse.next();
+  }
+
   // Block all other routes - redirect to 404
   // Allow /not-found to be accessible
   if (pathname === '/not-found') {

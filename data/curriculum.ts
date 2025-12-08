@@ -1,3 +1,5 @@
+import { MissionData } from "./missions/world0";
+
 export type Mission = {
   id: string;
   title: string;
@@ -44,8 +46,14 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Tutorial",
           subtitle: "Your First Vibe Check",
           missions: [
-            { id: "dictionary-of-power", title: "Dictionary of Power", description: "Learn the Vibe Dictionary: API = Menu, Database = Fridge, etc.", xpReward: 10 },
-            { id: "setup", title: "Setup", description: "Install Node, Cursor, and GitHub Desktop", xpReward: 10 }
+            { id: "what-is-vibe-coding", title: "What is Vibe Coding?", description: "Understand what you are actually learning here.", xpReward: 10 },
+            { id: "overview-restaurant", title: "Overview: The Restaurant Analogy", description: "Learn the mental model of modern apps.", xpReward: 15 },
+            { id: "frontend-fundamentals", title: "Frontend Fundamentals", description: "UI, Components, Rendering, and State.", xpReward: 10 },
+            { id: "backend-fundamentals", title: "Backend Fundamentals", description: "Servers, Logic, Auth, and Endpoints.", xpReward: 10 },
+            { id: "api-fundamentals", title: "API Fundamentals", description: "Requests, Responses, and the Contract.", xpReward: 10 },
+            { id: "database-fundamentals", title: "Database Fundamentals", description: "Tables, Rows, Persistence, and Storage.", xpReward: 10 },
+            { id: "devtools-fundamentals", title: "Dev Tools & Workflow", description: "Node, Git, IDEs, and Deployment.", xpReward: 10 },
+            { id: "build-your-first-stack", title: "Build Your First Stack", description: "Apply everything by building a full Vibe Stack.", xpReward: 25 }
           ],
           blackBox: {
             title: "HTML, CSS, JS & The DOM",

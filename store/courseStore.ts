@@ -10,6 +10,8 @@ type CourseState = {
 
   markMissionComplete: (worldId: number, missionId: string) => void;
   markWorldComplete: (worldId: number) => void;
+  unlockAll: () => void; //delete later
+  resetProgress: () => void; //delete later
   
   // Helper functions (computed values usually handled in components, but can be helpers here)
   isWorldUnlocked: (worldId: number) => boolean;
@@ -65,6 +67,27 @@ export const useCourseStore = create<CourseState>()(
            completedWorlds: [...state.completedWorlds, worldId],
            xp: state.xp + 100
          });
+      },
+
+      //delete later
+      unlockAll: () => {
+          // IDs 0 to 10 based on curriculum
+          const allWorldIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+          set({
+              completedWorlds: allWorldIds,
+              xp: 1000 // Bonus XP
+          });
+      },
+
+      //delete later
+      resetProgress: () => {
+        set({
+            completedWorlds: [],
+            completedMissions: {},
+            currentStreak: 0,
+            xp: 0,
+            lastMissionCompletedDate: null
+        });
       },
 
       isWorldUnlocked: (worldId) => {
