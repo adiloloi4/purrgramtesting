@@ -1,3 +1,5 @@
+import { MissionData } from "./missions/world0";
+
 export type Mission = {
   id: string;
   title: string;
@@ -44,18 +46,8 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Tutorial",
           subtitle: "Your First Vibe Check",
           missions: [
-            { 
-              id: "dictionary-of-power", 
-              title: "Dictionary of Power", 
-              description: "What is vibecoding? API = Menu, Database = Fridge, Frontend = Waiter, Backend = Kitchen", 
-              xpReward: 10 
-            },
-            { 
-              id: "setup", 
-              title: "Setup", 
-              description: "Install Node, Install Cursor, Install GitHub Desktop. Win Condition: Terminal prints 'VIBE CHECK PASSED'", 
-              xpReward: 10 
-            }
+            { id: "dictionary-of-power", title: "Dictionary of Power", description: "Learn the Vibe Dictionary: API = Menu, Database = Fridge, etc.", xpReward: 10 },
+            { id: "setup", title: "Setup", description: "Install Node, Cursor, and GitHub Desktop", xpReward: 10 }
           ],
           blackBox: {
             title: "What HTML, CSS, JS actually do",

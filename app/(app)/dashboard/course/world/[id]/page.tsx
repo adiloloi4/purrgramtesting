@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift, Play } from 'lucide-react';
@@ -12,11 +12,78 @@ import { Card, CardContent } from '@/components/ui/card';
 import { BlackBoxSection } from '@/components/course/BlackBoxSection';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+import { MissionModal } from '@/components/course/MissionModal';
+import { tutorialMissions, TutorialMissionContent } from '@/data/missions/tutorial';
+import { MissionData, MissionSlide } from '@/data/missions/world0';
+
+// Helper to map Tutorial content to MissionData structure
+const mapTutorialToMissionData = (tutorialMission: TutorialMissionContent): MissionData => {
+  const slides: MissionSlide[] = tutorialMission.slides.map((slide): MissionSlide => {
+    switch (slide.type) {
+      case 'text':
+        return { type: 'text', title: slide.title, content: slide.body };
+      case 'quiz':
+        return {
+          type: 'quiz',
+          question: slide.question,
+          options: slide.options.map(o => ({ id: o.id, text: o.label })),
+          correct: slide.correctOptionId,
+          feedbackCorrect: slide.correctExplanation,
+          feedbackWrong: slide.wrongExplanation
+        };
+      case 'dragDrop':
+        return {
+          type: 'drag_and_drop',
+          title: slide.prompt,
+          categories: slide.categories.map(c => c.label),
+          items: slide.items.map(i => ({ id: i.id, text: i.label })),
+          correctMapping: slide.items.reduce((acc, item) => {
+             const cat = slide.categories.find(c => c.id === item.correctCategoryId);
+             if (cat) acc[item.id] = cat.label;
+             return acc;
+          }, {} as { [key: string]: string })
+        };
+      case 'matching':
+        return { type: 'matching', prompt: slide.prompt, pairs: slide.pairs };
+      case 'identify':
+        return {
+          type: 'identify',
+          title: slide.prompt,
+          question: slide.prompt,
+          options: slide.options.map(o => ({ id: o.id, text: o.label })),
+          correctId: slide.correctOptionId,
+          feedbackCorrect: slide.correctExplanation,
+          feedbackWrong: slide.wrongExplanation
+        };
+      case 'checklist':
+        return { type: 'checklist', title: slide.title, items: slide.items.map(i => ({ id: i.id, label: i.label })) };
+      case 'terminal':
+        return { type: 'terminal', title: slide.title, command: slide.expectedCommand, successMessage: slide.successMessage };
+      case 'sorting':
+        return { type: 'sorting', prompt: slide.prompt, items: slide.items, correctOrder: slide.correctOrder };
+      case 'miniChallenge':
+        return {
+          type: 'mini_challenge',
+          prompt: slide.prompt,
+          options: slide.options.map(o => ({ id: o.id, text: o.label })),
+          correctOptionId: slide.correctOptionId,
+          correctExplanation: slide.correctExplanation,
+          wrongExplanation: slide.wrongExplanation
+        };
+      default:
+        return { type: 'text', title: 'Error', content: 'Unknown slide type' };
+    }
+  });
+
+  return { id: tutorialMission.id, title: tutorialMission.title, slides };
+};
 
 export default function WorldPage() {
   const params = useParams();
   const router = useRouter();
   const worldId = Number(params.id);
+  const [selectedMission, setSelectedMission] = useState<MissionData | null>(null);
+
   const { 
       missionStatus, 
       markMissionComplete, 
@@ -63,6 +130,32 @@ export default function WorldPage() {
 
   const handleCompleteMission = (missionId: string) => {
     markMissionComplete(worldId, missionId);
+  };
+
+  const getMissionContent = (missionId: string) => {
+      if (worldId !== 0) return null;
+      return tutorialMissions.find(m => m.id === missionId) || null;
+  };
+
+  const handleMissionClick = (missionId: string, isDone: boolean) => {
+      // Check Phase 0 Tutorial Missions
+      if (worldId === 0) {
+          const tutorialContent = tutorialMissions.find(m => m.id === missionId);
+          if (tutorialContent) {
+              setSelectedMission(mapTutorialToMissionData(tutorialContent));
+              return;
+          }
+      }
+
+      const content = getMissionContent(missionId); // Fallback for other worlds if implemented similarly
+      if (content) {
+          // If other worlds used tutorial structure (not the case yet), we could map. 
+          // But existing logic uses MissionData directly if imported.
+          // Actually getMissionContent currently returns tutorialMissions.find... which returns TutorialMissionContent.
+          // So I should just use the logic above.
+      } else if (!isDone) {
+          handleCompleteMission(missionId);
+      }
   };
 
   const handleCompleteWorld = () => {
@@ -121,6 +214,7 @@ export default function WorldPage() {
             </h2>
             {worldData.missions.map((mission) => {
                 const isMissionDone = completedMissionIds.includes(mission.id);
+                const hasInteractiveContent = worldId === 0 && !!getMissionContent(mission.id);
                 
                 return (
                     <motion.div 
@@ -135,14 +229,26 @@ export default function WorldPage() {
                                 : "bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.07] hover:border-purple-500/30"
                         )}
                     >
-                        <div className="flex items-start gap-5 flex-1">
-                            <div className={cn(
-                                "p-1 rounded-full transition-colors mt-0.5",
-                                isMissionDone ? "text-green-500" : "text-white/20 group-hover:text-white/40"
-                            )}>
+                        <div className="flex items-start gap-5">
+                            <div 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMissionClick(mission.id, isMissionDone);
+                                }} 
+                                className={cn(
+                                    "cursor-pointer p-1 rounded-full transition-colors mt-0.5",
+                                    isMissionDone ? "text-green-500" : "text-white/20 group-hover:text-white/40"
+                                )}
+                            >
                                 {isMissionDone ? <CheckCircle className="w-6 h-6" /> : <Circle className="w-6 h-6" />}
                             </div>
-                            <div className="flex-1">
+                            <div 
+                                className={cn("cursor-pointer flex-1")}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMissionClick(mission.id, isMissionDone);
+                                }}
+                            >
                                 <h3 className={cn("text-lg font-light mb-1", isMissionDone ? "text-white/40 line-through decoration-white/20" : "text-white")}>
                                     {mission.title}
                                 </h3>
@@ -239,6 +345,16 @@ export default function WorldPage() {
             )}
         </div>
       </div>
+
+      {selectedMission && (
+          <MissionModal 
+            open={!!selectedMission} 
+            onOpenChange={(open) => !open && setSelectedMission(null)}
+            mission={selectedMission}
+            worldId={worldId}
+            xpReward={worldData.missions.find(m => m.id === selectedMission.id)?.xpReward || 10}
+          />
+      )}
     </div>
   );
 }
