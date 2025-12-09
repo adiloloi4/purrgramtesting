@@ -13,70 +13,8 @@ import { BlackBoxSection } from '@/components/course/BlackBoxSection';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { MissionModal } from '@/components/course/MissionModal';
-import { tutorialMissions, TutorialMissionContent } from '@/data/missions/tutorial';
+import { phase0Missions } from '@/data/missions/phase0';
 import { MissionData, MissionSlide } from '@/data/missions/world0';
-
-// Helper to map Tutorial content to MissionData structure
-const mapTutorialToMissionData = (tutorialMission: TutorialMissionContent): MissionData => {
-  const slides: MissionSlide[] = tutorialMission.slides.map((slide): MissionSlide => {
-    switch (slide.type) {
-      case 'text':
-        return { type: 'text', title: slide.title, content: slide.body };
-      case 'quiz':
-        return {
-          type: 'quiz',
-          question: slide.question,
-          options: slide.options.map(o => ({ id: o.id, text: o.label })),
-          correct: slide.correctOptionId,
-          feedbackCorrect: slide.correctExplanation,
-          feedbackWrong: slide.wrongExplanation
-        };
-      case 'dragDrop':
-        return {
-          type: 'drag_and_drop',
-          title: slide.prompt,
-          categories: slide.categories.map(c => c.label),
-          items: slide.items.map(i => ({ id: i.id, text: i.label })),
-          correctMapping: slide.items.reduce((acc, item) => {
-             const cat = slide.categories.find(c => c.id === item.correctCategoryId);
-             if (cat) acc[item.id] = cat.label;
-             return acc;
-          }, {} as { [key: string]: string })
-        };
-      case 'matching':
-        return { type: 'matching', prompt: slide.prompt, pairs: slide.pairs };
-      case 'identify':
-        return {
-          type: 'identify',
-          title: slide.prompt,
-          question: slide.prompt,
-          options: slide.options.map(o => ({ id: o.id, text: o.label })),
-          correctId: slide.correctOptionId,
-          feedbackCorrect: slide.correctExplanation,
-          feedbackWrong: slide.wrongExplanation
-        };
-      case 'checklist':
-        return { type: 'checklist', title: slide.title, items: slide.items.map(i => ({ id: i.id, label: i.label })) };
-      case 'terminal':
-        return { type: 'terminal', title: slide.title, command: slide.expectedCommand, successMessage: slide.successMessage };
-      case 'sorting':
-        return { type: 'sorting', prompt: slide.prompt, items: slide.items, correctOrder: slide.correctOrder };
-      case 'miniChallenge':
-        return {
-          type: 'mini_challenge',
-          prompt: slide.prompt,
-          options: slide.options.map(o => ({ id: o.id, text: o.label })),
-          correctOptionId: slide.correctOptionId,
-          correctExplanation: slide.correctExplanation,
-          wrongExplanation: slide.wrongExplanation
-        };
-      default:
-        return { type: 'text', title: 'Error', content: 'Unknown slide type' };
-    }
-  });
-
-  return { id: tutorialMission.id, title: tutorialMission.title, slides };
-};
 
 export default function WorldPage() {
   const params = useParams();
@@ -134,25 +72,22 @@ export default function WorldPage() {
 
   const getMissionContent = (missionId: string) => {
       if (worldId !== 0) return null;
-      return tutorialMissions.find(m => m.id === missionId) || null;
+      return phase0Missions.find(m => m.id === missionId) || null;
   };
 
   const handleMissionClick = (missionId: string, isDone: boolean) => {
       // Check Phase 0 Tutorial Missions
       if (worldId === 0) {
-          const tutorialContent = tutorialMissions.find(m => m.id === missionId);
-          if (tutorialContent) {
-              setSelectedMission(mapTutorialToMissionData(tutorialContent));
+          const content = phase0Missions.find(m => m.id === missionId);
+          if (content) {
+              setSelectedMission(content);
               return;
           }
       }
 
-      const content = getMissionContent(missionId); // Fallback for other worlds if implemented similarly
+      const content = getMissionContent(missionId); 
       if (content) {
-          // If other worlds used tutorial structure (not the case yet), we could map. 
-          // But existing logic uses MissionData directly if imported.
-          // Actually getMissionContent currently returns tutorialMissions.find... which returns TutorialMissionContent.
-          // So I should just use the logic above.
+         setSelectedMission(content);
       } else if (!isDone) {
           handleCompleteMission(missionId);
       }

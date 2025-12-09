@@ -46,8 +46,14 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Tutorial",
           subtitle: "Your First Vibe Check",
           missions: [
-            { id: "dictionary-of-power", title: "Dictionary of Power", description: "Learn the Vibe Dictionary: API = Menu, Database = Fridge, etc.", xpReward: 10 },
-            { id: "setup", title: "Setup", description: "Install Node, Cursor, and GitHub Desktop", xpReward: 10 }
+            { id: "what-is-vibe-coding", title: "What is Vibe Coding", description: "Understanding the shift from Scribe to Commander.", xpReward: 10 },
+            { id: "overview-restaurant", title: "Overview: The Restaurant Analogy", description: "The mental model for how apps work.", xpReward: 10 },
+            { id: "frontend-fundamentals", title: "Frontend Fundamentals", description: "UI, Components, and State.", xpReward: 10 },
+            { id: "backend-fundamentals", title: "Backend Fundamentals", description: "Servers, Logic, and Secrets.", xpReward: 10 },
+            { id: "api-fundamentals", title: "API Fundamentals", description: "Requests, Responses, and The Menu.", xpReward: 10 },
+            { id: "database-fundamentals", title: "Database Fundamentals", description: "Persistence and Tables.", xpReward: 10 },
+            { id: "devtools-fundamentals", title: "Dev Tools & Workflow", description: "Node, Git, Cursor, and Vercel.", xpReward: 10 },
+            { id: "build-first-stack", title: "Build Your First Stack", description: "Assemble the ultimate Vibe Coding Stack.", xpReward: 10 }
           ],
           blackBox: {
             title: "What HTML, CSS, JS actually do",
