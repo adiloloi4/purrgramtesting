@@ -37,11 +37,11 @@ export default function CourseMapPage() {
           <div key={phase.id} className="space-y-6">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-light text-white mb-2">{phase.title}</h2>
-              {phase.subtitle && (
+                        {phase.subtitle && (
                 <p className="text-white/40 font-light text-sm">{phase.subtitle}</p>
-              )}
-            </div>
-            
+                              )}
+                            </div>
+                            
             <div className="grid grid-cols-1 gap-6">
               {phase.worlds.map((world) => {
                 let status: "locked" | "unlocked" | "completed" = "locked";
@@ -50,19 +50,19 @@ export default function CourseMapPage() {
                 } else if (isWorldUnlocked(world.id)) {
                   status = "unlocked";
                 }
-
-                return (
+                                  
+                                  return (
                   <WorldCard
                     key={world.id}
                     world={world}
                     phaseTitle={phase.title}
                     status={status}
-                    onClick={() => router.push(`/dashboard/course/world/${world.id}`)}
+                                      onClick={() => router.push(`/dashboard/course/world/${world.id}`)}
                   />
-                );
-              })}
-            </div>
-          </div>
+                                  );
+                                })}
+                              </div>
+                                  </div>
         ))}
       </div>
     </div>
