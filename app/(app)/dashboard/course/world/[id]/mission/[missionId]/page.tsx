@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { MissionModal } from '@/components/course/MissionModal';
-import { phase0Missions } from '@/data/missions/phase0';
+import { tutorialMissions } from '@/data/missions/tutorial';
 import { MissionData } from '@/data/missions/world0';
 import { useCourseStore } from '@/store/courseStore';
 
@@ -17,7 +17,7 @@ export default function MissionPage() {
   useEffect(() => {
     // Only handling Phase 0 for now as it's the only one with content files
     if (worldId === 0) {
-      const foundMission = phase0Missions.find(m => m.id === missionId);
+      const foundMission = tutorialMissions.find(m => m.id === missionId);
       if (foundMission) {
         setMission(foundMission);
       }

@@ -2,18 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Terminal } from 'lucide-react';
+import { TerminalSlide as TerminalSlideType } from '@/data/missions/tutorial';
 
 type TerminalSlideProps = {
-  prompt: string;
-  expectedCommand: string;
-  successMessage: string;
-  onSuccess?: () => void;
+  slide: TerminalSlideType;
+  onSuccess: () => void;
 };
 
 export const TerminalSlide: React.FC<TerminalSlideProps> = ({
-  prompt,
-  expectedCommand,
-  successMessage,
+  slide,
   onSuccess,
 }) => {
   const [input, setInput] = useState('');
@@ -22,9 +19,9 @@ export const TerminalSlide: React.FC<TerminalSlideProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (input.trim() === expectedCommand) {
+    if (input.trim() === slide.expectedCommand) {
       setIsSuccess(true);
-      if (onSuccess) onSuccess();
+      onSuccess();
     }
   };
 
@@ -36,7 +33,7 @@ export const TerminalSlide: React.FC<TerminalSlideProps> = ({
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl md:text-2xl font-light text-white">{prompt}</h2>
+      <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
       
       <div className={cn(
           "bg-black/80 rounded-lg border-2 overflow-hidden font-mono text-sm transition-all duration-500",
@@ -57,7 +54,7 @@ export const TerminalSlide: React.FC<TerminalSlideProps> = ({
           <div className="p-6 h-64 flex flex-col justify-end" onClick={() => inputRef.current?.focus()}>
               <div className="space-y-2 text-white/70">
                    <p>Last login: {new Date().toDateString()}</p>
-                   <p className="text-purple-400">~/vibe-coder $ <span className="text-white/50"># Type '{expectedCommand}' below</span></p>
+                   <p className="text-purple-400">~/vibe-coder $ <span className="text-white/50"># Type '{slide.expectedCommand}' below</span></p>
               </div>
 
               <div className="mt-4 space-y-2">
@@ -81,7 +78,7 @@ export const TerminalSlide: React.FC<TerminalSlideProps> = ({
                         animate={{ opacity: 1, height: 'auto' }}
                         className="text-green-400 font-bold mt-2"
                       >
-                          {successMessage}
+                          {slide.successMessage}
                       </motion.div>
                   )}
               </div>

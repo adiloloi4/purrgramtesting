@@ -661,7 +661,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
   // MISSION: build-your-first-stack
   ////////////////////////////////////////////////////////
   {
-    id: "build-your-first-stack", // if your curriculum uses "build-first-stack", change this id to match
+    id: "build-first-stack", // changed from build-your-first-stack to match curriculum
     title: "Build Your First Stack",
     slides: [
       {

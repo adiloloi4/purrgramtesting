@@ -1,50 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { QuizOption } from '@/data/missions/tutorial';
+import { QuizSlide as QuizSlideType } from '@/data/missions/tutorial';
 import { SharedQuizView } from './SharedQuizView';
 
 type QuizSlideProps = {
-  question: string;
-  options: QuizOption[];
-  correctOptionId: string;
-  correctExplanation: string;
-  wrongExplanation: string;
-  onAnswered: (isCorrect: boolean) => void;
+  slide: QuizSlideType;
+  selectedOptionId: string | null;
+  onSelectOption: (id: string) => void;
 };
 
 export const QuizSlide: React.FC<QuizSlideProps> = ({
-  question,
-  options,
-  correctOptionId,
-  correctExplanation,
-  wrongExplanation,
-  onAnswered,
+  slide,
+  selectedOptionId,
+  onSelectOption,
 }) => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isLocked, setIsLocked] = useState(false);
-
-  const handleSelect = (id: string) => {
-    if (isLocked) return;
-    setSelectedId(id);
-    setIsLocked(true);
-    const isCorrect = id === correctOptionId;
-    onAnswered(isCorrect);
-  };
-
-  const isCorrect = selectedId === correctOptionId;
+  const isCorrect = selectedOptionId === slide.correctOptionId;
 
   return (
     <div className="space-y-8">
       <SharedQuizView 
-        prompt={question}
-        options={options}
-        selectedOptionId={selectedId}
-        onSelectOption={handleSelect}
+        prompt={slide.question}
+        options={slide.options}
+        selectedOptionId={selectedOptionId}
+        onSelectOption={onSelectOption}
       />
 
       <AnimatePresence>
-        {selectedId && (
+        {selectedOptionId && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -54,7 +37,7 @@ export const QuizSlide: React.FC<QuizSlideProps> = ({
             )}
           >
             <p className={cn("text-sm", isCorrect ? "text-green-200" : "text-red-200")}>
-              {isCorrect ? correctExplanation : wrongExplanation}
+              {isCorrect ? slide.correctExplanation : slide.wrongExplanation}
             </p>
           </motion.div>
         )}

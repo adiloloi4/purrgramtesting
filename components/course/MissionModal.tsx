@@ -5,7 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { useCourseStore } from '@/store/courseStore';
-import { MissionData, MissionSlide } from '@/data/missions/world0';
+import { 
+  TutorialMissionContent, 
+  TutorialSlide,
+  QuizSlide as QuizSlideType,
+  IdentifySlide as IdentifySlideType,
+  MiniChallengeSlide as MiniChallengeSlideType,
+  ChecklistSlide as ChecklistSlideType,
+  TerminalSlide as TerminalSlideType,
+  DragDropSlide as DragDropSlideType,
+  MatchingSlide as MatchingSlideType,
+  SortingSlide as SortingSlideType
+} from '@/data/missions/tutorial';
 import { TextSlide } from './slides/TextSlide';
 import { QuizSlide } from './slides/QuizSlide';
 import { ChecklistSlide } from './slides/ChecklistSlide';
@@ -17,7 +28,7 @@ import { MatchingSlide, SortingSlide, MiniChallengeSlide } from './slides/OtherS
 type MissionModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  mission: MissionData;
+  mission: TutorialMissionContent;
   worldId: number;
   xpReward?: number;
 };
@@ -32,6 +43,10 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [canAdvance, setCanAdvance] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  
+  // State for quiz/identify/miniChallenge
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
+
   const { markMissionComplete } = useCourseStore();
 
   const totalSlides = mission.slides.length;
@@ -43,10 +58,15 @@ export const MissionModal: React.FC<MissionModalProps> = ({
       setCurrentSlideIndex(0);
       setIsCompleted(false);
       setCanAdvance(false);
+      setSelectedOptionId(null);
     }
   }, [open, mission]);
 
   useEffect(() => {
+    // Reset per-slide state when slide changes
+    setSelectedOptionId(null);
+
+    // Default advancement logic based on slide type
     if (currentSlide.type === 'text') {
       setCanAdvance(true);
     } else {
@@ -65,7 +85,7 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   const handlePrev = () => {
     if (currentSlideIndex > 0) {
       setCurrentSlideIndex((prev) => prev - 1);
-      setCanAdvance(true); 
+      setCanAdvance(true); // Usually safe to go back and then forward again
     }
   };
 
@@ -74,90 +94,90 @@ export const MissionModal: React.FC<MissionModalProps> = ({
     onOpenChange(false);
   };
 
-  const renderSlideContent = (slide: MissionSlide) => {
+  // Shared handler for quiz-like slides
+  const handleOptionSelect = (id: string) => {
+    setSelectedOptionId(id);
+    setCanAdvance(true);
+  };
+
+  const renderSlideContent = (slide: TutorialSlide) => {
     switch (slide.type) {
       case 'text':
-        return <TextSlide title={slide.title} body={slide.content} />;
+        return <TextSlide title={slide.title} body={slide.body} />;
+      
       case 'quiz':
         return (
           <QuizSlide
-            question={slide.question}
-            // Ensure label is present by mapping text to label if needed
-            options={slide.options.map(o => ({ id: o.id, label: o.text }))}
-            correctOptionId={slide.correct}
-            correctExplanation={slide.feedbackCorrect}
-            wrongExplanation={slide.feedbackWrong}
-            onAnswered={(isCorrect) => setCanAdvance(isCorrect)}
+            slide={slide}
+            selectedOptionId={selectedOptionId}
+            onSelectOption={handleOptionSelect}
           />
         );
-      case 'checklist':
-        return (
-          <ChecklistSlide
-            prompt={slide.title}
-            items={slide.items}
-            onAllCheckedChange={(allChecked) => setCanAdvance(allChecked)}
-          />
-        );
-      case 'terminal':
-        return (
-          <TerminalSlide
-            prompt={slide.title}
-            expectedCommand={slide.command}
-            successMessage={slide.successMessage}
-            onSuccess={() => setCanAdvance(true)}
-          />
-        );
-      case 'drag_and_drop':
-        return (
-          <DragDropSlide
-            prompt={slide.title}
-            categories={slide.categories.map(c => ({ id: c, label: c }))} 
-            items={slide.items.map(i => ({ id: i.id, label: i.text, correctCategoryId: (slide as any).correctMapping[i.id] }))} 
-            onComplete={(success) => setCanAdvance(success)}
-          />
-        );
+
       case 'identify':
         return (
           <IdentifySlide
-            prompt={slide.question}
-            options={slide.options.map(o => ({ id: o.id, label: o.text }))}
-            correctOptionId={slide.correctId}
-            correctExplanation={slide.feedbackCorrect}
-            wrongExplanation={slide.feedbackWrong}
-            onAnswered={(success) => setCanAdvance(success)}
+            slide={slide}
+            selectedOptionId={selectedOptionId}
+            onSelectOption={handleOptionSelect}
           />
         );
+
+      case 'miniChallenge':
+        return (
+          <MiniChallengeSlide
+            slide={slide}
+            selectedOptionId={selectedOptionId}
+            onSelectOption={handleOptionSelect}
+          />
+        );
+
+      case 'checklist':
+        return (
+          <ChecklistSlide
+            slide={slide}
+            // Allow next if at least one is checked, or even if none (user preference: "or just always allow Next")
+            // Let's go with: allow next if any interaction, but also maybe just allow it initially? 
+            // The prompt says "MissionModal may require at least one item checked".
+            // Let's wait for interaction.
+            onToggle={(hasChecked) => setCanAdvance(hasChecked)}
+          />
+        );
+
+      case 'terminal':
+        return (
+          <TerminalSlide
+            slide={slide}
+            onSuccess={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'dragDrop':
+        return (
+          <DragDropSlide
+            slide={slide}
+            onInteract={() => setCanAdvance(true)}
+          />
+        );
+
       case 'matching':
         return (
           <MatchingSlide
-            // Handle mismatched prop names between World0 types and Page.tsx mapping
-            prompt={(slide as any).prompt || slide.title}
-            pairs={slide.pairs.map(p => ({ id: p.left + p.right, left: p.left, right: p.right }))}
-            onComplete={(success) => setCanAdvance(success)}
+            slide={slide}
+            onInteract={() => setCanAdvance(true)}
           />
         );
+
       case 'sorting':
         return (
           <SortingSlide
-            prompt={(slide as any).prompt || slide.title}
-            items={slide.items}
-            correctOrder={slide.correctOrder}
-            onComplete={(success) => setCanAdvance(success)}
+            slide={slide}
+            onInteract={() => setCanAdvance(true)}
           />
         );
-      case 'mini_challenge':
-        return (
-          <MiniChallengeSlide
-            prompt={(slide as any).prompt || (slide as any).title}
-            options={(slide as any).options ? (slide as any).options.map((o: any) => ({ id: o.id, label: o.text || o.label })) : []}
-            correctOptionId={(slide as any).correctOptionId}
-            correctExplanation={(slide as any).correctExplanation}
-            wrongExplanation={(slide as any).wrongExplanation}
-            onComplete={(success) => setCanAdvance(success)}
-          />
-        );
+
       default:
-        return null;
+        return <div>Unknown slide type</div>;
     }
   };
 

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { motion, Reorder } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, Reorder, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { MatchingPair, QuizOption } from '@/data/missions/tutorial';
+import { MatchingSlide as MatchingSlideType, SortingSlide as SortingSlideType, MiniChallengeSlide as MiniChallengeSlideType } from '@/data/missions/tutorial';
 import { SharedQuizView } from './SharedQuizView';
 
 // Matching Slide
-export const MatchingSlide: React.FC<{
-    prompt: string;
-    pairs: MatchingPair[];
-    onComplete: (success: boolean) => void;
-}> = ({ prompt, pairs, onComplete }) => {
+type MatchingSlideProps = {
+  slide: MatchingSlideType;
+  onInteract: () => void;
+};
+
+export const MatchingSlide: React.FC<MatchingSlideProps> = ({ slide, onInteract }) => {
     const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
     const [matches, setMatches] = useState<{ [leftId: string]: string }>({}); // leftId -> rightId
     const [completedPairs, setCompletedPairs] = useState<string[]>([]); // array of pair ids
 
     const handleLeftClick = (id: string) => {
-        if (completedPairs.includes(pairs.find(p => p.id === id)?.id || '')) return;
+        if (completedPairs.includes(slide.pairs.find(p => p.id === id)?.id || '')) return;
         setSelectedLeft(id);
     };
 
@@ -23,35 +24,35 @@ export const MatchingSlide: React.FC<{
         if (!selectedLeft) return;
         
         // Find pair for selected left
-        const pair = pairs.find(p => p.id === selectedLeft);
+        const pair = slide.pairs.find(p => p.id === selectedLeft);
         if (!pair) return;
 
         if (pair.right === rightId) {
             // Correct match
-            setCompletedPairs([...completedPairs, pair.id]);
-            setMatches({ ...matches, [selectedLeft]: rightId });
+            setCompletedPairs(prev => [...prev, pair.id]);
+            setMatches(prev => ({ ...prev, [selectedLeft]: rightId }));
             setSelectedLeft(null);
             
-            if (completedPairs.length + 1 === pairs.length) {
-                onComplete(true);
-            }
+            // Allow next after at least one match
+            onInteract();
         } else {
             // Wrong match - visual shake or something? For now just reset selection
             setSelectedLeft(null);
+            // Even an attempt could unlock it, but let's stick to "made at least one match"
+            // Or maybe "clicked something". The user said "once the user made at least one match or clicked something".
+            onInteract();
         }
     };
 
     // Display rights in a fixed order (e.g. sorted by right text) to shuffle them relative to lefts
-    // We use useMemo to keep order stable across renders unless pairs change
-    // But simple sort is fine for this context
-    const rightOptions = [...pairs].sort((a, b) => a.right.localeCompare(b.right)); 
+    const rightOptions = [...slide.pairs].sort((a, b) => a.right.localeCompare(b.right)); 
 
     return (
         <div className="space-y-6">
-            <h2 className="text-xl md:text-2xl font-light text-white">{prompt}</h2>
+            <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
             <div className="flex justify-between gap-8">
                 <div className="flex-1 space-y-3">
-                    {pairs.map(pair => {
+                    {slide.pairs.map(pair => {
                         const isCompleted = completedPairs.includes(pair.id);
                         const isSelected = selectedLeft === pair.id;
                         return (
@@ -95,27 +96,31 @@ export const MatchingSlide: React.FC<{
 };
 
 // Sorting Slide
-export const SortingSlide: React.FC<{
-    prompt: string;
-    items: string[];
-    correctOrder: string[];
-    onComplete: (success: boolean) => void;
-}> = ({ prompt, items, correctOrder, onComplete }) => {
-    const [order, setOrder] = useState(items);
+type SortingSlideProps = {
+  slide: SortingSlideType;
+  onInteract: () => void;
+};
+
+export const SortingSlide: React.FC<SortingSlideProps> = ({ slide, onInteract }) => {
+    const [order, setOrder] = useState(slide.items);
     const [isChecked, setIsChecked] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
 
     const checkOrder = () => {
-        const correct = order.every((item, index) => item === correctOrder[index]);
+        const correct = order.every((item, index) => item === slide.correctOrder[index]);
         setIsChecked(true);
         setIsCorrect(correct);
-        if (correct) onComplete(true);
+        onInteract(); // Always allow next after checking, even if wrong
     };
 
     return (
         <div className="space-y-6">
-            <h2 className="text-xl md:text-2xl font-light text-white">{prompt}</h2>
-            <Reorder.Group axis="y" values={order} onReorder={setOrder} className="space-y-3">
+            <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
+            <Reorder.Group axis="y" values={order} onReorder={(newOrder) => {
+                setOrder(newOrder);
+                // Can we unlock simply by reordering? User said "do not block Next".
+                onInteract();
+            }} className="space-y-3">
                 {order.map(item => (
                     <Reorder.Item key={item} value={item}>
                         <div className={cn(
@@ -128,6 +133,8 @@ export const SortingSlide: React.FC<{
                     </Reorder.Item>
                 ))}
             </Reorder.Group>
+            
+            {/* Optional check button, but we already unlocked Next on interaction */}
             {!isChecked && (
                 <button 
                     onClick={checkOrder}
@@ -137,57 +144,52 @@ export const SortingSlide: React.FC<{
                 </button>
             )}
             {isChecked && !isCorrect && (
-                <div className="text-red-400 text-sm mt-2">Incorrect order. Try again. <button onClick={() => setIsChecked(false)} className="underline ml-2">Reset</button></div>
+                <div className="text-yellow-400 text-sm mt-2">
+                    Order saved. You can continue. 
+                    <button onClick={() => setIsChecked(false)} className="underline ml-2 text-white/50">Edit</button>
+                </div>
             )}
         </div>
     );
 };
 
 // Mini Challenge Slide
-export const MiniChallengeSlide: React.FC<{
-    prompt: string;
-    options: QuizOption[];
-    correctOptionId: string;
-    correctExplanation: string;
-    wrongExplanation: string;
-    onComplete: (success: boolean) => void;
-}> = ({ prompt, options, correctOptionId, correctExplanation, wrongExplanation, onComplete }) => {
-    const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [isSubmitted, setIsSubmitted] = useState(false);
+type MiniChallengeSlideProps = {
+  slide: MiniChallengeSlideType;
+  selectedOptionId: string | null;
+  onSelectOption: (id: string) => void;
+};
 
-    const handleSubmit = () => {
-        if (!selectedId) return;
-        setIsSubmitted(true);
-        if (selectedId === correctOptionId) {
-            onComplete(true);
-        }
-    };
-
-    const isCorrect = selectedId === correctOptionId;
+export const MiniChallengeSlide: React.FC<MiniChallengeSlideProps> = ({ 
+    slide, 
+    selectedOptionId, 
+    onSelectOption 
+}) => {
+    const isCorrect = selectedOptionId === slide.correctOptionId;
 
     return (
         <div className="space-y-8">
             <SharedQuizView 
-                prompt={prompt}
-                options={options}
-                selectedOptionId={selectedId}
-                onSelectOption={(id) => !isSubmitted && setSelectedId(id)}
+                prompt={slide.prompt}
+                options={slide.options}
+                selectedOptionId={selectedOptionId}
+                onSelectOption={onSelectOption}
             />
             
-            {!isSubmitted && (
-                <button 
-                    onClick={handleSubmit}
-                    disabled={!selectedId}
-                    className="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-white/90 disabled:opacity-50"
-                >
-                    Submit
-                </button>
-            )}
-            {isSubmitted && (
-                <div className={cn("p-4 rounded-xl border", isCorrect ? "bg-green-500/10 border-green-500/20 text-green-200" : "bg-red-500/10 border-red-500/20 text-red-200")}>
-                    {isCorrect ? correctExplanation : wrongExplanation}
-                </div>
-            )}
+            <AnimatePresence>
+                {selectedOptionId && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        className={cn(
+                            "rounded-xl p-4 border",
+                            isCorrect ? "bg-green-500/10 border-green-500/20 text-green-200" : "bg-red-500/10 border-red-500/20 text-red-200"
+                        )}
+                    >
+                        {isCorrect ? slide.correctExplanation : slide.wrongExplanation}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

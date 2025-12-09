@@ -2,43 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ChecklistItem } from '@/data/missions/tutorial';
+import { ChecklistSlide as ChecklistSlideType } from '@/data/missions/tutorial';
 
 type ChecklistSlideProps = {
-  prompt: string;
-  items: ChecklistItem[];
-  onAllCheckedChange?: (allChecked: boolean) => void;
+  slide: ChecklistSlideType;
+  onToggle: (hasChecked: boolean) => void;
 };
 
 export const ChecklistSlide: React.FC<ChecklistSlideProps> = ({
-  prompt,
-  items,
-  onAllCheckedChange,
+  slide,
+  onToggle,
 }) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
-    setCheckedItems((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((i) => i !== id);
-      } else {
-        return [...prev, id];
-      }
-    });
+    const isChecked = checkedItems.includes(id);
+    const newChecked = isChecked 
+      ? checkedItems.filter((i) => i !== id)
+      : [...checkedItems, id];
+    
+    setCheckedItems(newChecked);
+    // Notify parent if we have at least one checked item
+    onToggle(newChecked.length > 0);
   };
-
-  useEffect(() => {
-    const allChecked = items.every((item) => checkedItems.includes(item.id));
-    if (onAllCheckedChange) {
-      onAllCheckedChange(allChecked);
-    }
-  }, [checkedItems, items, onAllCheckedChange]);
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl md:text-2xl font-light text-white">{prompt}</h2>
+      <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
       <div className="space-y-3">
-        {items.map((item, index) => {
+        {slide.items.map((item, index) => {
           const isChecked = checkedItems.includes(item.id);
           return (
             <motion.div

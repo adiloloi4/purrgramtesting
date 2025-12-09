@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift, Play } from 'lucide-react';
@@ -13,12 +13,13 @@ import { BlackBoxSection } from '@/components/course/BlackBoxSection';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { MissionModal } from '@/components/course/MissionModal';
-import { phase0Missions } from '@/data/missions/phase0';
+import { tutorialMissions } from '@/data/missions/tutorial';
 import { MissionData, MissionSlide } from '@/data/missions/world0';
 
 export default function WorldPage() {
   const params = useParams();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const worldId = Number(params.id);
   const [selectedMission, setSelectedMission] = useState<MissionData | null>(null);
 
@@ -30,6 +31,10 @@ export default function WorldPage() {
       isWorldCompleted,
       isWorldUnlocked
   } = useCourseStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Find the world data
   let worldData = null;
@@ -46,6 +51,11 @@ export default function WorldPage() {
 
   if (!worldData || !phaseData) {
     return <div className="p-8 text-white">World not found</div>;
+  }
+
+  // Prevent hydration mismatch by waiting for mount before checking store state
+  if (!mounted) {
+      return <div className="p-8 text-white/50">Loading world...</div>;
   }
 
   // Guards
@@ -72,13 +82,13 @@ export default function WorldPage() {
 
   const getMissionContent = (missionId: string) => {
       if (worldId !== 0) return null;
-      return phase0Missions.find(m => m.id === missionId) || null;
+      return tutorialMissions.find(m => m.id === missionId) || null;
   };
 
   const handleMissionClick = (missionId: string, isDone: boolean) => {
       // Check Phase 0 Tutorial Missions
       if (worldId === 0) {
-          const content = phase0Missions.find(m => m.id === missionId);
+          const content = tutorialMissions.find(m => m.id === missionId);
           if (content) {
               setSelectedMission(content);
               return;
