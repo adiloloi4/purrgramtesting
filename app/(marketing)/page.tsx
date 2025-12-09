@@ -6,11 +6,13 @@ import { motion } from 'framer-motion';
 import { 
   Map, Brain, Trophy, Rocket, 
   Terminal, Zap, Code2, Check,
-  Star, Monitor, MessageCircle
+  Star, Monitor, MessageCircle,
+  Layers, Server, Shield, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Hero from '@/components/ui/neural-network-hero';
 import { WaitlistForm } from '@/components/marketing/WaitlistForm';
+import { cn } from '@/lib/utils';
 import { 
   Accordion,
   AccordionContent,
@@ -442,6 +444,95 @@ export const getUser = async (id: string) => {
                      </div>
                  </div>
              </div>
+        </div>
+      </section>
+
+      {/* Coming Soon Courses */}
+      <section className="py-32 px-6 border-t border-white/5 bg-black">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-extralight mb-4 tracking-tight">More Courses Coming Soon</h2>
+            <p className="text-white/50 font-light text-lg max-w-2xl mx-auto">
+              We&apos;re expanding beyond SaaS. More paths to mastery are on the way.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { 
+                name: 'Vibe Coding', 
+                icon: Rocket,
+                desc: 'Build SaaS with AI workflows. Ship fast, learn faster.',
+                available: true
+              },
+              { 
+                name: 'Frontend Developer', 
+                icon: Monitor,
+                desc: 'Master React, Next.js, and modern UI patterns',
+                available: false
+              },
+              { 
+                name: 'Backend Developer', 
+                icon: Server,
+                desc: 'Build APIs, databases, and server infrastructure',
+                available: false
+              },
+              { 
+                name: 'Fullstack Developer', 
+                icon: Layers,
+                desc: 'The complete path from frontend to backend mastery',
+                available: false
+              },
+              { 
+                name: 'Cybersecurity', 
+                icon: Shield,
+                desc: 'Learn to secure applications and protect systems',
+                available: false
+              },
+              { 
+                name: 'Machine Learning', 
+                icon: Sparkles,
+                desc: 'Build AI-powered applications and workflows',
+                available: false
+              },
+            ].map((course, index) => {
+              const Icon = course.icon;
+              return (
+                <motion.div
+                  key={course.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300 group relative overflow-hidden"
+                >
+                  <div className={cn(
+                    "absolute top-0 right-0 p-2 rounded-bl-xl border-b border-l",
+                    course.available
+                      ? "bg-green-500/10 border-green-500/20"
+                      : "bg-purple-500/10 border-purple-500/20"
+                  )}>
+                    <span className={cn(
+                      "text-xs font-medium uppercase tracking-wider",
+                      course.available ? "text-green-300" : "text-purple-300"
+                    )}>
+                      {course.available ? "Available Now" : "Coming Soon"}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="p-3 rounded-lg bg-white/10 text-white/60 group-hover:bg-white/20 transition-colors">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1 pt-1">
+                      <h3 className="text-xl font-light text-white mb-2">{course.name}</h3>
+                      <p className="text-sm text-white/50 font-light leading-relaxed">{course.desc}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </section>
 

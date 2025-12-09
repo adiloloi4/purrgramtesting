@@ -4,12 +4,16 @@ import { persist } from 'zustand/middleware';
 type CourseState = {
   completedWorlds: number[];
   completedMissions: { [worldId: number]: string[] };
+  completedAllInOneCheckpoints: { [worldId: number]: string[] };
+  completedAllInOneMissions: number[];
   currentStreak: number;
   xp: number;
   lastMissionCompletedDate: string | null;
 
   markMissionComplete: (worldId: number, missionId: string) => void;
   markWorldComplete: (worldId: number) => void;
+  markAllInOneCheckpointComplete: (worldId: number, checkpointId: string) => void;
+  markAllInOneMissionComplete: (worldId: number, xpReward?: number) => void;
   unlockAll: () => void; //delete later
   resetProgress: () => void; //delete later
   
@@ -24,6 +28,8 @@ export const useCourseStore = create<CourseState>()(
     (set, get) => ({
       completedWorlds: [],
       completedMissions: {},
+      completedAllInOneCheckpoints: {},
+      completedAllInOneMissions: [],
       currentStreak: 0,
       xp: 0,
       lastMissionCompletedDate: null,
@@ -69,6 +75,31 @@ export const useCourseStore = create<CourseState>()(
          });
       },
 
+      markAllInOneCheckpointComplete: (worldId, checkpointId) => {
+        const state = get();
+        const worldCheckpoints = state.completedAllInOneCheckpoints[worldId] || [];
+        
+        if (worldCheckpoints.includes(checkpointId)) return; // Already completed
+
+        set({
+          completedAllInOneCheckpoints: {
+            ...state.completedAllInOneCheckpoints,
+            [worldId]: [...worldCheckpoints, checkpointId]
+          }
+        });
+      },
+
+      markAllInOneMissionComplete: (worldId, xpReward = 50) => {
+        const state = get();
+        if (state.completedAllInOneMissions.includes(worldId)) return;
+
+        // Award XP for completing all-in-one mission
+        set({
+          completedAllInOneMissions: [...state.completedAllInOneMissions, worldId],
+          xp: state.xp + xpReward
+         });
+      },
+
       //delete later
       unlockAll: () => {
           // IDs 0 to 10 based on curriculum
@@ -84,6 +115,8 @@ export const useCourseStore = create<CourseState>()(
         set({
             completedWorlds: [],
             completedMissions: {},
+            completedAllInOneCheckpoints: {},
+            completedAllInOneMissions: [],
             currentStreak: 0,
             xp: 0,
             lastMissionCompletedDate: null

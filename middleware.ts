@@ -4,6 +4,11 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Allow static assets (images, etc.)
+  if (pathname.match(/\.(png|jpg|jpeg|svg|gif|webp|ico|woff|woff2|ttf|eot)$/i)) {
+    return NextResponse.next();
+  }
+
   // Allow only the root landing page
   if (pathname === '/') {
     return NextResponse.next();
@@ -11,6 +16,21 @@ export function middleware(request: NextRequest) {
 
   // Allow dashboard routes
   if (pathname.startsWith('/dashboard')) {
+    return NextResponse.next();
+  }
+
+  // Allow auth routes
+  if (pathname.startsWith('/login') || pathname.startsWith('/signup')) {
+    return NextResponse.next();
+  }
+
+  // Allow onboarding route
+  if (pathname.startsWith('/onboarding')) {
+    return NextResponse.next();
+  }
+
+  // Allow terms and privacy routes
+  if (pathname === '/terms' || pathname === '/privacy') {
     return NextResponse.next();
   }
 
@@ -35,8 +55,9 @@ export const config = {
      * - favicon.ico, icon.svg (favicon files)
      * - robots.txt, sitemap.xml (SEO files)
      * - manifest.json (PWA manifest)
+     * - logo.png and other public assets
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|robots.txt|sitemap.xml|manifest.json).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|icon.svg|robots.txt|sitemap.xml|manifest.json|logo.png|.*\\.png|.*\\.jpg|.*\\.jpeg|.*\\.svg|.*\\.gif|.*\\.webp).*)',
   ],
 };
 

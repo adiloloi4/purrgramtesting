@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Logo } from '@/components/branding/Logo';
 
 export default function MarketingLayout({
   children,
@@ -32,8 +31,9 @@ export default function MarketingLayout({
         }`}
       >
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-            <Link href="/" className="hover:opacity-80 transition-opacity">
-                <Logo variant="minimal" />
+            <Link href="/" className="hover:opacity-80 transition-opacity flex items-center gap-2">
+                <img src="/logo.png" alt="Purrgram" className="h-10 w-auto" />
+                <span className="text-xl font-light text-white tracking-wide">Purrgram</span>
             </Link>
             
             <nav className="hidden md:flex items-center gap-6 lg:gap-8">
@@ -74,7 +74,8 @@ export default function MarketingLayout({
       <footer className="border-t border-white/5 bg-black py-12">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
              <div className="flex items-center gap-2">
-                 <Logo showText={true} variant="minimal" className="scale-75 origin-left" />
+                 <img src="/logo.png" alt="Purrgram" className="h-8 w-auto" />
+                 <span className="text-xl font-light text-white tracking-wide">Purrgram</span>
                  <span className="text-sm text-white/40 font-light">© 2024 Purrgram. All rights reserved.</span>
              </div>
              <div className="flex gap-6 text-sm text-white/40 font-light">

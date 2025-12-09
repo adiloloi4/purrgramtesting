@@ -73,11 +73,15 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo.png", type: "image/png" },
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [
-      { url: "/icon.svg", sizes: "180x180", type: "image/svg+xml" },
+      { url: "/logo.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: [
+      { url: "/logo.png", type: "image/png" },
     ],
   },
   manifest: "/manifest.json",
@@ -106,7 +110,7 @@ export default function RootLayout({
     "name": "Purrgram",
     "description": "A gamified coding platform that teaches you to build SaaS with AI",
     "url": process.env.NEXT_PUBLIC_SITE_URL || "https://purrgram.com",
-    "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://purrgram.com"}/icon.svg`,
+    "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://purrgram.com"}/logo.png`,
     "sameAs": [
       "https://twitter.com/purrgram",
       "https://github.com/purrgram"
@@ -122,6 +126,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <link rel="icon" type="image/png" href="/logo.png" />
+        <link rel="shortcut icon" type="image/png" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

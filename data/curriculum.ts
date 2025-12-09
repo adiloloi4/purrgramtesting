@@ -1,4 +1,5 @@
 import { MissionData } from "./missions/world0";
+import { AllInOneCheckpoint } from "@/components/course/AllInOneMission";
 
 export type Mission = {
   id: string;
@@ -22,6 +23,12 @@ export type World = {
   secretDrop?: {
     title: string;
     description: string;
+  };
+  allInOneMission?: {
+    title: string;
+    description: string;
+    checkpoints: AllInOneCheckpoint[];
+    totalXpReward: number;
   };
   lockedByDefault?: boolean;
 };
@@ -58,6 +65,31 @@ export const curriculum: { phases: Phase[] } = {
           blackBox: {
             title: "What HTML, CSS, JS actually do",
             description: "DOM explained simply"
+          },
+          allInOneMission: {
+            title: "The Ultimate Vibe Check Challenge",
+            description: "Put everything you've learned to the test. Complete all checkpoints to prove you've mastered the fundamentals and unlock your first achievement badge.",
+            checkpoints: [
+              {
+                id: "checkpoint-1",
+                title: "Explain the Restaurant Analogy",
+                description: "Describe how frontend, backend, and database work together using the restaurant mental model.",
+                xpReward: 15
+              },
+              {
+                id: "checkpoint-2",
+                title: "Identify Stack Components",
+                description: "List all the tools in your Vibe Coding stack and explain what each one does.",
+                xpReward: 15
+              },
+              {
+                id: "checkpoint-3",
+                title: "Map the Data Flow",
+                description: "Trace how data flows from user interaction → frontend → backend → database and back.",
+                xpReward: 20
+              }
+            ],
+            totalXpReward: 50
           }
         }
       ]
@@ -77,6 +109,10 @@ export const curriculum: { phases: Phase[] } = {
             { id: "manifesto", title: "The Vibe Coder Manifesto", description: "Speed > Perfection", xpReward: 10 },
             { id: "tool-stack", title: "Your Tool Stack", description: "Cursor + V0 + Supabase + Claude", xpReward: 10 },
             { id: "context-game", title: "The Context Game", description: "Feeding docs without hallucination", xpReward: 10 },
+            { id: "ship-early", title: "Ship Early, Iterate Often", description: "The power of imperfect launches", xpReward: 10 },
+            { id: "ai-collaboration", title: "AI as Your Co-Pilot", description: "Building trust with your AI pair programmer", xpReward: 10 },
+            { id: "founder-mindset", title: "Think Like a Founder", description: "Product vision over code perfection", xpReward: 10 },
+            { id: "debugging-philosophy", title: "Debugging is Learning", description: "Every error is a lesson, not a failure", xpReward: 10 },
             { id: "hello-world", title: "Deploy your 'Hello World' site in 15 minutes", xpReward: 10 }
           ],
           blackBox: {

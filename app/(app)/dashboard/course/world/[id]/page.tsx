@@ -3,17 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift, Play } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Circle, Lock, Unlock, Zap, Shield, Gift, Play, Trophy } from 'lucide-react';
 import { curriculum } from '@/data/curriculum';
 import { useCourseStore } from '@/store/courseStore';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent } from '@/components/ui/card';
 import { BlackBoxSection } from '@/components/course/BlackBoxSection';
+import { AllInOneMission } from '@/components/course/AllInOneMission';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { MissionModal } from '@/components/course/MissionModal';
 import { tutorialMissions } from '@/data/missions/tutorial';
+import { phase1Missions } from '@/data/missions/phase1';
 import { MissionData, MissionSlide } from '@/data/missions/world0';
 
 export default function WorldPage() {
@@ -29,7 +31,8 @@ export default function WorldPage() {
       markWorldComplete, 
       completedMissions, 
       isWorldCompleted,
-      isWorldUnlocked
+      isWorldUnlocked,
+      completedAllInOneMissions
   } = useCourseStore();
 
   useEffect(() => {
@@ -81,14 +84,27 @@ export default function WorldPage() {
   };
 
   const getMissionContent = (missionId: string) => {
-      if (worldId !== 0) return null;
-      return tutorialMissions.find(m => m.id === missionId) || null;
+      if (worldId === 0) {
+          return tutorialMissions.find(m => m.id === missionId) || null;
+      } else if (worldId === 1) {
+          return phase1Missions.find(m => m.id === missionId) || null;
+      }
+      return null;
   };
 
   const handleMissionClick = (missionId: string, isDone: boolean) => {
       // Check Phase 0 Tutorial Missions
       if (worldId === 0) {
           const content = tutorialMissions.find(m => m.id === missionId);
+          if (content) {
+              setSelectedMission(content);
+              return;
+          }
+      }
+      
+      // Check Phase 1 Vibe Philosophy Missions
+      if (worldId === 1) {
+          const content = phase1Missions.find(m => m.id === missionId);
           if (content) {
               setSelectedMission(content);
               return;
@@ -211,6 +227,85 @@ export default function WorldPage() {
                     </motion.div>
                 );
             })}
+
+            {/* Black Box Bonus Mission - Show in missions list */}
+            {worldData.blackBox && (
+                <BlackBoxSection 
+                    title={worldData.blackBox.title} 
+                    description={worldData.blackBox.description}
+                    onClick={() => router.push(`/dashboard/course/world/${worldId}/mission/blackbox-${worldId}`)}
+                    isCompleted={completedMissionIds.includes(`blackbox-${worldId}`)}
+                />
+            )}
+
+            {/* All-in-One Mission - Show in missions list */}
+            {worldData.allInOneMission && (
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onClick={() => {
+                        if (allMissionsDone) {
+                            // Scroll to expanded section
+                            setTimeout(() => {
+                                const element = document.getElementById('all-in-one-expanded');
+                                element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                        }
+                    }}
+                    className={cn(
+                        "p-6 rounded-xl border transition-all flex items-start justify-between group",
+                        allMissionsDone
+                            ? "bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 border-purple-500/30 hover:border-purple-500/50 cursor-pointer"
+                            : "bg-white/5 border-white/5 opacity-60 cursor-not-allowed"
+                    )}
+                >
+                    <div className="flex items-start gap-5 flex-1">
+                        <div className={cn(
+                            "p-1 rounded-full transition-colors mt-0.5",
+                            allMissionsDone 
+                                ? (completedAllInOneMissions?.includes(worldId) ? "text-yellow-500" : "text-purple-400")
+                                : "text-white/20"
+                        )}>
+                            {completedAllInOneMissions?.includes(worldId) ? (
+                                <Trophy className="w-6 h-6" />
+                            ) : (
+                                <Trophy className="w-6 h-6" />
+                            )}
+                        </div>
+                        <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="text-xs font-bold text-purple-300 uppercase tracking-widest px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20">
+                                    Final Challenge
+                                </span>
+                                {!allMissionsDone && (
+                                    <Lock className="w-3 h-3 text-white/40" />
+                                )}
+                            </div>
+                            <h3 className={cn(
+                                "text-lg font-light mb-1",
+                                allMissionsDone 
+                                    ? "text-white" 
+                                    : "text-white/40"
+                            )}>
+                                {worldData.allInOneMission.title}
+                            </h3>
+                            <p className="text-sm text-white/40 font-light leading-relaxed">
+                                {worldData.allInOneMission.description}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <div className="text-xs text-yellow-500/90 font-mono pt-1">
+                            +{worldData.allInOneMission.totalXpReward} XP
+                        </div>
+                        {allMissionsDone ? (
+                            <Play className="w-4 h-4 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                        ) : (
+                            <Lock className="w-4 h-4 text-white/30" />
+                        )}
+                    </div>
+                </motion.div>
+            )}
         </div>
 
         {/* Project (if any) */}
@@ -230,11 +325,6 @@ export default function WorldPage() {
                     </p>
                 </div>
             </div>
-        )}
-
-        {/* Black Box */}
-        {worldData.blackBox && (
-            <BlackBoxSection title={worldData.blackBox.title} description={worldData.blackBox.description} />
         )}
 
         {/* Secret Drop */}
@@ -263,6 +353,20 @@ export default function WorldPage() {
                         </div>
                     )}
                 </div>
+            </div>
+        )}
+
+        {/* All-in-One Mission - Always show expanded when all missions are done */}
+        {worldData.allInOneMission && allMissionsDone && (
+            <div id="all-in-one-expanded" className="mt-8">
+                <AllInOneMission
+                    worldId={worldId}
+                    title={worldData.allInOneMission.title}
+                    description={worldData.allInOneMission.description}
+                    checkpoints={worldData.allInOneMission.checkpoints}
+                    totalXpReward={worldData.allInOneMission.totalXpReward}
+                    autoExpand={true}
+                />
             </div>
         )}
 

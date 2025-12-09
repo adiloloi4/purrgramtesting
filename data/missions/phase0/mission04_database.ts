@@ -41,6 +41,12 @@ export const mission04: MissionData = {
       feedbackWrong: "Think about what entity we are storing.",
     },
     {
+      type: "text",
+      title: "Primary Keys: The Unique Identifier",
+      content:
+        "Every row in a table needs a unique identifier called a 'Primary Key'. Usually, this is an 'ID' column with a unique number or code. Think of it like a Social Security Number - it's the one thing that makes each row unique, even if names or emails are the same.",
+    },
+    {
       type: "identify",
       title: "Identify the Primary Key",
       question: "Which column uniquely identifies a specific user?",

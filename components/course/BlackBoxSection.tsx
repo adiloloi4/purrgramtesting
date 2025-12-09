@@ -1,61 +1,65 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, ChevronDown, ChevronUp } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Brain, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type BlackBoxSectionProps = {
   title: string;
   description: string;
+  onClick?: () => void;
+  isCompleted?: boolean;
 };
 
-export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({ title, description }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+export const BlackBoxSection: React.FC<BlackBoxSectionProps> = ({ 
+  title, 
+  description, 
+  onClick,
+  isCompleted = false
+}) => {
   return (
-    <div className="mt-4">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-3 rounded-lg bg-black/20 border border-purple-500/20 hover:bg-black/40 transition-colors group"
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      onClick={onClick}
+      className={cn(
+        "p-6 rounded-xl border transition-all flex items-start justify-between group bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.07] hover:border-purple-500/30",
+        onClick && "cursor-pointer",
+        isCompleted && "bg-green-500/5 border-green-500/20 hover:border-green-500/30"
+      )}
       >
-        <div className="flex items-center gap-3">
-            <div className="p-1.5 rounded bg-purple-900/30 text-purple-400 group-hover:text-purple-300 transition-colors">
-                <Brain className="w-4 h-4" />
+      <div className="flex items-start gap-5 flex-1">
+        <div className="p-1 rounded-full transition-colors mt-0.5 text-purple-400">
+          <Brain className="w-6 h-6" />
             </div>
-            <div className="text-left">
-                <div className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-0.5">
-                    Warning: Nerd Stuff Inside
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-bold text-purple-300 uppercase tracking-widest px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20">
+              Bonus
+            </span>
                 </div>
-                <div className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">
+          <div className="text-left w-full">
+            <h3 className={cn(
+              "text-lg font-light mb-1 group-hover:text-purple-300 transition-colors",
+              isCompleted ? "text-white/40 line-through decoration-white/20" : "text-white"
+            )}>
                     {title}
+            </h3>
+            {description && (
+              <p className="text-sm text-white/40 font-light leading-relaxed">
+                {description}
+              </p>
+            )}
+          </div>
                 </div>
             </div>
+      {onClick && (
+        <div className="flex items-center gap-3">
+          <Play className="w-4 h-4 text-white/30 group-hover:text-purple-400 transition-colors" />
         </div>
-        {isOpen ? (
-            <ChevronUp className="w-4 h-4 text-slate-500" />
-        ) : (
-            <ChevronDown className="w-4 h-4 text-slate-500" />
-        )}
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="p-4 pt-2 text-sm text-slate-400 leading-relaxed border-x border-b border-purple-500/20 rounded-b-lg bg-black/10">
-                {description}
-            </div>
+      )}
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 };
 

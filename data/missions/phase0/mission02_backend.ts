@@ -39,6 +39,12 @@ export const mission02: MissionData = {
         "For Vibe Coding, we choose Supabase because it uses PostgreSQL (standard SQL) which LLMs are very good at writing. It also combines Database, Auth, and APIs in one easy package.",
     },
     {
+      type: "text",
+      title: "Secrets & Security",
+      content:
+        "The Backend must protect 'Secrets' - sensitive information like API keys, passwords, and payment tokens. These are like the restaurant's safe combination. If they were visible on the Frontend, anyone could steal them. The Backend keeps them hidden and secure.",
+    },
+    {
       type: "quiz",
       question: "Which of these should stay on the Backend (Hidden)?",
       options: [

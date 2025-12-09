@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard } from 'lucide-react';
-import { Logo } from '@/components/branding/Logo';
 import { Progress } from '@/components/ui/progress';
 import { useCourseStore } from '@/store/courseStore';
 import { cn } from '@/lib/utils';
@@ -29,7 +28,10 @@ export const Sidebar = () => {
   return (
     <div className="flex flex-col h-screen w-64 bg-black/80 border-r border-white/10 backdrop-blur-xl fixed left-0 top-0 overflow-y-auto z-50">
       <div className="p-6 border-b border-white/10">
-        <Logo variant="minimal" />
+        <Link href="/dashboard" className="flex items-center gap-2">
+          <img src="/logo.png" alt="Purrgram" className="h-10 w-auto" />
+          <span className="text-xl font-light text-white tracking-wide">Purrgram</span>
+        </Link>
       </div>
 
       <div className="flex-1 px-4 space-y-8">
