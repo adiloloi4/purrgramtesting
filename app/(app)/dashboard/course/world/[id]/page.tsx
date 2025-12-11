@@ -14,9 +14,8 @@ import { AllInOneMission } from '@/components/course/AllInOneMission';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 import { MissionModal } from '@/components/course/MissionModal';
-import { tutorialMissions } from '@/data/missions/tutorial';
-import { phase1Missions } from '@/data/missions/phase1';
-import { MissionData, MissionSlide } from '@/data/missions/world0';
+import { MissionData } from '@/data/missions/world0';
+import { getMissionContent } from '@/data/missions/getMission';
 
 export default function WorldPage() {
   const params = useParams();
@@ -83,38 +82,15 @@ export default function WorldPage() {
     markMissionComplete(worldId, missionId);
   };
 
-  const getMissionContent = (missionId: string) => {
-      if (worldId === 0) {
-          return tutorialMissions.find(m => m.id === missionId) || null;
-      } else if (worldId === 1) {
-          return phase1Missions.find(m => m.id === missionId) || null;
-      }
-      return null;
-  };
-
   const handleMissionClick = (missionId: string, isDone: boolean) => {
-      // Check Phase 0 Tutorial Missions
-      if (worldId === 0) {
-          const content = tutorialMissions.find(m => m.id === missionId);
-          if (content) {
-              setSelectedMission(content);
-              return;
-          }
-      }
+      // Use the unified helper to find mission content
+      const content = getMissionContent(worldId, missionId);
       
-      // Check Phase 1 Vibe Philosophy Missions
-      if (worldId === 1) {
-          const content = phase1Missions.find(m => m.id === missionId);
-          if (content) {
-              setSelectedMission(content);
-              return;
-          }
-      }
-
-      const content = getMissionContent(missionId); 
       if (content) {
          setSelectedMission(content);
       } else if (!isDone) {
+          // Fallback to instant complete only if explicitly no content found
+          // (This should be rare now that getMissionContent returns placeholders)
           handleCompleteMission(missionId);
       }
   };

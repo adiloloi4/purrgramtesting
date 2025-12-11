@@ -1,5 +1,5 @@
 export type TextSlide = {
-  id: string;
+  id?: string;
   type: "text";
   title: string;
   body: string;
@@ -7,17 +7,19 @@ export type TextSlide = {
 
 export type QuizOption = {
   id: string;
-  label: string;
+  label?: string; // Legacy
+  text?: string;  // New
+  correct?: boolean; // New
 };
 
 export type QuizSlide = {
-  id: string;
+  id?: string;
   type: "quiz";
-  question: string;
+  question: string; // Used by both (User schema says question, Old says question)
   options: QuizOption[];
-  correctOptionId: string;
-  correctExplanation: string;
-  wrongExplanation: string;
+  correctOptionId?: string; // Legacy
+  correctExplanation?: string; // Legacy
+  wrongExplanation?: string; // Legacy
 };
 
 export type DragDropCategory = {
@@ -32,7 +34,7 @@ export type DragDropItem = {
 };
 
 export type DragDropSlide = {
-  id: string;
+  id?: string;
   type: "dragDrop";
   prompt: string;
   categories: DragDropCategory[];
@@ -46,20 +48,27 @@ export type MatchingPair = {
 };
 
 export type MatchingSlide = {
-  id: string;
+  id?: string;
   type: "matching";
   prompt: string;
   pairs: MatchingPair[];
 };
 
-export type IdentifySlide = {
+export type IdentifyItem = {
   id: string;
+  text: string;
+  correct: boolean;
+};
+
+export type IdentifySlide = {
+  id?: string;
   type: "identify";
   prompt: string;
-  options: QuizOption[];
-  correctOptionId: string;
-  correctExplanation: string;
-  wrongExplanation: string;
+  options?: QuizOption[]; // Legacy
+  items?: IdentifyItem[]; // New
+  correctOptionId?: string; // Legacy
+  correctExplanation?: string; // Legacy
+  wrongExplanation?: string; // Legacy
 };
 
 export type ChecklistItem = {
@@ -68,7 +77,7 @@ export type ChecklistItem = {
 };
 
 export type ChecklistSlide = {
-  id: string;
+  id?: string;
   type: "checklist";
   title: string;
   prompt: string;
@@ -76,7 +85,7 @@ export type ChecklistSlide = {
 };
 
 export type TerminalSlide = {
-  id: string;
+  id?: string;
   type: "terminal";
   title: string;
   prompt: string;
@@ -85,7 +94,7 @@ export type TerminalSlide = {
 };
 
 export type SortingSlide = {
-  id: string;
+  id?: string;
   type: "sorting";
   prompt: string;
   items: string[];
@@ -93,13 +102,16 @@ export type SortingSlide = {
 };
 
 export type MiniChallengeSlide = {
-  id: string;
+  id?: string;
   type: "miniChallenge";
-  prompt: string;
-  options: QuizOption[];
-  correctOptionId: string;
-  correctExplanation: string;
-  wrongExplanation: string;
+  title?: string; // New
+  task?: string; // New
+  example?: string; // New
+  prompt?: string; // Legacy
+  options?: QuizOption[]; // Legacy
+  correctOptionId?: string; // Legacy
+  correctExplanation?: string; // Legacy
+  wrongExplanation?: string; // Legacy
 };
 
 export type TutorialSlide =
@@ -114,7 +126,7 @@ export type TutorialSlide =
   | MiniChallengeSlide;
 
 export type TutorialMissionContent = {
-  id: string;      // should match curriculum mission id
+  id: string;
   title: string;
   slides: TutorialSlide[];
 };
@@ -661,7 +673,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
   // MISSION: build-your-first-stack
   ////////////////////////////////////////////////////////
   {
-    id: "build-first-stack", // changed from build-your-first-stack to match curriculum
+    id: "build-first-stack", 
     title: "Build Your First Stack",
     slides: [
       {

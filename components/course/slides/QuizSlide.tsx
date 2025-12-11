@@ -15,13 +15,33 @@ export const QuizSlide: React.FC<QuizSlideProps> = ({
   selectedOptionId,
   onSelectOption,
 }) => {
-  const isCorrect = selectedOptionId === slide.correctOptionId;
+  // Determine if using new schema or old schema
+  const isNewSchema = slide.options.some(o => o.correct !== undefined);
+  
+  let isCorrect = false;
+  let explanation = "";
+
+  if (selectedOptionId) {
+    if (isNewSchema) {
+      const selectedOpt = slide.options.find(o => o.id === selectedOptionId);
+      isCorrect = selectedOpt?.correct ?? false;
+      explanation = isCorrect ? "Correct!" : "Incorrect.";
+    } else {
+      isCorrect = selectedOptionId === slide.correctOptionId;
+      explanation = isCorrect ? (slide.correctExplanation || "") : (slide.wrongExplanation || "");
+    }
+  }
+
+  const viewOptions = slide.options.map(o => ({
+    id: o.id,
+    label: o.text || o.label || ""
+  }));
 
   return (
     <div className="space-y-8">
       <SharedQuizView 
         prompt={slide.question}
-        options={slide.options}
+        options={viewOptions}
         selectedOptionId={selectedOptionId}
         onSelectOption={onSelectOption}
       />
@@ -37,7 +57,7 @@ export const QuizSlide: React.FC<QuizSlideProps> = ({
             )}
           >
             <p className={cn("text-sm", isCorrect ? "text-green-200" : "text-red-200")}>
-              {isCorrect ? slide.correctExplanation : slide.wrongExplanation}
+              {explanation}
             </p>
           </motion.div>
         )}

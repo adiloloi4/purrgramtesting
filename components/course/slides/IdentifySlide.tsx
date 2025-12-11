@@ -15,13 +15,34 @@ export const IdentifySlide: React.FC<IdentifySlideProps> = ({
   selectedOptionId,
   onSelectOption,
 }) => {
-  const isCorrect = selectedOptionId === slide.correctOptionId;
+  const isNewSchema = !!slide.items;
+  
+  let isCorrect = false;
+  let explanation = "";
+
+  if (selectedOptionId) {
+    if (isNewSchema) {
+       // slide.items is IdentifyItem[], which has text and correct
+       const selectedItem = slide.items?.find(i => i.id === selectedOptionId);
+       isCorrect = selectedItem?.correct ?? false;
+       explanation = isCorrect ? "Correct!" : "Incorrect.";
+    } else {
+      isCorrect = selectedOptionId === slide.correctOptionId;
+      explanation = isCorrect ? (slide.correctExplanation || "") : (slide.wrongExplanation || "");
+    }
+  }
+
+  const rawOptions = slide.items || slide.options || [];
+  const viewOptions = rawOptions.map(o => ({
+    id: o.id,
+    label: (o as any).text || (o as any).label || ""
+  }));
 
   return (
     <div className="space-y-8">
       <SharedQuizView 
         prompt={slide.prompt}
-        options={slide.options}
+        options={viewOptions}
         selectedOptionId={selectedOptionId}
         onSelectOption={onSelectOption}
       />
@@ -36,7 +57,7 @@ export const IdentifySlide: React.FC<IdentifySlideProps> = ({
               isCorrect ? "bg-green-500/10 border-green-500/20 text-green-200" : "bg-red-500/10 border-red-500/20 text-red-200"
             )}
           >
-            {isCorrect ? slide.correctExplanation : slide.wrongExplanation}
+            {explanation}
           </motion.div>
         )}
       </AnimatePresence>

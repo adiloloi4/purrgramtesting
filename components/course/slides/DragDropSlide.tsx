@@ -30,20 +30,22 @@ export const DragDropSlide: React.FC<DragDropSlideProps> = ({
     const targetCategoryId = selectedCategoryId;
     if (!targetCategoryId) return;
 
-    setAssigned((prev) => {
-      const current = prev[targetCategoryId] ?? [];
-      // allow duplicates across categories, but avoid exact duplicates in the same category
-      if (current.includes(itemId)) return prev;
+    // Check against current state to avoid duplicate updates or unnecessary interaction triggers
+    const current = assigned[targetCategoryId] ?? [];
+    if (current.includes(itemId)) return;
 
-      const newState = {
+    // Notify parent interaction (Side effect must be outside state updater)
+    onInteract();
+
+    setAssigned((prev) => {
+      const currentInPrev = prev[targetCategoryId] ?? [];
+      // Double check inside updater just in case, though closure check is usually sufficient here
+      if (currentInPrev.includes(itemId)) return prev;
+
+      return {
         ...prev,
-        [targetCategoryId]: [...current, itemId]
+        [targetCategoryId]: [...currentInPrev, itemId]
       };
-      
-      // Notify parent interaction
-      onInteract();
-      
-      return newState;
     });
   };
 

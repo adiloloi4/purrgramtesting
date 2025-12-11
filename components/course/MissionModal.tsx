@@ -49,8 +49,9 @@ export const MissionModal: React.FC<MissionModalProps> = ({
 
   const { markMissionComplete } = useCourseStore();
 
-  const totalSlides = mission.slides.length;
-  const currentSlide = mission.slides[currentSlideIndex];
+  const slides = mission?.slides || [];
+  const totalSlides = slides.length;
+  const currentSlide = slides[currentSlideIndex];
   const isLastSlide = currentSlideIndex === totalSlides - 1;
 
   useEffect(() => {
@@ -101,6 +102,8 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   };
 
   const renderSlideContent = (slide: TutorialSlide) => {
+    if (!slide) return <div className="text-white">Slide data missing</div>;
+
     switch (slide.type) {
       case 'text':
         return <TextSlide title={slide.title} body={slide.body} />;
@@ -182,6 +185,38 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   };
 
   if (!open) return null;
+
+  if (totalSlides === 0) {
+     return (
+        <AnimatePresence>
+            {open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => onOpenChange(false)}
+                        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 text-center"
+                    >
+                         <button 
+                            onClick={() => onOpenChange(false)}
+                            className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+                        <h2 className="text-xl font-light text-white mb-2">Content Loading...</h2>
+                        <p className="text-white/50">This mission is being updated with new content. Check back soon!</p>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
+     );
+  }
 
   return (
     <AnimatePresence>

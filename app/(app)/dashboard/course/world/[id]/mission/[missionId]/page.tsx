@@ -3,10 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { MissionModal } from '@/components/course/MissionModal';
-import { tutorialMissions } from '@/data/missions/tutorial';
 import { MissionData } from '@/data/missions/world0';
-import { phase1Missions } from '@/data/missions/phase1';
-import { useCourseStore } from '@/store/courseStore';
+import { getMissionContent } from '@/data/missions/getMission';
 import { curriculum } from '@/data/curriculum';
 import type { TutorialMissionContent, TextSlide, QuizSlide } from '@/data/missions/tutorial';
 
@@ -422,21 +420,11 @@ export default function MissionPage() {
         setMission(blackboxMission);
       }
     } else {
-      // Handle regular missions
-      if (worldId === 0) {
-        // Phase 0: Tutorial missions
-        const foundMission = tutorialMissions.find(m => m.id === missionId);
-        if (foundMission) {
-          setMission(foundMission);
-        }
-      } else if (worldId === 1) {
-        // Phase 1: Vibe Philosophy missions
-        const foundMission = phase1Missions.find(m => m.id === missionId);
-        if (foundMission) {
-          setMission(foundMission);
-        }
+      // Handle regular missions using the unified helper
+      const foundMission = getMissionContent(worldId, missionId);
+      if (foundMission) {
+        setMission(foundMission);
       }
-      // Future: Add other phases here
     }
   }, [worldId, missionId]);
 

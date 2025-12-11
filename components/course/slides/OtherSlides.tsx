@@ -165,13 +165,49 @@ export const MiniChallengeSlide: React.FC<MiniChallengeSlideProps> = ({
     selectedOptionId, 
     onSelectOption 
 }) => {
+    const isNewSchema = !!slide.task;
+
+    if (isNewSchema) {
+        return (
+            <div className="space-y-6">
+                 {slide.title && (
+                    <h2 className="text-2xl md:text-3xl font-light text-white">{slide.title}</h2>
+                 )}
+                 <div className="p-6 rounded-xl bg-white/5 border border-white/10 space-y-4">
+                    <h3 className="text-sm font-bold text-purple-400 uppercase tracking-widest">Your Mission</h3>
+                    <p className="text-lg text-white/90 leading-relaxed">{slide.task}</p>
+                 </div>
+                 
+                 {slide.example && (
+                    <div className="p-4 rounded-lg bg-black/40 border border-white/5 font-mono text-sm text-white/60">
+                        <span className="text-white/30 mr-2">Example:</span>
+                        {slide.example}
+                    </div>
+                 )}
+                 
+                 <button 
+                    className={cn(
+                        "w-full py-4 rounded-xl font-medium transition-colors",
+                        selectedOptionId === "completed" 
+                            ? "bg-green-500/20 text-green-200 border border-green-500/30"
+                            : "bg-white text-black hover:bg-white/90"
+                    )}
+                    onClick={() => onSelectOption("completed")}
+                 >
+                    {selectedOptionId === "completed" ? "Mission Completed" : "I Have Completed This"}
+                 </button>
+            </div>
+        );
+    }
+
+    // Old Schema
     const isCorrect = selectedOptionId === slide.correctOptionId;
 
     return (
         <div className="space-y-8">
             <SharedQuizView 
-                prompt={slide.prompt}
-                options={slide.options}
+                prompt={slide.prompt || ""}
+                options={slide.options || []}
                 selectedOptionId={selectedOptionId}
                 onSelectOption={onSelectOption}
             />

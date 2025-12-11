@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 
 export default function CourseMapPage() {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const { 
     isWorldUnlocked, 
     isWorldCompleted, 
@@ -24,6 +25,10 @@ export default function CourseMapPage() {
   } = useCourseStore();
   
   const [expandedWorlds, setExpandedWorlds] = useState<Set<number>>(new Set());
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleWorld = (worldId: number) => {
     setExpandedWorlds(prev => {
@@ -88,6 +93,10 @@ export default function CourseMapPage() {
       suffix: ` / ${totalMissions}`
     }
   ];
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-black" />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto py-8 text-white">

@@ -106,14 +106,11 @@ export const curriculum: { phases: Phase[] } = {
           title: "The Vibe Philosophy",
           subtitle: "Think like a founder",
           missions: [
-            { id: "manifesto", title: "The Vibe Coder Manifesto", description: "Speed > Perfection", xpReward: 10 },
-            { id: "tool-stack", title: "Your Tool Stack", description: "Cursor + V0 + Supabase + Claude", xpReward: 10 },
-            { id: "context-game", title: "The Context Game", description: "Feeding docs without hallucination", xpReward: 10 },
-            { id: "ship-early", title: "Ship Early, Iterate Often", description: "The power of imperfect launches", xpReward: 10 },
-            { id: "ai-collaboration", title: "AI as Your Co-Pilot", description: "Building trust with your AI pair programmer", xpReward: 10 },
-            { id: "founder-mindset", title: "Think Like a Founder", description: "Product vision over code perfection", xpReward: 10 },
-            { id: "debugging-philosophy", title: "Debugging is Learning", description: "Every error is a lesson, not a failure", xpReward: 10 },
-            { id: "hello-world", title: "Deploy your 'Hello World' site in 15 minutes", xpReward: 10 }
+            { id: "director-mindset", title: "The Director's Chair", description: "Stop typing, start directing.", xpReward: 10 },
+            { id: "manifesto", title: "The Vibe Coder Manifesto", description: "Speed > Perfection.", xpReward: 10 },
+            { id: "founder-mode", title: "Founder Mode Activated", description: "Product > Code.", xpReward: 10 },
+            { id: "shipping-is-breathing", title: "Shipping is Breathing", description: "Deploy early, deploy often.", xpReward: 10 },
+            { id: "vibe-check-quiz", title: "Vibe Check: Phase 1", description: "Test your mindset.", xpReward: 10 }
           ],
           blackBox: {
             title: "How the browser renders your page",
@@ -131,10 +128,11 @@ export const curriculum: { phases: Phase[] } = {
           title: "God Mode Workflow",
           subtitle: "Coding becomes English class",
           missions: [
-            { id: "composer-mastery", title: "Cursor Composer Mastery", xpReward: 10 },
-            { id: "v0-to-code", title: "V0 → Code Pipeline", xpReward: 10 },
-            { id: "iterative-prompting", title: "Iterative prompting", xpReward: 10 },
-            { id: "landing-page-project", title: "Build a full landing page using only natural language", description: "No manual CSS allowed", xpReward: 10 }
+            { id: "god-mode-loop", title: "The God Mode Loop", description: "Prompt → Generate → Check → Refine.", xpReward: 10 },
+            { id: "context-game", title: "The Context Game", description: "Garbage in, garbage out.", xpReward: 10 },
+            { id: "iterative-prompting", title: "Iterative Prompting", description: "Don't command. Discuss.", xpReward: 10 },
+            { id: "debug-dialogue", title: "Debugging as Dialogue", description: "Errors are clues.", xpReward: 10 },
+            { id: "workflow-sim", title: "Workflow Simulator", description: "Practice the loop.", xpReward: 10 }
           ],
           blackBox: {
             title: "React re-renders",
@@ -144,6 +142,21 @@ export const curriculum: { phases: Phase[] } = {
             title: "Prompt Transfusion System",
             description: "Advanced prompting techniques."
           }
+        },
+        {
+          id: 3,
+          phaseId: 1,
+          slug: "your-tool-stack",
+          title: "Your Tool Stack",
+          subtitle: "The Avengers Assembly",
+          missions: [
+            { id: "stack-overview", title: "The Modern Stack", description: "Meet your team.", xpReward: 10 },
+            { id: "cursor-deep-dive", title: "Cursor: The Magic Wand", description: "Not just VS Code.", xpReward: 10 },
+            { id: "v0-designer", title: "v0: The Artist", description: "Generative UI.", xpReward: 10 },
+            { id: "supabase-vault", title: "Supabase: The Vault", description: "The backend brain.", xpReward: 10 },
+            { id: "vercel-stage", title: "Vercel: The Stage", description: "Ship to the world.", xpReward: 10 },
+            { id: "stack-assembly", title: "Assemble Your Stack", description: "Put it all together.", xpReward: 10 }
+          ]
         }
       ]
     },
@@ -153,7 +166,7 @@ export const curriculum: { phases: Phase[] } = {
       subtitle: "Build the Real SaaS",
       worlds: [
         {
-          id: 3,
+          id: 4,
           phaseId: 2,
           slug: "the-brain-backend",
           title: "The Brain (Backend)",
@@ -175,7 +188,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 4,
+          id: 5,
           phaseId: 2,
           slug: "the-bouncer-auth",
           title: "The Bouncer (Auth)",
@@ -192,7 +205,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 5,
+          id: 6,
           phaseId: 2,
           slug: "the-magic-apis",
           title: "The Magic (APIs)",
@@ -217,7 +230,7 @@ export const curriculum: { phases: Phase[] } = {
       subtitle: "Where others quit. You won't.",
       worlds: [
         {
-          id: 6,
+          id: 7,
           phaseId: 3,
           slug: "the-fixer-debugging",
           title: "The Fixer (Debugging)",
@@ -239,7 +252,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 7,
+          id: 8,
           phaseId: 3,
           slug: "the-polish-ui-ux",
           title: "The Polish (UI and UX)",
@@ -261,7 +274,7 @@ export const curriculum: { phases: Phase[] } = {
       subtitle: "The Business Layer",
       worlds: [
         {
-          id: 8,
+          id: 9,
           phaseId: 4,
           slug: "the-cash-register",
           title: "The Cash Register",
@@ -279,7 +292,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 9,
+          id: 10,
           phaseId: 4,
           slug: "the-launch",
           title: "THE LAUNCH",
@@ -298,7 +311,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 10,
+          id: 11,
           phaseId: 4,
           slug: "the-public-build-bonus",
           title: "The Public Build (Bonus)",
