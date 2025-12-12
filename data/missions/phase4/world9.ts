@@ -39,6 +39,47 @@ export const world9Missions: MissionData[] = [
         task: "Add your keys to .env.local. Do not commit them. Restart your server. You are ready to charge cards.",
         example: "Keys added.",
       },
+      {
+        type: "memoryGame",
+        title: "Payment Providers Memory Game",
+        description: "Match payment providers to their features",
+        cards: [
+          { id: "stripe", front: "Stripe", back: "The standard - powerful, huge ecosystem" },
+          { id: "lemonsqueezy", front: "LemonSqueezy", back: "Merchant of Record - handles tax automatically" },
+          { id: "first-dollar", front: "First Dollar", back: "Moment you become a professional" },
+          { id: "test-keys", front: "Test Keys", back: "Public/Secret keys for development" },
+        ],
+        timeLimit: 50,
+      },
+      {
+        type: "speedQuiz",
+        title: "Payment Providers Quiz",
+        description: "Test your understanding of payment processors",
+        questions: [
+          {
+            id: "q1",
+            question: "Which provider handles global sales tax automatically?",
+            options: [
+              { id: "a", text: "Stripe" },
+              { id: "b", text: "LemonSqueezy" },
+              { id: "c", text: "PayPal" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "What happens when a stranger pays you $1?",
+            options: [
+              { id: "a", text: "You're still just a coder" },
+              { id: "b", text: "You become a professional" },
+              { id: "c", text: "Nothing changes" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+        ],
+      },
     ],
   },
   {
@@ -72,6 +113,30 @@ export const world9Missions: MissionData[] = [
         task: "Buy your own product in test mode. Did you get the success confetti? If yes, you are ready for revenue.",
         example: "Purchase successful.",
       },
+      {
+        type: "memoryGame",
+        title: "Checkout Flow Memory Game",
+        description: "Match checkout concepts to their purposes",
+        cards: [
+          { id: "payment-link", front: "Payment Link", back: "Fastest way to sell - URL from dashboard" },
+          { id: "checkout", front: "Stripe Checkout", back: "Secure payment page" },
+          { id: "test-card", front: "Test Card", back: "4242 4242 4242 4242 for testing" },
+          { id: "success-page", front: "Success Page", back: "Where users return after payment" },
+        ],
+        timeLimit: 50,
+      },
+      {
+        type: "sequenceGame",
+        title: "Purchase Flow",
+        description: "Order the steps of the purchase process",
+        items: [
+          { id: "click", label: "User clicks Buy", correctPosition: 0 },
+          { id: "stripe", label: "Goes to Stripe Checkout", correctPosition: 1 },
+          { id: "pay", label: "Pays with test card", correctPosition: 2 },
+          { id: "return", label: "Returns to /success page", correctPosition: 3 },
+        ],
+        hint: "Start with clicking, end with returning",
+      },
     ],
   },
   {
@@ -99,6 +164,47 @@ export const world9Missions: MissionData[] = [
         task: "Manually set your own profile to active in Supabase Table Editor. Does the Upgrade banner disappear? You just built a paywall.",
         example: "Banner gone.",
       },
+      {
+        type: "memoryGame",
+        title: "Paywalls Memory Game",
+        description: "Match paywall concepts to their purposes",
+        cards: [
+          { id: "paywall", front: "Paywall", back: "Blocks features until user pays" },
+          { id: "subscription-status", front: "Subscription Status", back: "Column in profiles table (free/active)" },
+          { id: "upgrade-banner", front: "Upgrade Banner", back: "Shown when status is not active" },
+          { id: "gating", front: "Gating Features", back: "Restricting access to paid users" },
+        ],
+        timeLimit: 50,
+      },
+      {
+        type: "speedQuiz",
+        title: "Paywalls Quiz",
+        description: "Test your understanding of feature gating",
+        questions: [
+          {
+            id: "q1",
+            question: "Where do you store subscription status?",
+            options: [
+              { id: "a", text: "In localStorage" },
+              { id: "b", text: "In profiles table in database" },
+              { id: "c", text: "In cookies" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "What status means user paid?",
+            options: [
+              { id: "a", text: "free" },
+              { id: "b", text: "active" },
+              { id: "c", text: "pending" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+        ],
+      },
     ],
   },
   {
@@ -125,6 +231,30 @@ export const world9Missions: MissionData[] = [
         title: "Success Check",
         task: "Use the Stripe CLI to trigger a mock event (or do a real test purchase). Check Supabase. Did the user upgrade automatically? If yes, your business runs while you sleep.",
         example: "User upgraded.",
+      },
+      {
+        type: "memoryGame",
+        title: "Webhooks for Pro Status Memory Game",
+        description: "Match webhook concepts to their purposes",
+        cards: [
+          { id: "webhook", front: "Webhook", back: "Stripe tells your app when payment happens" },
+          { id: "checkout-completed", front: "checkout.session.completed", back: "Event when payment succeeds" },
+          { id: "signature", front: "Signature Verification", back: "Security check for webhook authenticity" },
+          { id: "automation", front: "Automation", back: "Business runs while you sleep" },
+        ],
+        timeLimit: 50,
+      },
+      {
+        type: "sequenceGame",
+        title: "Webhook Upgrade Flow",
+        description: "Order the steps of automatic user upgrade",
+        items: [
+          { id: "stripe-sends", label: "Stripe sends webhook event", correctPosition: 0 },
+          { id: "verify", label: "API verifies signature", correctPosition: 1 },
+          { id: "find-user", label: "Find user by email", correctPosition: 2 },
+          { id: "update", label: "Update subscription_status to active", correctPosition: 3 },
+        ],
+        hint: "Start with Stripe sending, end with updating",
       },
     ],
   },

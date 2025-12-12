@@ -532,7 +532,7 @@ export const getUser = async (id: string) => {
                 </motion.div>
               );
             })}
-          </div>
+             </div>
         </div>
       </section>
 

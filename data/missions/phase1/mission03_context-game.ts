@@ -97,6 +97,66 @@ export const mission03: MissionData = {
       content:
         "The Context Game is about giving AI exactly what it needs, nothing more, nothing less. Master this, and AI becomes your superpower. Ignore this, and AI becomes a source of frustration.",
     },
+    {
+      type: "buildTask",
+      title: "Practice the Context Game",
+      description: "Use proper context to build a feature",
+      task: "Open Cursor. Create a new file called UserProfile.tsx. Then, using Cursor's @ feature, reference this file and ask AI: 'Add a form with name, email, and bio fields. Use the same styling as the rest of my app.' This teaches you to provide context (the file) and be specific (the styling requirement).",
+      expectedOutcome: "AI generates a form component that matches your app's style because you provided context",
+      verificationSteps: [
+        "Created UserProfile.tsx file",
+        "Used @ to reference the file in Cursor",
+        "Asked AI to add a form with specific fields",
+        "AI generated code that matches your app style",
+        "Form renders correctly in your app"
+      ],
+      tips: [
+        "Use Cmd+K or Cmd+L in Cursor to open the chat",
+        "Type @ and select your file to add context",
+        "Be specific about styling requirements",
+        "Review the generated code before using it"
+      ],
+    },
+    {
+      type: "codePuzzle",
+      title: "Complete the Context Prompt",
+      description: "Fill in the blanks to create a good AI prompt",
+      puzzle: "Here's my __0__ component. Please __1__ error handling for invalid emails and show a __2__ message on success.",
+      missingParts: [
+        {
+          id: "component",
+          options: ["login", "button", "header"],
+          correct: "login",
+          hint: "What component needs error handling?",
+        },
+        {
+          id: "action",
+          options: ["add", "remove", "delete"],
+          correct: "add",
+          hint: "What do you want AI to do?",
+        },
+        {
+          id: "message",
+          options: ["toast", "alert", "console"],
+          correct: "toast",
+          hint: "What type of user-friendly message?",
+        },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Context Best Practices Memory Game",
+      description: "Match context practices to their benefits",
+      cards: [
+        { id: "docs", front: "Include Documentation", back: "Show AI what's available" },
+        { id: "code", front: "Share Your Code", back: "Let AI see the full picture" },
+        { id: "specific", front: "Be Specific", back: "Say exactly what you want" },
+        { id: "examples", front: "Provide Examples", back: "Show AI what good looks like" },
+        { id: "hallucination", front: "Hallucination", back: "AI makes things up without context" },
+        { id: "context-window", front: "Context Window", back: "Amount of info AI can process" },
+      ],
+      timeLimit: 60,
+    },
   ],
 };
 

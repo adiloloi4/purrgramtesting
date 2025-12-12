@@ -97,6 +97,50 @@ export const mission07: MissionData = {
       content:
         "The best developers aren't the ones who never make mistakes. They're the ones who learn from every mistake. Every error makes you better. Every bug makes you smarter. This is the path to mastery.",
     },
+    {
+      type: "codeChallenge",
+      title: "Debug This Code",
+      description: "Practice debugging with a real broken component",
+      task: "I've given you broken code below. There are 3 bugs in it. Use Cursor's AI to help you find and fix them. This is real debugging practice.",
+      starterCode: "function UserProfile({ user }) {\n  const [name, setName] = useState(user.name);\n  \n  return (\n    <div>\n      <h1>Welcome {name}</h1>\n      <button onClick={() => setName(user.name.toUpperCase())}>\n        Uppercase Name\n      </button>\n      <p>Email: {user.email}</p>\n    </div>\n  );\n}\n\n// Bugs: 1) Missing import for useState\n//       2) user might be undefined\n//       3) No error handling",
+      successCriteria: [
+        "Fixed missing useState import",
+        "Added null/undefined checks for user",
+        "Added error handling",
+        "Code runs without errors",
+        "Component works correctly"
+      ],
+      hint: "Use Cursor's chat to ask: 'What's wrong with this code?' and it will help you find the bugs",
+      example: "// Fixed version should handle:\n// 1. Import useState\n// 2. Check if user exists\n// 3. Handle edge cases",
+    },
+    {
+      type: "spotTheBug",
+      title: "Find the Bug",
+      description: "Click on the line with the error",
+      code: "function calculateTotal(items) {\n  let total = 0;\n  for (let i = 0; i < items.length; i++) {\n    total += items[i].price;\n  }\n  return total;\n}\n\nconst cart = [\n  { name: 'Product 1', price: 10 },\n  { name: 'Product 2', price: 20 },\n  { name: 'Product 3' }\n];\n\nconst result = calculateTotal(cart);",
+      bugs: [
+        {
+          id: "missing-price",
+          line: 10,
+          description: "Product 3 is missing a price property",
+          fix: "{ name: 'Product 3', price: 15 }",
+        },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Debugging Strategies Memory Game",
+      description: "Match debugging strategies to their descriptions",
+      cards: [
+        { id: "read", front: "Read the Error", back: "Error messages tell you what's wrong" },
+        { id: "isolate", front: "Isolate the Problem", back: "Break down, test small parts" },
+        { id: "ask", front: "Ask AI", back: "Paste error into Claude or Cursor" },
+        { id: "learn", front: "Learn from It", back: "Every bug teaches you something" },
+        { id: "stack-trace", front: "Stack Trace", back: "Treasure map showing where the problem is" },
+        { id: "errors-teachers", front: "Errors Are Teachers", back: "Every error is a learning opportunity" },
+      ],
+      timeLimit: 60,
+    },
   ],
 };
 

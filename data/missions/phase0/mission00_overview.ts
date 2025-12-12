@@ -79,5 +79,33 @@ export const mission00: MissionData = {
       content:
         "Every modern app contains these parts. The rest of Phase 0 will teach each part in depth. You are now ready to step into the kitchen.",
     },
+    {
+      type: "sequenceGame",
+      title: "Order the Data Flow",
+      description: "Arrange the steps in the correct order of how data flows through an app",
+      items: [
+        { id: "user", label: "User clicks button", correctPosition: 0 },
+        { id: "frontend", label: "Frontend sends request", correctPosition: 1 },
+        { id: "api", label: "API processes request", correctPosition: 2 },
+        { id: "backend", label: "Backend handles logic", correctPosition: 3 },
+        { id: "database", label: "Database stores/retrieves data", correctPosition: 4 },
+        { id: "response", label: "Response sent back to user", correctPosition: 5 },
+      ],
+      hint: "Start with user interaction, end with the response",
+    },
+    {
+      type: "memoryGame",
+      title: "Restaurant Analogy Memory Game",
+      description: "Match each app component to its restaurant equivalent",
+      cards: [
+        { id: "frontend", front: "Frontend", back: "The Waiters (what customers interact with)" },
+        { id: "backend", front: "Backend", back: "The Kitchen (where work happens)" },
+        { id: "database", front: "Database", back: "The Fridge (storage for data)" },
+        { id: "api", front: "API", back: "The Menu (contract of what's available)" },
+        { id: "auth", front: "Auth", back: "The Manager (controls access)" },
+        { id: "deployment", front: "Deployment", back: "Food Delivery (makes it accessible)" },
+      ],
+      timeLimit: 60,
+    },
   ],
 };

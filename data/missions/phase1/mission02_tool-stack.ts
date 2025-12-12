@@ -49,6 +49,27 @@ export const mission02: MissionData = {
         "1. Use V0 to generate UI components from descriptions. 2. Import them into Cursor. 3. Connect to Supabase for data. 4. Ask Claude when you're stuck. This is the Vibe Coding loop.",
     },
     {
+      type: "buildTask",
+      title: "Try the Vibe Coding Workflow",
+      description: "Practice using all four tools together",
+      task: "1. Go to v0.dev and generate a simple button component. 2. Copy the code into Cursor. 3. Create a new Next.js page and use the component. 4. If you get stuck, ask Claude for help. This is the complete workflow in action.",
+      expectedOutcome: "A working page with a component generated from V0",
+      verificationSteps: [
+        "Generated a component on v0.dev",
+        "Copied code into Cursor",
+        "Created a Next.js page",
+        "Component renders correctly",
+        "Used Claude if needed for help"
+      ],
+      tips: [
+        "Visit v0.dev and describe a simple button",
+        "Copy the generated React code",
+        "Paste it into a new component file in Cursor",
+        "Import and use it in a page",
+        "Ask Claude if you encounter any issues"
+      ],
+    },
+    {
       type: "quiz",
       question: "Which tool is best for generating React components from a text description?",
       options: [
@@ -81,6 +102,30 @@ export const mission02: MissionData = {
         { left: "Supabase", right: "Backend infrastructure" },
         { left: "Claude", right: "AI co-pilot" },
       ],
+    },
+    {
+      type: "sequenceGame",
+      title: "The Vibe Coding Workflow",
+      description: "Order the steps of the Vibe Coding loop",
+      items: [
+        { id: "v0", label: "Generate components with V0", correctPosition: 0 },
+        { id: "cursor", label: "Import into Cursor", correctPosition: 1 },
+        { id: "supabase", label: "Connect to Supabase", correctPosition: 2 },
+        { id: "claude", label: "Ask Claude when stuck", correctPosition: 3 },
+      ],
+      hint: "Start with component generation, end with getting help",
+    },
+    {
+      type: "memoryGame",
+      title: "The Golden Stack Memory Game",
+      description: "Match each tool to its purpose in the Vibe Coding stack",
+      cards: [
+        { id: "cursor", front: "Cursor", back: "AI-powered IDE - your command center" },
+        { id: "v0", front: "V0", back: "AI component generator from descriptions" },
+        { id: "supabase", front: "Supabase", back: "Backend in a box - DB, Auth, Storage" },
+        { id: "claude", front: "Claude", back: "AI co-pilot - explains and debugs" },
+      ],
+      timeLimit: 50,
     },
   ],
 };

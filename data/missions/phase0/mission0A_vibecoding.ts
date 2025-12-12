@@ -53,6 +53,58 @@ export const mission0A: MissionData = {
       content:
         "You are about to learn the most powerful skill of this decade. Let's begin your training.",
     },
+    {
+      type: "memoryGame",
+      title: "Vibe Coding Memory Challenge",
+      description: "Match the concepts to test your understanding",
+      cards: [
+        { id: "commander", front: "Commander", back: "Direct AI to build products" },
+        { id: "scribe", front: "Scribe", back: "Old way: memorizing syntax" },
+        { id: "vision", front: "Vision", back: "You provide the product vision" },
+        { id: "syntax", front: "Syntax", back: "AI writes the code" },
+      ],
+      timeLimit: 60,
+    },
+    {
+      type: "speedQuiz",
+      title: "Vibe Coding Fundamentals Quiz",
+      description: "Test your understanding of the entire Vibe Coding philosophy",
+      questions: [
+        {
+          id: "q1",
+          question: "What is the main difference between a Scribe and a Commander?",
+          options: [
+            { id: "a", text: "Scribes use AI, Commanders don't" },
+            { id: "b", text: "Commanders direct AI systems, Scribes memorize syntax" },
+            { id: "c", text: "There's no difference" },
+          ],
+          correct: "b",
+          timeLimit: 15,
+        },
+        {
+          id: "q2",
+          question: "What do you provide in Vibe Coding?",
+          options: [
+            { id: "a", text: "The syntax and code" },
+            { id: "b", text: "The vision and product direction" },
+            { id: "c", text: "Nothing, AI does everything" },
+          ],
+          correct: "b",
+          timeLimit: 15,
+        },
+        {
+          id: "q3",
+          question: "What has the barrier to entry dropped to?",
+          options: [
+            { id: "a", text: "4 years of CS degree" },
+            { id: "b", text: "Can you articulate what you want?" },
+            { id: "c", text: "10 years of experience" },
+          ],
+          correct: "b",
+          timeLimit: 15,
+        },
+      ],
+    },
   ],
 };
 

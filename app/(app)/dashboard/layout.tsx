@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sidebar } from '@/components/dashboard/Sidebar';
+import { AIAssistant } from '@/components/dashboard/AIAssistant';
 
 export default function DashboardLayout({
   children,
@@ -21,6 +22,7 @@ export default function DashboardLayout({
           {children}
         </div>
       </main>
+      <AIAssistant />
     </div>
   );
 }

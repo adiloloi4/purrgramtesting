@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, CheckCircle, Zap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { X, ChevronLeft, ChevronRight, CheckCircle, Zap, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { useCourseStore } from '@/store/courseStore';
+import { useCourseStore, Badge } from '@/store/courseStore';
+import { BadgeUnlock } from './BadgeUnlock';
+import { playSound } from '@/lib/sounds';
+import { curriculum } from '@/data/curriculum';
 import { 
   TutorialMissionContent, 
   TutorialSlide,
-  QuizSlide as QuizSlideType,
-  IdentifySlide as IdentifySlideType,
-  MiniChallengeSlide as MiniChallengeSlideType,
-  ChecklistSlide as ChecklistSlideType,
-  TerminalSlide as TerminalSlideType,
-  DragDropSlide as DragDropSlideType,
-  MatchingSlide as MatchingSlideType,
-  SortingSlide as SortingSlideType
+  CodeChallengeSlide,
+  MiniProjectSlide,
+  BuildTaskSlide,
+  MemoryGameSlide,
+  CodePuzzleSlide,
+  TypingChallengeSlide,
+  SequenceGameSlide,
+  SpotTheBugSlide,
+  SpeedQuizSlide,
+  InteractiveSimulationSlide
 } from '@/data/missions/tutorial';
 import { TextSlide } from './slides/TextSlide';
 import { QuizSlide } from './slides/QuizSlide';
@@ -24,6 +30,16 @@ import { TerminalSlide } from './slides/TerminalSlide';
 import { DragDropSlide } from './slides/DragDropSlide';
 import { IdentifySlide } from './slides/IdentifySlide';
 import { MatchingSlide, SortingSlide, MiniChallengeSlide } from './slides/OtherSlides';
+import { CodeChallengeSlideComponent, MiniProjectSlideComponent, BuildTaskSlideComponent } from './slides/BuildSlides';
+import {
+  MemoryGameSlideComponent,
+  CodePuzzleSlideComponent,
+  TypingChallengeSlideComponent,
+  SequenceGameSlideComponent,
+  SpotTheBugSlideComponent,
+  SpeedQuizSlideComponent,
+  InteractiveSimulationSlideComponent
+} from './slides/GameSlides';
 
 type MissionModalProps = {
   open: boolean;
@@ -43,11 +59,13 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [canAdvance, setCanAdvance] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [unlockedBadge, setUnlockedBadge] = useState<Badge | null>(null);
   
   // State for quiz/identify/miniChallenge
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
 
-  const { markMissionComplete } = useCourseStore();
+  const router = useRouter();
+  const { markMissionComplete, unlockBadge, completedMissions } = useCourseStore();
 
   const slides = mission?.slides || [];
   const totalSlides = slides.length;
@@ -56,23 +74,45 @@ export const MissionModal: React.FC<MissionModalProps> = ({
 
   useEffect(() => {
     if (open) {
-      setCurrentSlideIndex(0);
-      setIsCompleted(false);
-      setCanAdvance(false);
-      setSelectedOptionId(null);
+      // Reset state when modal opens
+      setTimeout(() => {
+        setCurrentSlideIndex(0);
+        setIsCompleted(false);
+        setCanAdvance(false);
+        setSelectedOptionId(null);
+      }, 0);
     }
   }, [open, mission]);
 
   useEffect(() => {
     // Reset per-slide state when slide changes
-    setSelectedOptionId(null);
+    const resetState = () => {
+      setSelectedOptionId(null);
 
-    // Default advancement logic based on slide type
-    if (currentSlide.type === 'text') {
-      setCanAdvance(true);
-    } else {
-      setCanAdvance(false);
-    }
+      // Default advancement logic based on slide type
+      if (currentSlide.type === 'text') {
+        setCanAdvance(true);
+      } else if (
+        currentSlide.type === 'codeChallenge' || 
+        currentSlide.type === 'miniProject' || 
+        currentSlide.type === 'buildTask' ||
+        currentSlide.type === 'memoryGame' ||
+        currentSlide.type === 'codePuzzle' ||
+        currentSlide.type === 'typingChallenge' ||
+        currentSlide.type === 'sequenceGame' ||
+        currentSlide.type === 'spotTheBug' ||
+        currentSlide.type === 'speedQuiz' ||
+        currentSlide.type === 'interactiveSimulation'
+      ) {
+        // These slides handle their own completion state
+        setCanAdvance(false);
+      } else {
+        setCanAdvance(false);
+      }
+    };
+    
+    // Use setTimeout to avoid synchronous setState in effect
+    setTimeout(resetState, 0);
   }, [currentSlide]);
 
   const handleNext = () => {
@@ -91,9 +131,102 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   };
 
   const handleCollectRewards = () => {
+    // Mark mission as complete
     markMissionComplete(worldId, mission.id);
+    
+    // Check for badge unlock
+    const currentMissions = Object.values(completedMissions).reduce((sum, arr) => sum + arr.length, 0);
+    const totalMissions = currentMissions + 1; // +1 because we just completed one
+    
+    let badgeId: string | null = null;
+    if (totalMissions === 1) badgeId = 'first-mission';
+    else if (totalMissions === 10) badgeId = 'mission-master';
+    
+    if (badgeId) {
+      const badge = unlockBadge(badgeId);
+      if (badge) {
+        setUnlockedBadge(badge);
+        playSound('badge');
+        return; // Don't close yet, wait for badge animation
+      }
+    }
+    
+    playSound('correct');
+    // Navigate back to the world page
     onOpenChange(false);
+    router.push(`/dashboard/course/world/${worldId}`);
   };
+  
+  const handleBadgeClose = () => {
+    setUnlockedBadge(null);
+    // After badge, navigate back to world page
+    onOpenChange(false);
+    router.push(`/dashboard/course/world/${worldId}`);
+  };
+  
+  const handleWhatsNext = () => {
+    if (!nextItem) return;
+    
+    // Mark mission as complete first
+    markMissionComplete(worldId, mission.id);
+    
+    // Check for badge unlock (but don't show it, just unlock silently)
+    const currentMissions = Object.values(completedMissions).reduce((sum, arr) => sum + arr.length, 0);
+    const totalMissions = currentMissions + 1;
+    
+    let badgeId: string | null = null;
+    if (totalMissions === 1) badgeId = 'first-mission';
+    else if (totalMissions === 10) badgeId = 'mission-master';
+    
+    if (badgeId) {
+      unlockBadge(badgeId);
+    }
+    
+    playSound('correct');
+    onOpenChange(false);
+    
+    if (nextItem.type === 'mission') {
+      // Navigate to the next mission in the same world
+      router.push(`/dashboard/course/world/${nextItem.world.id}/mission/${nextItem.mission.id}`);
+    } else {
+      // Navigate to the next world
+      router.push(`/dashboard/course/world/${nextItem.world.id}`);
+    }
+  };
+  
+  
+  // Get next mission/world info
+  const getNextMission = () => {
+    const currentWorld = curriculum.phases
+      .flatMap(p => p.worlds)
+      .find(w => w.id === worldId);
+    
+    if (!currentWorld) return null;
+    
+    const currentMissionIndex = currentWorld.missions.findIndex(m => m.id === mission.id);
+    const nextMission = currentWorld.missions[currentMissionIndex + 1];
+    
+    if (nextMission) {
+      return { type: 'mission' as const, world: currentWorld, mission: nextMission };
+    }
+    
+    // Check if world is complete
+    const worldMissions = completedMissions[worldId] || [];
+    if (worldMissions.length === currentWorld.missions.length) {
+      // Find next world
+      const allWorlds = curriculum.phases.flatMap(p => p.worlds);
+      const currentWorldIndex = allWorlds.findIndex(w => w.id === worldId);
+      const nextWorld = allWorlds[currentWorldIndex + 1];
+      
+      if (nextWorld) {
+        return { type: 'world' as const, world: nextWorld };
+      }
+    }
+    
+    return null;
+  };
+  
+  const nextItem = getNextMission();
 
   // Shared handler for quiz-like slides
   const handleOptionSelect = (id: string) => {
@@ -176,6 +309,86 @@ export const MissionModal: React.FC<MissionModalProps> = ({
           <SortingSlide
             slide={slide}
             onInteract={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'codeChallenge':
+        return (
+          <CodeChallengeSlideComponent
+            slide={slide as CodeChallengeSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'miniProject':
+        return (
+          <MiniProjectSlideComponent
+            slide={slide as MiniProjectSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'buildTask':
+        return (
+          <BuildTaskSlideComponent
+            slide={slide as BuildTaskSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'memoryGame':
+        return (
+          <MemoryGameSlideComponent
+            slide={slide as MemoryGameSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'codePuzzle':
+        return (
+          <CodePuzzleSlideComponent
+            slide={slide as CodePuzzleSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'typingChallenge':
+        return (
+          <TypingChallengeSlideComponent
+            slide={slide as TypingChallengeSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'sequenceGame':
+        return (
+          <SequenceGameSlideComponent
+            slide={slide as SequenceGameSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'spotTheBug':
+        return (
+          <SpotTheBugSlideComponent
+            slide={slide as SpotTheBugSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'speedQuiz':
+        return (
+          <SpeedQuizSlideComponent
+            slide={slide as SpeedQuizSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'interactiveSimulation':
+        return (
+          <InteractiveSimulationSlideComponent
+            slide={slide as InteractiveSimulationSlide}
+            onComplete={() => setCanAdvance(true)}
           />
         );
 
@@ -318,7 +531,7 @@ export const MissionModal: React.FC<MissionModalProps> = ({
                             transition={{ delay: 0.3 }}
                             className="text-white/50 mb-8 max-w-sm"
                         >
-                            You've mastered this concept. System upgraded.
+                            You&apos;ve mastered this concept. System upgraded.
                         </motion.p>
 
                         <motion.div
@@ -346,10 +559,50 @@ export const MissionModal: React.FC<MissionModalProps> = ({
                                 Collect Rewards
                             </Button>
                         </motion.div>
+                        
+                        {nextItem && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                            className="mt-8 w-full max-w-md"
+                          >
+                            <motion.button
+                              onClick={handleWhatsNext}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="w-full p-6 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all text-left group"
+                            >
+                              <div className="flex items-center gap-2 mb-3">
+                                <ArrowRight className="w-4 h-4 text-purple-400 group-hover:translate-x-1 transition-transform" />
+                                <h3 className="text-sm font-bold text-white/80 uppercase tracking-wider">What&apos;s Next?</h3>
+                              </div>
+                              {nextItem.type === 'mission' ? (
+                                <div>
+                                  <p className="text-white/60 text-sm mb-2">Continue in {nextItem.world.title}:</p>
+                                  <p className="text-white font-medium group-hover:text-purple-300 transition-colors">{nextItem.mission.title}</p>
+                                </div>
+                              ) : (
+                                <div>
+                                  <p className="text-white/60 text-sm mb-2">Ready for the next world:</p>
+                                  <p className="text-white font-medium group-hover:text-purple-300 transition-colors">{nextItem.world.title}</p>
+                                  {nextItem.world.subtitle && (
+                                    <p className="text-white/50 text-sm mt-1">{nextItem.world.subtitle}</p>
+                                  )}
+                                </div>
+                              )}
+                            </motion.button>
+                          </motion.div>
+                        )}
                     </div>
                 )}
             </motion.div>
         </div>
+      )}
+      
+      {/* Badge Unlock Modal */}
+      {unlockedBadge && (
+        <BadgeUnlock badge={unlockedBadge} onClose={handleBadgeClose} />
       )}
     </AnimatePresence>
   );

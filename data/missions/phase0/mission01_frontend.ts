@@ -68,5 +68,75 @@ export const mission01: MissionData = {
       content:
         "Imagine a 'Like' button. When you click it, the 'isLiked' state turns true, and the heart icon turns red. That's a rerender in action.",
     },
+    {
+      type: "codeChallenge",
+      title: "Build a Like Button Component",
+      description: "Practice state and rendering by building a real component",
+      task: "Open Cursor and create a LikeButton component. It should have a heart icon that turns red when clicked. Use React useState to manage the 'isLiked' state. This demonstrates state change triggering a rerender.",
+      starterCode: "// Create app/components/LikeButton.tsx\n// Use useState to track if liked\n// Change color when clicked",
+      successCriteria: [
+        "Component file created",
+        "Uses useState hook",
+        "Heart icon changes color on click",
+        "State properly updates",
+        "Component rerenders when state changes"
+      ],
+      hint: "Use useState(false) for isLiked, then toggle it on click",
+      example: "const [isLiked, setIsLiked] = useState(false);",
+    },
+    {
+      type: "speedQuiz",
+      title: "Frontend Speed Round",
+      description: "Answer quickly to test your frontend knowledge!",
+      questions: [
+        {
+          id: "q1",
+          question: "What happens when state changes?",
+          options: [
+            { id: "a", text: "UI rerenders" },
+            { id: "b", text: "Database updates" },
+            { id: "c", text: "Server restarts" },
+          ],
+          correct: "a",
+          timeLimit: 10,
+        },
+        {
+          id: "q2",
+          question: "What are reusable UI building blocks called?",
+          options: [
+            { id: "a", text: "Components" },
+            { id: "b", text: "Functions" },
+            { id: "c", text: "Variables" },
+          ],
+          correct: "a",
+          timeLimit: 10,
+        },
+        {
+          id: "q3",
+          question: "Which tool generates UI from text prompts?",
+          options: [
+            { id: "a", text: "v0.dev" },
+            { id: "b", text: "GitHub" },
+            { id: "c", text: "Vercel" },
+          ],
+          correct: "a",
+          timeLimit: 10,
+        },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Frontend Concepts Memory Game",
+      description: "Match frontend concepts to their definitions",
+      cards: [
+        { id: "ui", front: "UI", back: "Everything you see, click, and interact with" },
+        { id: "components", front: "Components", back: "Reusable building blocks (like LEGO bricks)" },
+        { id: "rendering", front: "Rendering", back: "Drawing the UI on the screen" },
+        { id: "state", front: "State", back: "Data that changes over time (like cart count)" },
+        { id: "v0", front: "v0.dev", back: "AI that generates UI components from text" },
+        { id: "cursor", front: "Cursor", back: "IDE where you assemble components" },
+      ],
+      timeLimit: 60,
+    },
   ],
 };

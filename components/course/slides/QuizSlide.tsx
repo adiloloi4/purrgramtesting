@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { QuizSlide as QuizSlideType } from '@/data/missions/tutorial';
 import { SharedQuizView } from './SharedQuizView';
+import { XPReward } from '../XPReward';
+import { playSound } from '@/lib/sounds';
 
 type QuizSlideProps = {
   slide: QuizSlideType;
@@ -15,6 +17,8 @@ export const QuizSlide: React.FC<QuizSlideProps> = ({
   selectedOptionId,
   onSelectOption,
 }) => {
+  const [xpRewardKey, setXpRewardKey] = useState(0);
+  
   // Determine if using new schema or old schema
   const isNewSchema = slide.options.some(o => o.correct !== undefined);
   
@@ -32,13 +36,28 @@ export const QuizSlide: React.FC<QuizSlideProps> = ({
     }
   }
 
-  const viewOptions = slide.options.map(o => ({
-    id: o.id,
-    label: o.text || o.label || ""
-  }));
+  useEffect(() => {
+    if (selectedOptionId && isCorrect) {
+      // Increment key to force new animation every time
+      setXpRewardKey(prev => prev + 1);
+      // Play success sound
+      playSound('correct');
+    }
+  }, [selectedOptionId, isCorrect]);
+
+  // Randomize options order once when component mounts
+  const viewOptions = useMemo(() => {
+    const options = slide.options.map(o => ({
+      id: o.id,
+      label: o.text || o.label || ""
+    }));
+    // Shuffle the array
+    return options.sort(() => Math.random() - 0.5);
+  }, [slide.options]);
 
   return (
     <div className="space-y-8">
+      {xpRewardKey > 0 && <XPReward key={xpRewardKey} amount={2} position="top" />}
       <SharedQuizView 
         prompt={slide.question}
         options={viewOptions}

@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard } from 'lucide-react';
+import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard, Gamepad2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { useCourseStore } from '@/store/courseStore';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,7 @@ export const Sidebar = () => {
   const navItems = [
     { href: '/dashboard', label: 'Home', icon: Home },
     { href: '/dashboard/course', label: 'Vibe Coding Course', icon: Map },
+    { href: '/dashboard/games', label: 'Games Arcade', icon: Gamepad2 },
     { href: '#', label: 'Projects (Coming Soon)', icon: LayoutDashboard, disabled: true },
   ];
 

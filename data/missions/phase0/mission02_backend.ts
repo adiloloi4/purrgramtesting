@@ -39,6 +39,27 @@ export const mission02: MissionData = {
         "For Vibe Coding, we choose Supabase because it uses PostgreSQL (standard SQL) which LLMs are very good at writing. It also combines Database, Auth, and APIs in one easy package.",
     },
     {
+      type: "buildTask",
+      title: "Set Up Your First Supabase Project",
+      description: "Get hands-on with Supabase backend setup",
+      task: "1. Go to supabase.com and create a free account. 2. Create a new project. 3. Copy your project URL and anon key. 4. Create a .env.local file in your Next.js project and add SUPABASE_URL and SUPABASE_ANON_KEY. This is your first backend connection.",
+      expectedOutcome: "A Supabase project connected to your Next.js app",
+      verificationSteps: [
+        "Created Supabase account",
+        "Created a new project",
+        "Got project URL and anon key",
+        "Created .env.local file",
+        "Added environment variables",
+        "Can access Supabase dashboard"
+      ],
+      tips: [
+        "Sign up at supabase.com",
+        "Create a new project (choose a region close to you)",
+        "Go to Settings > API to find your keys",
+        "Never commit .env.local to git"
+      ],
+    },
+    {
       type: "text",
       title: "Secrets & Security",
       content:
@@ -67,6 +88,40 @@ export const mission02: MissionData = {
       correct: "a",
       feedbackCorrect: "Correct. Supabase + Postgres is a superpower with AI.",
       feedbackWrong: "We want the one that uses PostgreSQL.",
+    },
+    {
+      type: "codePuzzle",
+      title: "Complete the Backend Code",
+      description: "Fill in the blanks to create a secure backend endpoint",
+      puzzle: "function handleRequest(req) {\n  const apiKey = process.env.__0__;\n  if (!apiKey) {\n    return { error: '__1__' };\n  }\n  return { success: true };\n}",
+      missingParts: [
+        {
+          id: "env-var",
+          options: ["API_KEY", "SECRET_KEY", "PASSWORD"],
+          correct: "API_KEY",
+          hint: "Environment variables store secrets",
+        },
+        {
+          id: "error-msg",
+          options: ["'Unauthorized'", "'Hello'", "'Success'"],
+          correct: "'Unauthorized'",
+          hint: "What error should you return when a key is missing?",
+        },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Backend Fundamentals Memory Game",
+      description: "Match backend concepts to their definitions",
+      cards: [
+        { id: "backend", front: "Backend", back: "The brain - handles logic and secrets" },
+        { id: "server", front: "Server", back: "Computer in the cloud that runs code" },
+        { id: "nodejs", front: "Node.js", back: "Runtime that lets JavaScript run on servers" },
+        { id: "endpoint", front: "Endpoint", back: "Specific URL where backend listens (like /api/login)" },
+        { id: "supabase", front: "Supabase", back: "Recommended BaaS with PostgreSQL" },
+        { id: "secrets", front: "Secrets", back: "Sensitive data like API keys (must stay hidden)" },
+      ],
+      timeLimit: 60,
     },
   ],
 };

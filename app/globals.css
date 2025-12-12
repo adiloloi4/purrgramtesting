@@ -61,6 +61,11 @@
     from { transform: scale(1); }
     to { transform: scale(0.95); }
   }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
 }
 
 @layer base {
@@ -116,5 +121,8 @@
     }
     .animate-out {
         animation: fade-out 0.2s ease-in, zoom-out 0.2s ease-in;
+    }
+    .animate-shake {
+        animation: shake 0.5s ease-in-out;
     }
 }

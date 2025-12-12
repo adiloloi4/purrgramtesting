@@ -79,6 +79,25 @@ export const mission08: MissionData = {
       content:
         "This is your first deployment. It won't be your last. Every great builder started with a 'Hello World.' You're now one of them. Keep shipping.",
     },
+    {
+      type: "sequenceGame",
+      title: "Deployment Workflow",
+      description: "Order the steps to deploy your Hello World site",
+      items: [
+        { id: "create", label: "Create Next.js project", correctPosition: 0 },
+        { id: "build", label: "Build the Hello World page", correctPosition: 1 },
+        { id: "git", label: "Push to GitHub", correctPosition: 2 },
+        { id: "deploy", label: "Deploy to Vercel", correctPosition: 3 },
+      ],
+      hint: "Start with creating, end with deploying",
+    },
+    {
+      type: "typingChallenge",
+      title: "Type the Deployment Command",
+      description: "Type the command to create a Next.js project",
+      text: "npx create-next-app@latest",
+      wpmTarget: 25,
+    },
   ],
 };
 

@@ -53,5 +53,35 @@ export const mission05: MissionData = {
       command: "vibe-check",
       successMessage: "SYSTEM READY. VIBE DETECTED. PHASE 0 COMPLETE.",
     },
+    {
+      type: "typingChallenge",
+      title: "Type the Dev Tools",
+      description: "Type the command to check your Node.js version",
+      text: "node --version",
+      wpmTarget: 30,
+    },
+    {
+      type: "sequenceGame",
+      title: "Deployment Workflow",
+      description: "Order the steps to deploy your app",
+      items: [
+        { id: "code", label: "Write code in Cursor", correctPosition: 0 },
+        { id: "git", label: "Commit to GitHub", correctPosition: 1 },
+        { id: "vercel", label: "Deploy to Vercel", correctPosition: 2 },
+        { id: "live", label: "App goes live", correctPosition: 3 },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Dev Tools Memory Game",
+      description: "Match each dev tool to its purpose",
+      cards: [
+        { id: "node", front: "Node.js", back: "Runtime that lets computer speak JavaScript" },
+        { id: "git", front: "Git / GitHub", back: "Time machine - saves code history" },
+        { id: "cursor", front: "Cursor", back: "AI-powered editor (magic wand)" },
+        { id: "vercel", front: "Vercel", back: "Stage - where you publish your app" },
+      ],
+      timeLimit: 50,
+    },
   ],
 };

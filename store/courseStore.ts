@@ -1,6 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export type Badge = {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+  unlockedAt?: string;
+};
+
 type CourseState = {
   completedWorlds: number[];
   completedMissions: { [worldId: number]: string[] };
@@ -9,11 +18,14 @@ type CourseState = {
   currentStreak: number;
   xp: number;
   lastMissionCompletedDate: string | null;
+  unlockedBadges: string[];
 
   markMissionComplete: (worldId: number, missionId: string) => void;
   markWorldComplete: (worldId: number) => void;
   markAllInOneCheckpointComplete: (worldId: number, checkpointId: string) => void;
   markAllInOneMissionComplete: (worldId: number, xpReward?: number) => void;
+  unlockBadge: (badgeId: string) => Badge | null;
+  getUnlockedBadges: () => Badge[];
   unlockAll: () => void; //delete later
   resetProgress: () => void; //delete later
   
@@ -33,6 +45,7 @@ export const useCourseStore = create<CourseState>()(
       currentStreak: 0,
       xp: 0,
       lastMissionCompletedDate: null,
+      unlockedBadges: [],
 
       markMissionComplete: (worldId, missionId) => {
         const state = get();
@@ -54,14 +67,45 @@ export const useCourseStore = create<CourseState>()(
              newStreak += 1;
         }
 
+        const newCompletedMissions = {
+          ...state.completedMissions,
+          [worldId]: [...worldMissions, missionId]
+        };
+        
+        // Check for badge unlocks
+        const totalMissions = Object.values(newCompletedMissions).reduce((sum, arr) => sum + arr.length, 0);
+        let newBadges: string[] = [...state.unlockedBadges];
+        let newlyUnlockedBadge: string | null = null;
+        
+        // First Mission badge
+        if (totalMissions === 1 && !newBadges.includes('first-mission')) {
+          newBadges.push('first-mission');
+          newlyUnlockedBadge = 'first-mission';
+        }
+        
+        // 10 Missions badge
+        if (totalMissions === 10 && !newBadges.includes('mission-master')) {
+          newBadges.push('mission-master');
+          newlyUnlockedBadge = 'mission-master';
+        }
+        
+        // Streak badges
+        if (newStreak === 7 && !newBadges.includes('streak-7')) {
+          newBadges.push('streak-7');
+          newlyUnlockedBadge = 'streak-7';
+        }
+        
+        if (newStreak === 30 && !newBadges.includes('streak-30')) {
+          newBadges.push('streak-30');
+          newlyUnlockedBadge = 'streak-30';
+        }
+
         set({
-          completedMissions: {
-            ...state.completedMissions,
-            [worldId]: [...worldMissions, missionId]
-          },
+          completedMissions: newCompletedMissions,
           xp: state.xp + 10,
           currentStreak: newStreak,
-          lastMissionCompletedDate: today
+          lastMissionCompletedDate: today,
+          unlockedBadges: newBadges
         });
       },
 
@@ -69,9 +113,25 @@ export const useCourseStore = create<CourseState>()(
          const state = get();
          if (state.completedWorlds.includes(worldId)) return;
 
+         let newBadges = [...state.unlockedBadges];
+         let newlyUnlockedBadge: string | null = null;
+         
+         // World Completion badge
+         if (!newBadges.includes('world-explorer')) {
+           newBadges.push('world-explorer');
+           newlyUnlockedBadge = 'world-explorer';
+         }
+         
+         // Founder Badge (World 10)
+         if (worldId === 10 && !newBadges.includes('founder')) {
+           newBadges.push('founder');
+           newlyUnlockedBadge = 'founder';
+         }
+
          set({
            completedWorlds: [...state.completedWorlds, worldId],
-           xp: state.xp + 100
+           xp: state.xp + 100,
+           unlockedBadges: newBadges
          });
       },
 
@@ -100,6 +160,115 @@ export const useCourseStore = create<CourseState>()(
          });
       },
 
+      unlockBadge: (badgeId: string) => {
+        const state = get();
+        if (state.unlockedBadges.includes(badgeId)) return null;
+        
+        const badges: Record<string, Badge> = {
+          'first-mission': {
+            id: 'first-mission',
+            title: 'First Steps',
+            description: 'Completed your first mission',
+            icon: '🎯',
+            color: 'blue'
+          },
+          'mission-master': {
+            id: 'mission-master',
+            title: 'Mission Master',
+            description: 'Completed 10 missions',
+            icon: '⭐',
+            color: 'purple'
+          },
+          'world-explorer': {
+            id: 'world-explorer',
+            title: 'World Explorer',
+            description: 'Completed your first world',
+            icon: '🌍',
+            color: 'green'
+          },
+          'streak-7': {
+            id: 'streak-7',
+            title: 'On Fire',
+            description: '7 day streak',
+            icon: '🔥',
+            color: 'orange'
+          },
+          'streak-30': {
+            id: 'streak-30',
+            title: 'Unstoppable',
+            description: '30 day streak',
+            icon: '💪',
+            color: 'red'
+          },
+          'founder': {
+            id: 'founder',
+            title: 'Founder',
+            description: 'Completed THE LAUNCH world',
+            icon: '🚀',
+            color: 'gold'
+          }
+        };
+        
+        const badge = badges[badgeId];
+        if (!badge) return null;
+        
+        set({
+          unlockedBadges: [...state.unlockedBadges, badgeId]
+        });
+        
+        return { ...badge, unlockedAt: new Date().toISOString() };
+      },
+
+      getUnlockedBadges: () => {
+        const state = get();
+        const badges: Record<string, Badge> = {
+          'first-mission': {
+            id: 'first-mission',
+            title: 'First Steps',
+            description: 'Completed your first mission',
+            icon: '🎯',
+            color: 'blue'
+          },
+          'mission-master': {
+            id: 'mission-master',
+            title: 'Mission Master',
+            description: 'Completed 10 missions',
+            icon: '⭐',
+            color: 'purple'
+          },
+          'world-explorer': {
+            id: 'world-explorer',
+            title: 'World Explorer',
+            description: 'Completed your first world',
+            icon: '🌍',
+            color: 'green'
+          },
+          'streak-7': {
+            id: 'streak-7',
+            title: 'On Fire',
+            description: '7 day streak',
+            icon: '🔥',
+            color: 'orange'
+          },
+          'streak-30': {
+            id: 'streak-30',
+            title: 'Unstoppable',
+            description: '30 day streak',
+            icon: '💪',
+            color: 'red'
+          },
+          'founder': {
+            id: 'founder',
+            title: 'Founder',
+            description: 'Completed THE LAUNCH world',
+            icon: '🚀',
+            color: 'gold'
+          }
+        };
+        
+        return state.unlockedBadges.map(id => badges[id]).filter(Boolean) as Badge[];
+      },
+
       //delete later
       unlockAll: () => {
           // IDs 0 to 10 based on curriculum
@@ -119,7 +288,8 @@ export const useCourseStore = create<CourseState>()(
             completedAllInOneMissions: [],
             currentStreak: 0,
             xp: 0,
-            lastMissionCompletedDate: null
+            lastMissionCompletedDate: null,
+            unlockedBadges: []
         });
       },
 

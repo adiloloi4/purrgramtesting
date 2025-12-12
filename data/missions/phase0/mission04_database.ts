@@ -71,5 +71,33 @@ export const mission04: MissionData = {
       feedbackCorrect: "Yes. Persistence means the data survives restarts and refreshes.",
       feedbackWrong: "It's about the lifespan of the data.",
     },
+    {
+      type: "spotTheBug",
+      title: "Find the Database Bug",
+      description: "Click on the line with the database error",
+      code: "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(50),\n  email VARCHAR(100)\n);\n\nINSERT INTO users (name, email) VALUES\n  ('John', 'john@example.com'),\n  ('Jane', 'jane@example.com');\n\nSELECT * FROM users WHERE name = 'John'",
+      bugs: [
+        {
+          id: "missing-id",
+          line: 5,
+          description: "Missing ID value in INSERT statement",
+          fix: "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')",
+        },
+      ],
+    },
+    {
+      type: "memoryGame",
+      title: "Database Concepts Memory Game",
+      description: "Match database concepts to their definitions",
+      cards: [
+        { id: "persistence", front: "Persistence", back: "Data saved permanently (survives refresh)" },
+        { id: "table", front: "Table", back: "Like a spreadsheet sheet (e.g., Users)" },
+        { id: "row", front: "Row", back: "One item in a table (e.g., John Doe)" },
+        { id: "column", front: "Column", back: "A property (e.g., Email)" },
+        { id: "primary-key", front: "Primary Key", back: "Unique identifier for each row (like ID)" },
+        { id: "supabase", front: "Supabase", back: "Built on PostgreSQL - powerful standard DB" },
+      ],
+      timeLimit: 60,
+    },
   ],
 };

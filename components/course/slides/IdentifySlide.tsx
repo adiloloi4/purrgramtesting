@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { IdentifySlide as IdentifySlideType } from '@/data/missions/tutorial';
 import { SharedQuizView } from './SharedQuizView';
+import { XPReward } from '../XPReward';
 
 type IdentifySlideProps = {
   slide: IdentifySlideType;
@@ -15,6 +16,7 @@ export const IdentifySlide: React.FC<IdentifySlideProps> = ({
   selectedOptionId,
   onSelectOption,
 }) => {
+  const [xpRewardKey, setXpRewardKey] = useState(0);
   const isNewSchema = !!slide.items;
   
   let isCorrect = false;
@@ -32,14 +34,27 @@ export const IdentifySlide: React.FC<IdentifySlideProps> = ({
     }
   }
 
-  const rawOptions = slide.items || slide.options || [];
-  const viewOptions = rawOptions.map(o => ({
-    id: o.id,
-    label: (o as any).text || (o as any).label || ""
-  }));
+  useEffect(() => {
+    if (selectedOptionId && isCorrect) {
+      // Increment key to force new animation every time
+      setXpRewardKey(prev => prev + 1);
+    }
+  }, [selectedOptionId, isCorrect]);
+
+  // Randomize options order once when component mounts
+  const viewOptions = useMemo(() => {
+    const rawOptions = slide.items || slide.options || [];
+    const options = rawOptions.map(o => ({
+      id: o.id,
+      label: (o as any).text || (o as any).label || ""
+    }));
+    // Shuffle the array
+    return options.sort(() => Math.random() - 0.5);
+  }, [slide.items, slide.options]);
 
   return (
     <div className="space-y-8">
+      {xpRewardKey > 0 && <XPReward key={xpRewardKey} amount={2} position="top" />}
       <SharedQuizView 
         prompt={slide.prompt}
         options={viewOptions}

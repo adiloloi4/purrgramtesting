@@ -66,6 +66,74 @@ export const mission01: MissionData = {
       content:
         "You are a Vibe Coder. You ship fast. You learn by doing. You prioritize users over code. You iterate, you improve, you build. This is your philosophy. This is your way.",
     },
+    {
+      type: "codeChallenge",
+      title: "Build Your First Component",
+      description: "Put the manifesto into practice - build something now",
+      task: "Open Cursor and create a new React component called Manifesto.tsx. It should display the four Vibe Principles as cards with a title and description. Use Tailwind for styling. Make it look clean and modern.",
+      starterCode: "// Create app/components/Manifesto.tsx\n// Your code here",
+      successCriteria: [
+        "Component file created in app/components/",
+        "Displays all 4 Vibe Principles",
+        "Uses Tailwind CSS for styling",
+        "Looks clean and modern",
+        "Component exports correctly"
+      ],
+      hint: "Use a simple card layout with title and description for each principle",
+      example: "export default function Manifesto() { return <div>...</div> }",
+    },
+    {
+      type: "memoryGame",
+      title: "Vibe Principles Memory Challenge",
+      description: "Match the Vibe Coding principles to their meanings",
+      cards: [
+        { id: "speed", front: "Speed > Perfection", back: "Ship fast, iterate faster" },
+        { id: "product", front: "Product > Code", back: "Users care about features" },
+        { id: "learn", front: "Learn by Shipping", back: "Every feature is a lesson" },
+        { id: "iterate", front: "Iterate, Don't Perfect", back: "Launch, learn, improve" },
+      ],
+      timeLimit: 50,
+    },
+    {
+      type: "speedQuiz",
+      title: "The Vibe Coder Manifesto Quiz",
+      description: "Test your understanding of the entire Vibe Coding philosophy",
+      questions: [
+        {
+          id: "q1",
+          question: "What matters more: perfect code or shipping fast?",
+          options: [
+            { id: "a", text: "Perfect code" },
+            { id: "b", text: "Shipping fast" },
+            { id: "c", text: "They're equal" },
+          ],
+          correct: "b",
+          timeLimit: 12,
+        },
+        {
+          id: "q2",
+          question: "How do you learn in Vibe Coding?",
+          options: [
+            { id: "a", text: "By reading tutorials" },
+            { id: "b", text: "By shipping features" },
+            { id: "c", text: "By watching videos" },
+          ],
+          correct: "b",
+          timeLimit: 12,
+        },
+        {
+          id: "q3",
+          question: "What do users care about?",
+          options: [
+            { id: "a", text: "Code quality" },
+            { id: "b", text: "Features that solve problems" },
+            { id: "c", text: "Perfect architecture" },
+          ],
+          correct: "b",
+          timeLimit: 12,
+        },
+      ],
+    },
   ],
 };
 

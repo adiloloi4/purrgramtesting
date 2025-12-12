@@ -114,6 +114,139 @@ export type MiniChallengeSlide = {
   wrongExplanation?: string; // Legacy
 };
 
+export type CodeChallengeSlide = {
+  id?: string;
+  type: "codeChallenge";
+  title: string;
+  description: string;
+  task: string;
+  starterCode?: string;
+  successCriteria: string[];
+  hint?: string;
+  example?: string;
+};
+
+export type MiniProjectSlide = {
+  id?: string;
+  type: "miniProject";
+  title: string;
+  description: string;
+  steps: string[];
+  checkpoints: {
+    id: string;
+    label: string;
+    verification: string;
+  }[];
+  resources?: {
+    label: string;
+    url: string;
+  }[];
+};
+
+export type BuildTaskSlide = {
+  id?: string;
+  type: "buildTask";
+  title: string;
+  description: string;
+  task: string;
+  expectedOutcome: string;
+  verificationSteps: string[];
+  tips?: string[];
+};
+
+export type MemoryGameSlide = {
+  id?: string;
+  type: "memoryGame";
+  title: string;
+  description: string;
+  cards: {
+    id: string;
+    front: string;
+    back: string;
+    category?: string;
+  }[];
+  timeLimit?: number; // seconds
+  requiredMatches?: number;
+};
+
+export type CodePuzzleSlide = {
+  id?: string;
+  type: "codePuzzle";
+  title: string;
+  description: string;
+  puzzle: string; // Code with missing parts
+  missingParts: {
+    id: string;
+    options: string[];
+    correct: string;
+    hint?: string;
+  }[];
+  timeLimit?: number;
+};
+
+export type TypingChallengeSlide = {
+  id?: string;
+  type: "typingChallenge";
+  title: string;
+  description: string;
+  text: string; // Text to type
+  timeLimit?: number;
+  wpmTarget?: number;
+};
+
+export type SequenceGameSlide = {
+  id?: string;
+  type: "sequenceGame";
+  title: string;
+  description: string;
+  items: {
+    id: string;
+    label: string;
+    correctPosition: number;
+  }[];
+  hint?: string;
+};
+
+export type SpotTheBugSlide = {
+  id?: string;
+  type: "spotTheBug";
+  title: string;
+  description: string;
+  code: string;
+  bugs: {
+    id: string;
+    line: number;
+    description: string;
+    fix?: string;
+  }[];
+};
+
+export type SpeedQuizSlide = {
+  id?: string;
+  type: "speedQuiz";
+  title: string;
+  description: string;
+  questions: {
+    id: string;
+    question: string;
+    options: QuizOption[];
+    correct: string;
+    timeLimit?: number; // seconds per question
+  }[];
+  totalTimeLimit?: number; // total time for all questions
+};
+
+export type InteractiveSimulationSlide = {
+  id?: string;
+  type: "interactiveSimulation";
+  title: string;
+  description: string;
+  simulation: "dataFlow" | "componentTree" | "apiRequest" | "databaseQuery" | "custom";
+  config: Record<string, any>;
+  goal: string;
+  steps: string[];
+};
+
 export type TutorialSlide =
   | TextSlide
   | QuizSlide
@@ -123,7 +256,17 @@ export type TutorialSlide =
   | ChecklistSlide
   | TerminalSlide
   | SortingSlide
-  | MiniChallengeSlide;
+  | MiniChallengeSlide
+  | CodeChallengeSlide
+  | MiniProjectSlide
+  | BuildTaskSlide
+  | MemoryGameSlide
+  | CodePuzzleSlide
+  | TypingChallengeSlide
+  | SequenceGameSlide
+  | SpotTheBugSlide
+  | SpeedQuizSlide
+  | InteractiveSimulationSlide;
 
 export type TutorialMissionContent = {
   id: string;
@@ -197,6 +340,49 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "What Phase 0 Gives You",
         body:
           "Phase 0 will not teach you prompts yet. Instead, it will give you a clear mental model of modern web apps and all the tools you will use later. After this world, nothing will feel mysterious anymore."
+      },
+      {
+        id: "wivc-7",
+        type: "memoryGame",
+        title: "Vibe Coding Memory Challenge",
+        description: "Match the concepts to test your understanding",
+        cards: [
+          { id: "commander", front: "Commander", back: "Direct AI to build products" },
+          { id: "scribe", front: "Scribe", back: "Old way: memorizing syntax" },
+          { id: "vision", front: "Vision", back: "You provide the product vision" },
+          { id: "syntax", front: "Syntax", back: "AI writes the code" },
+        ],
+        timeLimit: 60,
+      },
+      {
+        id: "wivc-8",
+        type: "speedQuiz",
+        title: "Vibe Coding Fundamentals Quiz",
+        description: "Test your understanding of the entire Vibe Coding philosophy",
+        questions: [
+          {
+            id: "q1",
+            question: "Which description fits Vibe Coding best?",
+            options: [
+              { id: "a", label: "Learning to write perfect code by hand" },
+              { id: "b", label: "Building products fast with AI assistance" },
+              { id: "c", label: "Memorizing syntax and design patterns" },
+            ],
+            correct: "b",
+            timeLimit: 15,
+          },
+          {
+            id: "q2",
+            question: "What do you need to start Vibe Coding?",
+            options: [
+              { id: "a", label: "4 years of CS degree" },
+              { id: "b", label: "Curiosity, consistency, willingness to ship" },
+              { id: "c", label: "Perfect code knowledge" },
+            ],
+            correct: "b",
+            timeLimit: 15,
+          },
+        ],
       }
     ]
   },
@@ -291,6 +477,36 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "Your Mental Map",
         body:
           "This analogy is your mental map. Phase 0 will now go through each part one by one so that you deeply understand what it is, which tools belong to it, and how they fit together."
+      },
+      {
+        id: "or-11",
+        type: "sequenceGame",
+        title: "Order the Data Flow",
+        description: "Arrange the steps in the correct order of how data flows through an app",
+        items: [
+          { id: "user", label: "User clicks button", correctPosition: 0 },
+          { id: "frontend", label: "Frontend sends request", correctPosition: 1 },
+          { id: "api", label: "API processes request", correctPosition: 2 },
+          { id: "backend", label: "Backend handles logic", correctPosition: 3 },
+          { id: "database", label: "Database stores/retrieves data", correctPosition: 4 },
+          { id: "response", label: "Response sent back to user", correctPosition: 5 },
+        ],
+        hint: "Start with user interaction, end with the response",
+      },
+      {
+        id: "or-12",
+        type: "memoryGame",
+        title: "Restaurant Analogy Memory Game",
+        description: "Match each app component to its restaurant equivalent",
+        cards: [
+          { id: "frontend", front: "Frontend", back: "The Waiters (what customers interact with)" },
+          { id: "backend", front: "Backend", back: "The Kitchen (where work happens)" },
+          { id: "database", front: "Database", back: "The Fridge (storage for data)" },
+          { id: "api", front: "API", back: "The Menu (contract of what's available)" },
+          { id: "auth", front: "Auth", back: "The Manager (controls access)" },
+          { id: "deployment", front: "Deployment", back: "Food Delivery (makes it accessible)" },
+        ],
+        timeLimit: 60,
       }
     ]
   },
@@ -394,6 +610,62 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "Frontend Summary",
         body:
           "Frontend is the layer that users see and feel. Tools like v0, Base44, Lovable and Cursor all help you build that layer faster. They are competitors in the same slot, so you can pick the one that feels best and still follow the same Vibe Stack concepts."
+      },
+      {
+        id: "ff-8",
+        type: "speedQuiz",
+        title: "Frontend Speed Round",
+        description: "Answer quickly to test your frontend knowledge!",
+        questions: [
+          {
+            id: "q1",
+            question: "What happens when state changes?",
+            options: [
+              { id: "a", label: "UI rerenders" },
+              { id: "b", label: "Database updates" },
+              { id: "c", label: "Server restarts" },
+            ],
+            correct: "a",
+            timeLimit: 10,
+          },
+          {
+            id: "q2",
+            question: "What are reusable UI building blocks called?",
+            options: [
+              { id: "a", label: "Components" },
+              { id: "b", label: "Functions" },
+              { id: "c", label: "Variables" },
+            ],
+            correct: "a",
+            timeLimit: 10,
+          },
+          {
+            id: "q3",
+            question: "Which tool generates UI from text prompts?",
+            options: [
+              { id: "a", label: "v0" },
+              { id: "b", label: "GitHub" },
+              { id: "c", label: "Vercel" },
+            ],
+            correct: "a",
+            timeLimit: 10,
+          },
+        ],
+      },
+      {
+        id: "ff-9",
+        type: "memoryGame",
+        title: "Frontend Concepts Memory Game",
+        description: "Match frontend concepts to their definitions",
+        cards: [
+          { id: "ui", front: "UI", back: "Everything you see, click, and interact with" },
+          { id: "components", front: "Components", back: "Reusable building blocks (like LEGO bricks)" },
+          { id: "rendering", front: "Rendering", back: "Drawing the UI on the screen" },
+          { id: "state", front: "State", back: "Data that changes over time (like cart count)" },
+          { id: "v0", front: "v0", back: "AI that generates UI components from text" },
+          { id: "cursor", front: "Cursor", back: "IDE where you assemble components" },
+        ],
+        timeLimit: 60,
       }
     ]
   },
@@ -470,6 +742,40 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "Backend Summary",
         body:
           "The backend is where logic and security live. Supabase will usually be your main backend, but it is important to know there are alternatives like Firebase, Appwrite, and custom Node servers."
+      },
+      {
+        id: "bf-7",
+        type: "codePuzzle",
+        title: "Complete the Backend Code",
+        description: "Fill in the blanks to create a secure backend endpoint",
+        puzzle: "function handleRequest(req) {\n  const apiKey = process.env.__0__;\n  if (!apiKey) {\n    return { error: '__1__' };\n  }\n  return { success: true };\n}",
+        missingParts: [
+          {
+            id: "env-var",
+            options: ["API_KEY", "SECRET_KEY", "PASSWORD"],
+            correct: "API_KEY",
+            hint: "Environment variables store secrets",
+          },
+          {
+            id: "error-msg",
+            options: ["'Unauthorized'", "'Hello'", "'Success'"],
+            correct: "'Unauthorized'",
+            hint: "What error should you return when a key is missing?",
+          },
+        ],
+      },
+      {
+        id: "bf-8",
+        type: "memoryGame",
+        title: "Backend Fundamentals Memory Game",
+        description: "Match backend concepts to their definitions",
+        cards: [
+          { id: "backend", front: "Backend", back: "The brain - handles logic and secrets" },
+          { id: "server", front: "Server", back: "Computer in the cloud that runs code" },
+          { id: "supabase", front: "Supabase", back: "Recommended BaaS with PostgreSQL" },
+          { id: "secrets", front: "Secrets", back: "Sensitive data like API keys (must stay hidden)" },
+        ],
+        timeLimit: 60,
       }
     ]
   },
@@ -530,6 +836,60 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "APIs You Will Use",
         body:
           "In this course you will mainly use two types of APIs: Supabase REST APIs for your own data, and the OpenAI API for AI features. Once you understand requests and responses, each new API feels familiar."
+      },
+      {
+        id: "af-6",
+        type: "memoryGame",
+        title: "API Methods Memory Game",
+        description: "Match the HTTP methods with their purposes",
+        cards: [
+          { id: "get", front: "GET", back: "Read data safely" },
+          { id: "post", front: "POST", back: "Create new resources" },
+          { id: "put", front: "PUT", back: "Update existing data" },
+          { id: "delete", front: "DELETE", back: "Remove data" },
+        ],
+        timeLimit: 45,
+      },
+      {
+        id: "af-7",
+        type: "speedQuiz",
+        title: "API Fundamentals Quiz",
+        description: "Test your understanding of APIs, requests, and responses",
+        questions: [
+          {
+            id: "q1",
+            question: "What does API stand for?",
+            options: [
+              { id: "a", label: "Application Programming Interface" },
+              { id: "b", label: "Advanced Programming Integration" },
+              { id: "c", label: "Automated Program Interface" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "In the restaurant analogy, what is the API?",
+            options: [
+              { id: "a", label: "The Chef" },
+              { id: "b", label: "The Menu" },
+              { id: "c", label: "The Waiter" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q3",
+            question: "What does the Frontend send to the Backend?",
+            options: [
+              { id: "a", label: "A Request" },
+              { id: "b", label: "A Response" },
+              { id: "c", label: "A Database" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
+        ],
       }
     ]
   },
@@ -608,6 +968,36 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "Database Summary",
         body:
           "The database is the memory of your app. Supabase will be your main database in this course, but it is useful to know that tools like PlanetScale or Firebase exist for special use cases."
+      },
+      {
+        id: "df-7",
+        type: "spotTheBug",
+        title: "Find the Database Bug",
+        description: "Click on the line with the database error",
+        code: "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(50),\n  email VARCHAR(100)\n);\n\nINSERT INTO users (name, email) VALUES\n  ('John', 'john@example.com'),\n  ('Jane', 'jane@example.com');\n\nSELECT * FROM users WHERE name = 'John'",
+        bugs: [
+          {
+            id: "missing-id",
+            line: 5,
+            description: "Missing ID value in INSERT statement",
+            fix: "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')",
+          },
+        ],
+      },
+      {
+        id: "df-8",
+        type: "memoryGame",
+        title: "Database Concepts Memory Game",
+        description: "Match database concepts to their definitions",
+        cards: [
+          { id: "persistence", front: "Persistence", back: "Data saved permanently (survives refresh)" },
+          { id: "table", front: "Table", back: "Like a spreadsheet sheet (e.g., Users)" },
+          { id: "row", front: "Row", back: "One item in a table (e.g., John Doe)" },
+          { id: "column", front: "Column", back: "A property (e.g., Email)" },
+          { id: "primary-key", front: "Primary Key", back: "Unique identifier for each row (like ID)" },
+          { id: "supabase", front: "Supabase", back: "Built on PostgreSQL - powerful standard DB" },
+        ],
+        timeLimit: 60,
       }
     ]
   },
@@ -665,6 +1055,26 @@ export const tutorialMissions: TutorialMissionContent[] = [
         prompt: "Type the secret command to verify your setup.",
         expectedCommand: "vibe-check",
         successMessage: "SYSTEM READY. VIBE DETECTED."
+      },
+      {
+        id: "dt-7",
+        type: "typingChallenge",
+        title: "Type the Dev Tools",
+        description: "Type the command to check your Node.js version",
+        text: "node --version",
+        wpmTarget: 30,
+      },
+      {
+        id: "dt-8",
+        type: "sequenceGame",
+        title: "Deployment Workflow",
+        description: "Order the steps to deploy your app",
+        items: [
+          { id: "code", label: "Write code in Cursor", correctPosition: 0 },
+          { id: "git", label: "Commit to GitHub", correctPosition: 1 },
+          { id: "vercel", label: "Deploy to Vercel", correctPosition: 2 },
+          { id: "live", label: "App goes live", correctPosition: 3 },
+        ],
       }
     ]
   },
@@ -723,6 +1133,60 @@ export const tutorialMissions: TutorialMissionContent[] = [
         title: "You Are Ready for Phase 1",
         body:
           "You now understand what each part of your future app does and which tools you will use. Phase 1 will teach you how to actually drive these tools with AI and start building your SaaS."
+      },
+      {
+        id: "bs-5",
+        type: "memoryGame",
+        title: "Stack Components Memory Game",
+        description: "Match the stack components to their purposes",
+        cards: [
+          { id: "v0", front: "v0.dev", back: "Frontend component generator" },
+          { id: "cursor", front: "Cursor", back: "AI-powered code editor" },
+          { id: "supabase", front: "Supabase", back: "Backend infrastructure" },
+          { id: "vercel", front: "Vercel", back: "Deployment platform" },
+        ],
+        timeLimit: 50,
+      },
+      {
+        id: "bs-6",
+        type: "speedQuiz",
+        title: "The Golden Stack Quiz",
+        description: "Test your knowledge of the complete Vibe Coding stack",
+        questions: [
+          {
+            id: "q1",
+            question: "What is the recommended frontend component generator?",
+            options: [
+              { id: "a", label: "v0.dev" },
+              { id: "b", label: "GitHub" },
+              { id: "c", label: "Excel" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "What is the recommended backend platform?",
+            options: [
+              { id: "a", label: "Supabase" },
+              { id: "b", label: "MongoDB" },
+              { id: "c", label: "WordPress" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
+          {
+            id: "q3",
+            question: "What is the recommended deployment platform?",
+            options: [
+              { id: "a", label: "Vercel" },
+              { id: "b", label: "GitHub" },
+              { id: "c", label: "Google Drive" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
+        ],
       }
     ]
   }
