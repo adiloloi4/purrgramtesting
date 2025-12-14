@@ -234,6 +234,7 @@ export type SpeedQuizSlide = {
     timeLimit?: number; // seconds per question
   }[];
   totalTimeLimit?: number; // total time for all questions
+  maxMistakes?: number; // if set, game resets after this many mistakes
 };
 
 export type InteractiveSimulationSlide = {

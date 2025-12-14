@@ -10,7 +10,11 @@ type BadgeUnlockProps = {
 };
 
 export const BadgeUnlock: React.FC<BadgeUnlockProps> = ({ badge, onClose }) => {
-  const [show, setShow] = useState(true);
+  
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/05aa6625-d13e-4e7d-b98c-38b24e10b904',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'BadgeUnlock.tsx:13',message:'BadgeUnlock mounted',data:{badge},timestamp:Date.now(),sessionId:'debug-session'})}).catch(()=>{});
+    // #endregion
+    const [show, setShow] = useState(true);
 
   useEffect(() => {
     // Play sound effect (we'll add actual sound files later)

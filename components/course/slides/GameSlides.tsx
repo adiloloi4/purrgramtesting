@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Trophy, Zap, AlertCircle, CheckCircle2, X, Lightbulb, Code, Keyboard, Sparkles, Star, Flame, Rocket, Gift } from 'lucide-react';
+import { Clock, Trophy, Zap, AlertCircle, CheckCircle2, X, Lightbulb, Code, Keyboard, Sparkles, Star, Flame, Rocket, Gift, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { XPReward } from '../XPReward';
 import confetti from 'canvas-confetti';
@@ -8,10 +8,10 @@ import {
   MemoryGameSlide, 
   CodePuzzleSlide, 
   TypingChallengeSlide, 
-  SequenceGameSlide,
-  SpotTheBugSlide,
-  SpeedQuizSlide,
-  InteractiveSimulationSlide,
+  SequenceGameSlide, 
+  SpotTheBugSlide, 
+  SpeedQuizSlide, 
+  InteractiveSimulationSlide, 
   QuizOption
 } from '@/data/missions/tutorial';
 
@@ -965,13 +965,15 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [score, setScore] = useState(0);
+  const [mistakes, setMistakes] = useState(0);
   const [timeLeft, setTimeLeft] = useState(slide.questions[currentQuestionIndex]?.timeLimit || 0);
   const [isComplete, setIsComplete] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const [combo, setCombo] = useState(0);
 
   const currentQuestion = slide.questions[currentQuestionIndex];
 
-  // Randomize options order for current question
   const shuffledOptions = useMemo(() => {
     if (!currentQuestion) return [];
     const options = [...currentQuestion.options];
@@ -979,11 +981,11 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
   }, [currentQuestion, currentQuestionIndex]);
 
   useEffect(() => {
-    if (currentQuestion?.timeLimit && timeLeft > 0 && !isComplete) {
+    if (currentQuestion?.timeLimit && timeLeft > 0 && !isComplete && !isFailed && !selectedAnswer) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            handleNext();
+            handleAnswer(null);
             return 0;
           }
           return prev - 1;
@@ -991,27 +993,52 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [timeLeft, currentQuestionIndex, isComplete]);
+  }, [timeLeft, currentQuestionIndex, isComplete, isFailed, selectedAnswer]);
 
-  const handleAnswer = (answerId: string) => {
-    setSelectedAnswer(answerId);
-    if (answerId === currentQuestion.correct) {
+  const handleAnswer = (answerId: string | null) => {
+    if (selectedAnswer) return;
+
+    setSelectedAnswer(answerId || 'timeout');
+    
+    const isCorrect = answerId === currentQuestion.correct;
+    
+    if (isCorrect) {
       setScore((prev) => prev + 1);
-      // Show XP reward - increment key to force new animation
       setXpRewardKey(prev => prev + 1);
       
-      // Celebration for correct answer
+      // Combo Logic
+      const maxTime = currentQuestion.timeLimit || 10;
+      if (timeLeft > maxTime * 0.4) {
+        setCombo(prev => prev + 1);
+      }
+
       confetti({
         particleCount: 30,
         spread: 55,
         origin: { y: 0.7 },
         colors: ['#10b981'],
       });
+    } else {
+      setCombo(0);
+      if (slide.maxMistakes) {
+        setMistakes(prev => {
+          const newMistakes = prev + 1;
+          if (newMistakes >= (slide.maxMistakes || 3)) {
+            setTimeout(() => setIsFailed(true), 1000);
+          }
+          return newMistakes;
+        });
+      }
     }
-    setTimeout(() => handleNext(), 1500);
+
+    if (!slide.maxMistakes || mistakes < (slide.maxMistakes - (isCorrect ? 0 : 1))) {
+       setTimeout(() => handleNext(), 1500);
+    }
   };
 
   const handleNext = () => {
+    if (isFailed) return;
+
     if (currentQuestionIndex < slide.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer(null);
@@ -1021,6 +1048,42 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
       setTimeout(() => onComplete(), 2000);
     }
   };
+
+  const handleRetry = () => {
+    setMistakes(0);
+    setScore(0);
+    setCombo(0);
+    setCurrentQuestionIndex(0);
+    setSelectedAnswer(null);
+    setIsFailed(false);
+    setIsComplete(false);
+    setTimeLeft(slide.questions[0]?.timeLimit || 0);
+  };
+
+  if (isFailed) {
+    return (
+      <div className="space-y-6 text-center p-8">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="p-8 rounded-2xl bg-red-500/10 border border-red-500/20"
+        >
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-2">Too Many Mistakes</h2>
+          <p className="text-white/60 mb-6">
+            You reached the mistake limit. Review the scenarios and try again to prove your Director mindset.
+          </p>
+          <button
+            onClick={handleRetry}
+            className="px-6 py-3 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-colors flex items-center gap-2 mx-auto"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Try Again
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (!currentQuestion) return null;
 
@@ -1033,9 +1096,24 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
           <p className="text-white/70">{slide.description}</p>
         </div>
         <div className="flex items-center gap-4">
+          {combo > 1 && (
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-500/20 border border-orange-500/30 animate-pulse">
+              <Flame className="w-4 h-4 text-orange-400" />
+              <span className="text-white font-mono">Combo x{combo}</span>
+            </div>
+          )}
+          {slide.maxMistakes && (
+             <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/30">
+               <AlertCircle className="w-4 h-4 text-red-400" />
+               <span className="text-white font-mono">Mistakes: {mistakes}/{slide.maxMistakes}</span>
+             </div>
+          )}
           {currentQuestion.timeLimit && (
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/30">
-              <Clock className="w-4 h-4 text-red-400" />
+            <div className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
+              timeLeft <= 3 ? "bg-red-500/20 border-red-500/50 text-red-200" : "bg-blue-500/20 border-blue-500/30"
+            )}>
+              <Clock className={cn("w-4 h-4", timeLeft <= 3 ? "text-red-400" : "text-blue-400")} />
               <span className="text-white font-mono">{timeLeft}s</span>
             </div>
           )}
@@ -1049,9 +1127,20 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
       <div className="p-6 rounded-xl bg-white/5 border border-white/10">
         <div className="mb-6">
           <div className="text-sm text-white/50 mb-2">
-            Question {currentQuestionIndex + 1} of {slide.questions.length}
+            Scenario {currentQuestionIndex + 1} of {slide.questions.length}
           </div>
           <h3 className="text-xl text-white mb-6">{currentQuestion.question}</h3>
+          
+          {selectedAnswer === 'timeout' && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-200 text-center font-bold flex items-center justify-center gap-2"
+            >
+              <AlertCircle className="w-5 h-5" />
+              No decision made. Directors decide fast.
+            </motion.div>
+          )}
         </div>
 
         <div className="space-y-3">
@@ -1112,7 +1201,7 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
             transition={{ delay: 0.2 }}
             className="text-3xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-400"
           >
-            Speed Master! ⚡
+            Director Certified! 🎬
           </motion.h3>
           <div className="space-y-2">
             <motion.p
@@ -1131,7 +1220,7 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/20 border border-yellow-500/30 mt-2"
               >
                 <Star className="w-4 h-4 text-yellow-400" fill="currentColor" />
-                <span className="text-yellow-200 text-sm font-medium">Perfect Score!</span>
+                <span className="text-yellow-200 text-sm font-medium">Perfect Direction!</span>
               </motion.div>
             )}
             <motion.p
@@ -1140,7 +1229,7 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
               transition={{ delay: 0.5 }}
               className="text-white/60 text-sm"
             >
-              Accuracy: {Math.round((score / slide.questions.length) * 100)}%
+              Mistakes: {mistakes} | Accuracy: {Math.round((score / slide.questions.length) * 100)}%
             </motion.p>
           </div>
         </motion.div>
@@ -1237,4 +1326,3 @@ export const InteractiveSimulationSlideComponent: React.FC<InteractiveSimulation
     </div>
   );
 };
-

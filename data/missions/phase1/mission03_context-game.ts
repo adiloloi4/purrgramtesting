@@ -144,19 +144,43 @@ export const mission03: MissionData = {
       ],
     },
     {
-      type: "memoryGame",
-      title: "Context Best Practices Memory Game",
-      description: "Match context practices to their benefits",
-      cards: [
-        { id: "docs", front: "Include Documentation", back: "Show AI what's available" },
-        { id: "code", front: "Share Your Code", back: "Let AI see the full picture" },
-        { id: "specific", front: "Be Specific", back: "Say exactly what you want" },
-        { id: "examples", front: "Provide Examples", back: "Show AI what good looks like" },
-        { id: "hallucination", front: "Hallucination", back: "AI makes things up without context" },
-        { id: "context-window", front: "Context Window", back: "Amount of info AI can process" },
+      type: "quiz",
+      title: "Prompt Doctor: The Hallucination",
+      question: "Scenario: The AI generated code that uses a library you haven't installed, and your app crashed.",
+      options: [
+        { id: "a", text: "Prompt: 'You broke it. Fix it now.'" },
+        { id: "b", text: "Prompt: 'I got a Module Not Found error. Are you assuming I have this library installed? I don't. Please rewrite using standard fetch.'" },
+        { id: "c", text: "Prompt: 'Why are you so bad at this?'" },
       ],
-      timeLimit: 60,
+      correct: "b",
+      feedbackCorrect: "Correct. You identified the root cause (hallucinated dependency) and gave a specific constraint (use standard fetch).",
+      feedbackWrong: "Anger doesn't help the AI. Specificity does.",
     },
+    {
+      type: "quiz",
+      title: "Prompt Doctor: The Styling",
+      question: "Scenario: The AI created a button that looks completely different from the rest of your app.",
+      options: [
+        { id: "a", text: "Prompt: 'Make it look better.'" },
+        { id: "b", text: "Prompt: 'Style this using Tailwind CSS to match the rounded-xl blue theme of my existing components. Reference @Button.tsx.'" },
+        { id: "c", text: "Prompt: 'Change the color.'" },
+      ],
+      correct: "b",
+      feedbackCorrect: "Perfect. You provided the tool (Tailwind), the specific style (rounded-xl blue), and the context (@Button.tsx).",
+      feedbackWrong: "Vague requests get vague results. Be specific.",
+    },
+    {
+      type: "quiz",
+      title: "Prompt Doctor: The Bug",
+      question: "Scenario: You paste an error log, but the AI just guesses randomly and breaks more things.",
+      options: [
+        { id: "a", text: "Prompt: 'Here is the file @page.tsx and the error log. Analyze the logic flow before suggesting a fix.'" },
+        { id: "b", text: "Prompt: 'Try again.'" },
+        { id: "c", text: "Prompt: 'Write the whole file from scratch.'" },
+      ],
+      correct: "a",
+      feedbackCorrect: "Yes. You forced the AI to 'Analyze' and provided the necessary file context (@page.tsx).",
+      feedbackWrong: "Blind guessing is the enemy. Force analysis first.",
+    }
   ],
 };
-

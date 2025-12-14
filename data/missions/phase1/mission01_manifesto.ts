@@ -2,138 +2,88 @@ import { MissionData } from "../world0";
 
 export const mission01: MissionData = {
   id: "manifesto",
-  title: "The Vibe Coder Manifesto",
+  title: "The Director's Chair",
   slides: [
     {
       type: "text",
-      title: "Speed Over Perfection",
+      title: "The Shift",
       content:
-        "The old way: perfect code, shipped never. The new way: working code, shipped today. Vibe Coding is about velocity, not vanity. Every day you spend perfecting is a day your product isn't helping users.",
+        "For 40 years, coding meant typing. You were the Scribe. You memorized syntax. You hunted for missing semicolons. Today, that era ends. You are no longer the Scribe. You are the Director.",
     },
     {
       type: "text",
-      title: "Ship to Learn",
+      title: "Core Concept",
       content:
-        "You don't learn by reading. You don't learn by watching. You learn by building. Every shipped feature teaches you more than a hundred tutorials. Real feedback from real users beats theoretical knowledge every time.",
+        "A Director doesn't hold the camera. A Director tells the camera operator what to capture. In Vibe Coding, AI is your camera operator. You don't write the code; you direct the outcome. Your job is vision, taste, and decision.",
     },
     {
-      type: "text",
-      title: "Product > Code",
-      content:
-        "Users don't care about your code quality. They care about features that solve their problems. A messy codebase that ships beats a perfect codebase that never sees the light of day.",
+      type: "quiz",
+      title: "Decision Game: The Waitlist",
+      question: "Scenario: You want to add a waitlist to your app to collect emails. What is the Director's move?",
+      options: [
+        { id: "a", label: "Spend 3 hours watching SQL tutorials to learn how to write 'CREATE TABLE' commands manually." },
+        { id: "b", label: "Ask the AI: 'I need a waitlist system. Design a database table for emails and an API route to save them.'" },
+        { id: "c", label: "Copy-paste random code from a blog post written in 2019." },
+      ],
+      correctOptionId: "b",
+      correctExplanation: "Correct. You defined the *outcome* (waitlist system) and the *requirements* (database + API). You let the AI handle the implementation.",
+      wrongExplanation: "That is the Scribe mindset. Don't learn the tool's internal language just to use it once. Direct the tool to do the work.",
     },
     {
-      type: "toggle_cards",
-      title: "The Vibe Principles",
-      cards: [
-        {
-          id: "speed",
-          title: "Speed > Perfection",
-          description: "Working code today beats perfect code tomorrow. Ship fast, iterate faster.",
-        },
-        {
-          id: "iterate",
-          title: "Iterate, Don't Perfect",
-          description: "Launch, learn, improve. Repeat. Perfection is the enemy of progress.",
-        },
-        {
-          id: "product",
-          title: "Product > Code",
-          description: "Users care about features, not code quality. Build what matters.",
-        },
-        {
-          id: "learn",
-          title: "Learn by Shipping",
-          description: "Every shipped feature is a lesson. Every user interaction is feedback.",
-        },
+      type: "quiz",
+      title: "Decision Game: The Style",
+      question: "Scenario: The AI generated a login button, but it's blue and you wanted red. What do you do?",
+      options: [
+        { id: "a", label: "Search Google for 'CSS hex codes for red' and manually edit the file." },
+        { id: "b", label: "Tell the AI: 'Make the login button red and rounder.'" },
+        { id: "c", label: "Accept the blue button because you don't know how to change it." },
+      ],
+      correctOptionId: "b",
+      correctExplanation: "Exactly. Don't context switch into manual labor. Give a visual correction just like a Director on a movie set.",
+      wrongExplanation: "Why do the work yourself? Your 'camera operator' (AI) is right there waiting for instructions.",
+    },
+    {
+      type: "buildTask",
+      title: "Action: Direct Your Crew",
+      description: "Experience the speed of directing",
+      task: "Open Cursor. Press Cmd+K. Type: 'Create a new component called DirectorCard.tsx. Make it a dark card with a gold border. Inside, put the text: I am the Director.'",
+      expectedOutcome: "A beautiful card component appears instantly without you typing a single bracket.",
+      verificationSteps: [
+        "Open Cursor",
+        "Press Cmd+K",
+        "Enter the prompt",
+        "See the file created"
+      ],
+      tips: [
+        "Don't worry about where to save it yet.",
+        "Just see how fast you can manifest an idea.",
+        "Trust the AI to handle the syntax."
       ],
     },
     {
       type: "quiz",
-      question: "What matters more in Vibe Coding?",
+      title: "Validation Check",
+      question: "Did you see the file appear in your explorer?",
       options: [
-        { id: "a", text: "Writing perfect, bug-free code" },
-        { id: "b", text: "Shipping working features fast" },
-        { id: "c", text: "Memorizing all programming syntax" },
+        { id: "a", label: "Yes, it appeared like magic." },
+        { id: "b", label: "No, I'm stuck." },
       ],
-      correct: "b",
-      feedbackCorrect: "Exactly! Speed and shipping are the priorities. You can fix bugs later, but you can't fix what never ships.",
-      feedbackWrong: "Think about what gets products to users faster. Perfection can wait.",
+      correctOptionId: "a",
+      correctExplanation: "Welcome to the Director's Chair. That feeling of speed? That's Vibe Coding.",
+      wrongExplanation: "Try pressing Cmd+K again. Make sure you are in the editor window.",
     },
     {
-      type: "text",
-      title: "The Manifesto",
-      content:
-        "You are a Vibe Coder. You ship fast. You learn by doing. You prioritize users over code. You iterate, you improve, you build. This is your philosophy. This is your way.",
-    },
-    {
-      type: "codeChallenge",
-      title: "Build Your First Component",
-      description: "Put the manifesto into practice - build something now",
-      task: "Open Cursor and create a new React component called Manifesto.tsx. It should display the four Vibe Principles as cards with a title and description. Use Tailwind for styling. Make it look clean and modern.",
-      starterCode: "// Create app/components/Manifesto.tsx\n// Your code here",
-      successCriteria: [
-        "Component file created in app/components/",
-        "Displays all 4 Vibe Principles",
-        "Uses Tailwind CSS for styling",
-        "Looks clean and modern",
-        "Component exports correctly"
+      type: "quiz",
+      title: "Decision Game: The Error",
+      question: "Scenario: You ran the code and got a big red error message. What is the Director's reaction?",
+      options: [
+        { id: "a", label: "Panic and assume you aren't smart enough for this." },
+        { id: "b", label: "Copy the error message, paste it to the AI, and say 'Fix this'." },
+        { id: "c", label: "Delete the whole project and start over." },
       ],
-      hint: "Use a simple card layout with title and description for each principle",
-      example: "export default function Manifesto() { return <div>...</div> }",
-    },
-    {
-      type: "memoryGame",
-      title: "Vibe Principles Memory Challenge",
-      description: "Match the Vibe Coding principles to their meanings",
-      cards: [
-        { id: "speed", front: "Speed > Perfection", back: "Ship fast, iterate faster" },
-        { id: "product", front: "Product > Code", back: "Users care about features" },
-        { id: "learn", front: "Learn by Shipping", back: "Every feature is a lesson" },
-        { id: "iterate", front: "Iterate, Don't Perfect", back: "Launch, learn, improve" },
-      ],
-      timeLimit: 50,
-    },
-    {
-      type: "speedQuiz",
-      title: "The Vibe Coder Manifesto Quiz",
-      description: "Test your understanding of the entire Vibe Coding philosophy",
-      questions: [
-        {
-          id: "q1",
-          question: "What matters more: perfect code or shipping fast?",
-          options: [
-            { id: "a", text: "Perfect code" },
-            { id: "b", text: "Shipping fast" },
-            { id: "c", text: "They're equal" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-        {
-          id: "q2",
-          question: "How do you learn in Vibe Coding?",
-          options: [
-            { id: "a", text: "By reading tutorials" },
-            { id: "b", text: "By shipping features" },
-            { id: "c", text: "By watching videos" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-        {
-          id: "q3",
-          question: "What do users care about?",
-          options: [
-            { id: "a", text: "Code quality" },
-            { id: "b", text: "Features that solve problems" },
-            { id: "c", text: "Perfect architecture" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-      ],
-    },
+      correctOptionId: "b",
+      correctExplanation: "Perfect. Errors are just information. The AI can read the error and correct its own mistakes 99% of the time.",
+      wrongExplanation: "Emotional reactions don't fix bugs. The AI doesn't have feelings; use it to solve the problem.",
+    }
   ],
 };
-
