@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Trophy, Zap, AlertCircle, CheckCircle2, X, Lightbulb, Code, Keyboard, Sparkles, Star, Flame, Rocket, Gift, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,7 +11,8 @@ import {
   SequenceGameSlide, 
   SpotTheBugSlide, 
   SpeedQuizSlide, 
-  InteractiveSimulationSlide, 
+  InteractiveSimulationSlide,
+  PromptGameSlide,
   QuizOption
 } from '@/data/missions/tutorial';
 
@@ -31,6 +32,8 @@ export const MemoryGameSlideComponent: React.FC<MemoryGameSlideProps> = ({ slide
   const [moves, setMoves] = useState(0);
   const [xpRewardKey, setXpRewardKey] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
 
   const shuffledCards = React.useMemo(() => {
     const allCards = [...slide.cards, ...slide.cards];
@@ -41,11 +44,27 @@ export const MemoryGameSlideComponent: React.FC<MemoryGameSlideProps> = ({ slide
   }, [slide.cards]);
 
   useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      // Clean up all timeouts
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
+
+  useEffect(() => {
     if (slide.timeLimit && timeLeft > 0 && !isGameOver) {
       const timer = setInterval(() => {
+        if (!isMountedRef.current) {
+          clearInterval(timer);
+          return;
+        }
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            setIsGameOver(true);
+            if (isMountedRef.current) {
+              setIsGameOver(true);
+            }
             return 0;
           }
           return prev - 1;
@@ -77,7 +96,8 @@ export const MemoryGameSlideComponent: React.FC<MemoryGameSlideProps> = ({ slide
 
       if (firstCardData?.id === currentCardData?.id) {
         // Match!
-        setTimeout(() => {
+        const timeout1 = setTimeout(() => {
+          if (!isMountedRef.current) return;
           setMatchedPairs((prev) => new Set([...prev, cardId]));
           setScore((prev) => prev + 10);
           setFirstCard(null);
@@ -88,12 +108,19 @@ export const MemoryGameSlideComponent: React.FC<MemoryGameSlideProps> = ({ slide
           if (newMatchedCount >= slide.cards.length) {
             setIsGameOver(true);
             setScore((prev) => prev + (slide.timeLimit ? Math.floor(timeLeft) * 2 : 50));
-            setTimeout(() => onComplete(), 1000);
+            const timeout2 = setTimeout(() => {
+              if (isMountedRef.current) {
+                onComplete();
+              }
+            }, 1000);
+            timeoutRefs.current.push(timeout2);
           }
         }, 500);
+        timeoutRefs.current.push(timeout1);
       } else {
         // No match - flip both cards back after a delay
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
+          if (!isMountedRef.current) return;
           setFlippedCards((prev) => {
             const newSet = new Set(prev);
             // Remove both cards from flipped state
@@ -104,6 +131,7 @@ export const MemoryGameSlideComponent: React.FC<MemoryGameSlideProps> = ({ slide
           setFirstCard(null);
           setIsProcessing(false);
         }, 1500); // Give time to see both cards before flipping back
+        timeoutRefs.current.push(timeout);
       }
     }
   };
@@ -264,10 +292,25 @@ export const CodePuzzleSlideComponent: React.FC<CodePuzzleSlideProps> = ({ slide
   const [timeLeft, setTimeLeft] = useState(slide.timeLimit || 0);
   const [isComplete, setIsComplete] = useState(false);
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   useEffect(() => {
     if (slide.timeLimit && timeLeft > 0 && !isComplete) {
       const timer = setInterval(() => {
+        if (!isMountedRef.current) {
+          clearInterval(timer);
+          return;
+        }
         setTimeLeft((prev) => {
           if (prev <= 1) {
             return 0;
@@ -295,23 +338,32 @@ export const CodePuzzleSlideComponent: React.FC<CodePuzzleSlideProps> = ({ slide
       // Show XP reward - increment key to force new animation
       setXpRewardKey(prev => prev + 1);
       
-      confetti({
-        particleCount: 15,
-        spread: 40,
-        origin: { y: 0.7 },
-        colors: ['#10b981'],
-      });
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 15,
+          spread: 40,
+          origin: { y: 0.7 },
+          colors: ['#10b981'],
+        });
+      }
     }
 
     if (allFilled && allCorrect) {
       setIsComplete(true);
       // Big celebration!
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
-      setTimeout(() => onComplete(), 1500);
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 1500);
+      timeoutRefs.current.push(timeout);
     }
   };
 
@@ -458,6 +510,17 @@ export const TypingChallengeSlideComponent: React.FC<TypingChallengeSlideProps> 
   const [isComplete, setIsComplete] = useState(false);
   const [errors, setErrors] = useState(0);
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   const words = slide.text.split(' ');
   const userWords = userInput.split(' ');
@@ -469,7 +532,7 @@ export const TypingChallengeSlideComponent: React.FC<TypingChallengeSlideProps> 
 
     if (userInput === slide.text) {
       setIsComplete(true);
-      if (startTime) {
+      if (startTime && isMountedRef.current) {
         const timeInMinutes = (Date.now() - startTime) / 60000;
         const calculatedWpm = Math.round(words.length / timeInMinutes);
         setWpm(calculatedWpm);
@@ -493,7 +556,12 @@ export const TypingChallengeSlideComponent: React.FC<TypingChallengeSlideProps> 
           });
         }
       }
-      setTimeout(() => onComplete(), 2500);
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 2500);
+      timeoutRefs.current.push(timeout);
     }
 
     // Count errors
@@ -637,6 +705,17 @@ export const SequenceGameSlideComponent: React.FC<SequenceGameSlideProps> = ({ s
   const [availableItems, setAvailableItems] = useState(slide.items);
   const [isComplete, setIsComplete] = useState(false);
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   const handleItemClick = (itemId: string) => {
     if (selectedOrder.includes(itemId)) {
@@ -661,21 +740,31 @@ export const SequenceGameSlideComponent: React.FC<SequenceGameSlideProps> = ({ s
       setXpRewardKey(prev => prev + 1);
       
       // Celebration!
-      confetti({
-        particleCount: 80,
-        spread: 65,
-        origin: { y: 0.6 },
-        colors: ['#8b5cf6', '#6366f1'],
-      });
-      setTimeout(() => onComplete(), 2000);
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 80,
+          spread: 65,
+          origin: { y: 0.6 },
+          colors: ['#8b5cf6', '#6366f1'],
+        });
+      }
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 2000);
+      timeoutRefs.current.push(timeout);
     } else {
       // Shake animation for wrong answer
       const sequenceContainer = document.querySelector('[data-sequence-container]');
       if (sequenceContainer) {
         sequenceContainer.classList.add('animate-shake');
-        setTimeout(() => {
-          sequenceContainer.classList.remove('animate-shake');
+        const timeout = setTimeout(() => {
+          if (sequenceContainer) {
+            sequenceContainer.classList.remove('animate-shake');
+          }
         }, 500);
+        timeoutRefs.current.push(timeout);
       }
     }
   };
@@ -809,6 +898,17 @@ export const SpotTheBugSlideComponent: React.FC<SpotTheBugSlideProps> = ({ slide
   const [foundBugs, setFoundBugs] = useState<Set<string>>(new Set());
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   const handleLineClick = (lineNumber: number) => {
     const bug = slide.bugs.find((b) => b.line === lineNumber);
@@ -819,21 +919,30 @@ export const SpotTheBugSlideComponent: React.FC<SpotTheBugSlideProps> = ({ slide
       setXpRewardKey(prev => prev + 1);
       
       // Celebration for finding a bug
-      confetti({
-        particleCount: 25,
-        spread: 50,
-        origin: { y: 0.7 },
-        colors: ['#ef4444', '#f59e0b'],
-      });
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 25,
+          spread: 50,
+          origin: { y: 0.7 },
+          colors: ['#ef4444', '#f59e0b'],
+        });
+      }
       
       if (foundBugs.size + 1 >= slide.bugs.length) {
         // Big celebration for finding all bugs!
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-        setTimeout(() => onComplete(), 2000);
+        if (isMountedRef.current) {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        }
+        const timeout = setTimeout(() => {
+          if (isMountedRef.current) {
+            onComplete();
+          }
+        }, 2000);
+        timeoutRefs.current.push(timeout);
       }
     }
     setSelectedLine(lineNumber);
@@ -971,6 +1080,17 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
   const [isFailed, setIsFailed] = useState(false);
   const [xpRewardKey, setXpRewardKey] = useState(0);
   const [combo, setCombo] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   const currentQuestion = slide.questions[currentQuestionIndex];
 
@@ -980,22 +1100,7 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
     return options.sort(() => Math.random() - 0.5);
   }, [currentQuestion, currentQuestionIndex]);
 
-  useEffect(() => {
-    if (currentQuestion?.timeLimit && timeLeft > 0 && !isComplete && !isFailed && !selectedAnswer) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            handleAnswer(null);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [timeLeft, currentQuestionIndex, isComplete, isFailed, selectedAnswer]);
-
-  const handleAnswer = (answerId: string | null) => {
+  const handleAnswer = useCallback((answerId: string | null) => {
     if (selectedAnswer) return;
 
     setSelectedAnswer(answerId || 'timeout');
@@ -1012,19 +1117,26 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
         setCombo(prev => prev + 1);
       }
 
-      confetti({
-        particleCount: 30,
-        spread: 55,
-        origin: { y: 0.7 },
-        colors: ['#10b981'],
-      });
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 30,
+          spread: 55,
+          origin: { y: 0.7 },
+          colors: ['#10b981'],
+        });
+      }
     } else {
       setCombo(0);
       if (slide.maxMistakes) {
         setMistakes(prev => {
           const newMistakes = prev + 1;
           if (newMistakes >= (slide.maxMistakes || 3)) {
-            setTimeout(() => setIsFailed(true), 1000);
+            const timeout = setTimeout(() => {
+              if (isMountedRef.current) {
+                setIsFailed(true);
+              }
+            }, 1000);
+            timeoutRefs.current.push(timeout);
           }
           return newMistakes;
         });
@@ -1032,7 +1144,12 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
     }
 
     if (!slide.maxMistakes || mistakes < (slide.maxMistakes - (isCorrect ? 0 : 1))) {
-       setTimeout(() => handleNext(), 1500);
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          handleNext();
+        }
+      }, 1500);
+      timeoutRefs.current.push(timeout);
     }
   };
 
@@ -1045,9 +1162,35 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
       setTimeLeft(slide.questions[currentQuestionIndex + 1]?.timeLimit || 0);
     } else {
       setIsComplete(true);
-      setTimeout(() => onComplete(), 2000);
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 2000);
+      timeoutRefs.current.push(timeout);
     }
-  };
+  }, [selectedAnswer, currentQuestion, timeLeft, slide, currentQuestionIndex, isMountedRef, timeoutRefs, onComplete]);
+
+  useEffect(() => {
+    if (currentQuestion?.timeLimit && timeLeft > 0 && !isComplete && !isFailed && !selectedAnswer) {
+      const timer = setInterval(() => {
+        if (!isMountedRef.current) {
+          clearInterval(timer);
+          return;
+        }
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            if (isMountedRef.current) {
+              handleAnswer(null);
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, currentQuestionIndex, isComplete, isFailed, selectedAnswer, currentQuestion, handleAnswer]);
 
   const handleRetry = () => {
     setMistakes(0);
@@ -1248,6 +1391,17 @@ export const InteractiveSimulationSlideComponent: React.FC<InteractiveSimulation
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [xpRewardKey, setXpRewardKey] = useState(0);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
 
   const handleStepComplete = (stepIndex: number) => {
     setCompletedSteps((prev) => new Set([...prev, stepIndex]));
@@ -1258,7 +1412,12 @@ export const InteractiveSimulationSlideComponent: React.FC<InteractiveSimulation
     if (stepIndex < slide.steps.length - 1) {
       setCurrentStep(stepIndex + 1);
     } else {
-      setTimeout(() => onComplete(), 1000);
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 1000);
+      timeoutRefs.current.push(timeout);
     }
   };
 
@@ -1323,6 +1482,245 @@ export const InteractiveSimulationSlideComponent: React.FC<InteractiveSimulation
           })}
         </div>
       </div>
+    </div>
+  );
+};
+
+// Prompt Game Slide
+type PromptGameSlideProps = {
+  slide: PromptGameSlide;
+  onComplete: () => void;
+};
+
+export const PromptGameSlideComponent: React.FC<PromptGameSlideProps> = ({ slide, onComplete }) => {
+  const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
+  const [selectedPromptId, setSelectedPromptId] = useState<string | null>(null);
+  const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(slide.timeLimit || 30);
+  const [isComplete, setIsComplete] = useState(false);
+  const [xpRewardKey, setXpRewardKey] = useState(0);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current = [];
+    };
+  }, []);
+
+  const currentScenario = slide.scenarios[currentScenarioIndex];
+
+  useEffect(() => {
+    if (slide.timeLimit && timeLeft > 0 && !isComplete && !selectedPromptId) {
+      const timer = setInterval(() => {
+        if (!isMountedRef.current) {
+          clearInterval(timer);
+          return;
+        }
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, currentScenarioIndex, isComplete, selectedPromptId, slide.timeLimit]);
+
+  const handlePromptSelect = (promptId: string) => {
+    if (selectedPromptId || isComplete) return;
+    
+    setSelectedPromptId(promptId);
+    const isCorrect = promptId === currentScenario.correctPromptId;
+    
+    if (isCorrect) {
+      setScore((prev) => prev + 1);
+      setXpRewardKey(prev => prev + 1);
+      
+      if (isMountedRef.current) {
+        confetti({
+          particleCount: 40,
+          spread: 60,
+          origin: { y: 0.7 },
+          colors: ['#10b981', '#8b5cf6'],
+        });
+      }
+    }
+    
+    setShowExplanation(true);
+    
+    const timeout = setTimeout(() => {
+      if (!isMountedRef.current) return;
+      
+      if (currentScenarioIndex < slide.scenarios.length - 1) {
+        setCurrentScenarioIndex((prev) => prev + 1);
+        setSelectedPromptId(null);
+        setShowExplanation(false);
+        setTimeLeft(slide.timeLimit || 30);
+      } else {
+        setIsComplete(true);
+        const completeTimeout = setTimeout(() => {
+          if (isMountedRef.current) {
+            onComplete();
+          }
+        }, 2000);
+        timeoutRefs.current.push(completeTimeout);
+      }
+    }, 3000);
+    timeoutRefs.current.push(timeout);
+  };
+
+  if (!currentScenario) return null;
+
+  return (
+    <div className="space-y-6">
+      {xpRewardKey > 0 && <XPReward key={xpRewardKey} amount={2} position="top" />}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-light text-white mb-2">{slide.title}</h2>
+          <p className="text-white/70">{slide.description}</p>
+        </div>
+        <div className="flex items-center gap-4">
+          {slide.timeLimit && (
+            <div className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors",
+              timeLeft <= 5 ? "bg-red-500/20 border-red-500/50 text-red-200" : "bg-blue-500/20 border-blue-500/30"
+            )}>
+              <Clock className={cn("w-4 h-4", timeLeft <= 5 ? "text-red-400" : "text-blue-400")} />
+              <span className="text-white font-mono">{timeLeft}s</span>
+            </div>
+          )}
+          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30">
+            <Trophy className="w-4 h-4 text-purple-400" />
+            <span className="text-white font-mono">{score}/{slide.scenarios.length}</span>
+          </div>
+          <div className="text-sm text-white/50">
+            Scenario {currentScenarioIndex + 1}/{slide.scenarios.length}
+          </div>
+        </div>
+      </div>
+
+      {!isComplete && (
+        <div className="space-y-6">
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10">
+            <h3 className="text-lg font-medium text-white mb-4">Task:</h3>
+            <p className="text-white/80 text-lg">{currentScenario.task}</p>
+          </div>
+
+          <div className="p-6 rounded-xl bg-red-500/10 border border-red-500/20">
+            <h3 className="text-sm font-bold text-red-400 uppercase tracking-wider mb-3">❌ Bad Prompt:</h3>
+            <p className="text-white/70 italic">"{currentScenario.badPrompt}"</p>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-lg font-medium text-white">Select the best prompt:</h3>
+            {currentScenario.goodPrompts.map((prompt) => {
+              const isSelected = selectedPromptId === prompt.id;
+              const isCorrect = prompt.id === currentScenario.correctPromptId;
+              const showResult = selectedPromptId !== null;
+
+              return (
+                <motion.button
+                  key={prompt.id}
+                  onClick={() => handlePromptSelect(prompt.id)}
+                  disabled={showResult}
+                  className={cn(
+                    "w-full p-4 rounded-xl border text-left transition-all",
+                    showResult && isCorrect
+                      ? "bg-green-500/20 border-green-500/50"
+                      : showResult && isSelected && !isCorrect
+                      ? "bg-red-500/20 border-red-500/50"
+                      : isSelected
+                      ? "bg-purple-500/20 border-purple-500/50"
+                      : "bg-white/5 border-white/10 hover:bg-white/10"
+                  )}
+                  whileHover={{ scale: showResult ? 1 : 1.02 }}
+                  whileTap={{ scale: showResult ? 1 : 0.98 }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <p className="text-white/90 mb-2">"{prompt.text}"</p>
+                      {showExplanation && (isSelected || isCorrect) && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className={cn(
+                            "text-sm mt-2 p-2 rounded",
+                            isCorrect ? "bg-green-500/10 text-green-200" : "bg-red-500/10 text-red-200"
+                          )}
+                        >
+                          {prompt.explanation}
+                        </motion.div>
+                      )}
+                    </div>
+                    {showResult && isCorrect && <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />}
+                    {showResult && isSelected && !isCorrect && <X className="w-5 h-5 text-red-400 flex-shrink-0" />}
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {isComplete && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/30 to-pink-500/20 border-2 border-purple-500/50 text-center shadow-2xl"
+        >
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="mb-4"
+          >
+            <Sparkles className="w-16 h-16 text-purple-400 mx-auto" />
+          </motion.div>
+          <motion.h3
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl font-bold text-white mb-3 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400"
+          >
+            Prompt Master! ✨
+          </motion.h3>
+          <div className="space-y-2">
+            <motion.p
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-4xl font-bold text-white"
+            >
+              {score}<span className="text-purple-400 text-2xl">/{slide.scenarios.length}</span>
+            </motion.p>
+            {score === slide.scenarios.length && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, type: "spring" }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/20 border border-yellow-500/30 mt-2"
+              >
+                <Star className="w-4 h-4 text-yellow-400" fill="currentColor" />
+                <span className="text-yellow-200 text-sm font-medium">Perfect Score!</span>
+              </motion.div>
+            )}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-white/60 text-sm"
+            >
+              Accuracy: {Math.round((score / slide.scenarios.length) * 100)}%
+            </motion.p>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };

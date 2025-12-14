@@ -22,13 +22,20 @@ export const ChecklistSlide: React.FC<ChecklistSlideProps> = ({
       : [...checkedItems, id];
     
     setCheckedItems(newChecked);
-    // Notify parent if we have at least one checked item
-    onToggle(newChecked.length > 0);
+    // Require ALL items to be checked before allowing progression
+    onToggle(newChecked.length === slide.items.length);
   };
+
+  const allChecked = checkedItems.length === slide.items.length;
 
   return (
     <div className="space-y-6">
       <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
+      {!allChecked && (
+        <p className="text-sm text-white/50 italic">
+          Please check all items before continuing.
+        </p>
+      )}
       <div className="space-y-3">
         {slide.items.map((item, index) => {
           const isChecked = checkedItems.includes(item.id);

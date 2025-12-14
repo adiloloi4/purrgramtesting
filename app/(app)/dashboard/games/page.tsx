@@ -13,7 +13,8 @@ import {
   Trophy,
   Clock,
   Gamepad2,
-  ArrowRight
+  ArrowRight,
+  Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -72,6 +73,15 @@ const games = [
     href: "/dashboard/games/sequence",
     difficulty: "Easy",
     timeEstimate: "2-5 min"
+  },
+  {
+    id: "prompt-game",
+    title: "Perfect Prompt",
+    description: "Learn to write better AI prompts by choosing the best option",
+    icon: Sparkles,
+    href: "/dashboard/games/prompt-game",
+    difficulty: "Medium",
+    timeEstimate: "3-8 min"
   }
 ];
 

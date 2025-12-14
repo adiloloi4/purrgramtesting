@@ -21,7 +21,8 @@ import {
   SequenceGameSlide,
   SpotTheBugSlide,
   SpeedQuizSlide,
-  InteractiveSimulationSlide
+  InteractiveSimulationSlide,
+  PromptGameSlide
 } from '@/data/missions/tutorial';
 import { TextSlide } from './slides/TextSlide';
 import { QuizSlide } from './slides/QuizSlide';
@@ -38,7 +39,8 @@ import {
   SequenceGameSlideComponent,
   SpotTheBugSlideComponent,
   SpeedQuizSlideComponent,
-  InteractiveSimulationSlideComponent
+  InteractiveSimulationSlideComponent,
+  PromptGameSlideComponent
 } from './slides/GameSlides';
 
 type MissionModalProps = {
@@ -102,7 +104,8 @@ export const MissionModal: React.FC<MissionModalProps> = ({
         currentSlide.type === 'sequenceGame' ||
         currentSlide.type === 'spotTheBug' ||
         currentSlide.type === 'speedQuiz' ||
-        currentSlide.type === 'interactiveSimulation'
+        currentSlide.type === 'interactiveSimulation' ||
+        currentSlide.type === 'promptGame'
       ) {
         // These slides handle their own completion state
         setCanAdvance(false);
@@ -239,7 +242,7 @@ export const MissionModal: React.FC<MissionModalProps> = ({
 
     switch (slide.type) {
       case 'text':
-        return <TextSlide title={slide.title} body={slide.body} />;
+        return <TextSlide title={slide.title} body={slide.body} image={slide.image} youtubeVideo={slide.youtubeVideo} />;
       
       case 'quiz':
         return (
@@ -388,6 +391,14 @@ export const MissionModal: React.FC<MissionModalProps> = ({
         return (
           <InteractiveSimulationSlideComponent
             slide={slide as InteractiveSimulationSlide}
+            onComplete={() => setCanAdvance(true)}
+          />
+        );
+
+      case 'promptGame':
+        return (
+          <PromptGameSlideComponent
+            slide={slide as PromptGameSlide}
             onComplete={() => setCanAdvance(true)}
           />
         );

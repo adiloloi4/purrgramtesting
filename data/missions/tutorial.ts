@@ -3,6 +3,8 @@ export type TextSlide = {
   type: "text";
   title: string;
   body: string;
+  image?: string;
+  youtubeVideo?: string;
 };
 
 export type QuizOption = {
@@ -243,9 +245,28 @@ export type InteractiveSimulationSlide = {
   title: string;
   description: string;
   simulation: "dataFlow" | "componentTree" | "apiRequest" | "databaseQuery" | "custom";
-  config: Record<string, any>;
+  config: Record<string, unknown>;
   goal: string;
   steps: string[];
+};
+
+export type PromptGameSlide = {
+  id?: string;
+  type: "promptGame";
+  title: string;
+  description: string;
+  scenarios: {
+    id: string;
+    task: string;
+    badPrompt: string;
+    goodPrompts: {
+      id: string;
+      text: string;
+      explanation: string;
+    }[];
+    correctPromptId: string;
+  }[];
+  timeLimit?: number; // seconds per scenario
 };
 
 export type TutorialSlide =
@@ -267,7 +288,8 @@ export type TutorialSlide =
   | SequenceGameSlide
   | SpotTheBugSlide
   | SpeedQuizSlide
-  | InteractiveSimulationSlide;
+  | InteractiveSimulationSlide
+  | PromptGameSlide;
 
 export type TutorialMissionContent = {
   id: string;
@@ -508,6 +530,84 @@ export const tutorialMissions: TutorialMissionContent[] = [
           { id: "deployment", front: "Deployment", back: "Food Delivery (makes it accessible)" },
         ],
         timeLimit: 60,
+      },
+      {
+        id: "or-13",
+        type: "promptGame",
+        title: "Perfect Prompt Practice",
+        description: "Learn to write better prompts by choosing the best option for each scenario",
+        timeLimit: 30,
+        scenarios: [
+          {
+            id: "scenario-1",
+            task: "You want to create a login button component",
+            badPrompt: "Make a button",
+            goodPrompts: [
+              {
+                id: "good-1",
+                text: "Create a login button component using React and Tailwind. It should be purple, have hover effects, and show a loading state when clicked.",
+                explanation: "Perfect! This includes Persona (React/Tailwind), Problem (login button), and Product (specific styling and behavior)."
+              },
+              {
+                id: "good-2",
+                text: "Button for login",
+                explanation: "Too vague. Missing specific details about styling, framework, and behavior."
+              },
+              {
+                id: "good-3",
+                text: "I need a button that users can click to log in to my app. Make it look nice.",
+                explanation: "Better than bad, but still lacks technical details like framework, styling approach, and specific requirements."
+              }
+            ],
+            correctPromptId: "good-1"
+          },
+          {
+            id: "scenario-2",
+            task: "You want to fix a bug where the user profile doesn't load",
+            badPrompt: "Fix the bug",
+            goodPrompts: [
+              {
+                id: "good-4",
+                text: "The user profile page shows a loading spinner forever. Check @UserProfile.tsx and @api/users/route.ts. The error in console says 'Cannot read property of undefined'. Fix the data fetching logic.",
+                explanation: "Excellent! Includes context files (@), specific error message, and what to fix. This gives AI everything it needs."
+              },
+              {
+                id: "good-5",
+                text: "Profile page broken, fix it",
+                explanation: "Too vague. No context, no error details, no file references."
+              },
+              {
+                id: "good-6",
+                text: "The profile page has an issue. Can you look at the UserProfile component and see what's wrong?",
+                explanation: "Better, but missing specific error details and file context (@ references) that would help AI diagnose faster."
+              }
+            ],
+            correctPromptId: "good-4"
+          },
+          {
+            id: "scenario-3",
+            task: "You want to add dark mode to your app",
+            badPrompt: "Add dark mode",
+            goodPrompts: [
+              {
+                id: "good-7",
+                text: "Add dark mode toggle using next-themes. Add it to the navbar. It should persist across page reloads and have smooth transitions. Use the existing color scheme from @globals.css.",
+                explanation: "Perfect! Includes library (next-themes), location (navbar), requirements (persist, transitions), and context file (@globals.css)."
+              },
+              {
+                id: "good-8",
+                text: "Make it dark",
+                explanation: "Way too vague. No implementation details, no library choice, no location specified."
+              },
+              {
+                id: "good-9",
+                text: "I want dark mode for my Next.js app. Can you add a toggle somewhere?",
+                explanation: "Better, but missing specific library choice, exact location, and context files that would help AI implement it correctly."
+              }
+            ],
+            correctPromptId: "good-7"
+          }
+        ]
       }
     ]
   },
@@ -522,154 +622,123 @@ export const tutorialMissions: TutorialMissionContent[] = [
       {
         id: "ff-1",
         type: "text",
-        title: "What Is the Frontend?",
+        title: "Build, Don't Memorize",
         body:
-          "The frontend is everything the user sees and touches: buttons, forms, text, layouts, animations. It is the face of your app."
+          "You don't need to memorize what frontend is. You need to know how to build it. Let's start with real prompts that work."
       },
       {
         id: "ff-2",
-        type: "text",
-        title: "Components and State",
-        body:
-          "Modern frontends are built from components. Each component can have state, which is just its memory. When state changes, the UI re-renders."
-      },
-      {
-        id: "ff-3",
-        type: "dragDrop",
-        prompt:
-          "How does a Vibe Coder build a Frontend compared to the old way? Sort the actions.",
-        categories: [
-          { id: "vibe", label: "Vibe Coding (AI First)" },
-          { id: "old", label: "Old School (Manual)" }
+        type: "buildTask",
+        title: "Your First Component",
+        description: "Build a button component using Cursor",
+        task: "Open Cursor. Create a new file called Button.tsx. Paste this prompt: 'Create a React button component using Tailwind CSS. It should be purple, have a hover effect, and accept children as text. Export it as a default export.'",
+        expectedOutcome: "A working Button component that you can import and use",
+        verificationSteps: [
+          "Created Button.tsx file",
+          "Component uses Tailwind classes",
+          "Button is purple with hover effect",
+          "Component accepts children prop",
+          "You can import and use it in another file"
         ],
-        items: [
-          { id: "prompt", label: "Prompt: 'Make it look like Apple'", correctCategoryId: "vibe" },
-          { id: "iterate", label: "Iterate on the design instantly", correctCategoryId: "vibe" },
-          { id: "focus", label: "Focus on what the user sees", correctCategoryId: "vibe" },
-          { id: "css", label: "Type 500 lines of CSS", correctCategoryId: "old" },
-          { id: "debug", label: "Debug a missing semicolon", correctCategoryId: "old" },
-          { id: "memorize", label: "Memorize grid syntax", correctCategoryId: "old" }
+        tips: [
+          "Just copy the prompt exactly into Cursor",
+          "Let AI generate the code",
+          "Check if it works by importing it",
+          "If it doesn't work, ask AI to fix it"
         ]
       },
       {
-        id: "ff-3b",
+        id: "ff-3",
         type: "text",
-        title: "The Vibe Shift",
+        title: "Real Prompt Example",
         body:
-          "You don't need to be a CSS expert to build beautiful frontends anymore. Your job is to have the vision and taste to direct the AI, while it handles the heavy lifting of syntax and styling."
+          "Here's what a good prompt looks like:\n\n'Create a login form component in React with Tailwind. Include email and password fields, a submit button, and basic validation. Use useState for form state. Make it look modern and clean.'\n\nNotice: It's specific. It mentions the tech stack. It says what you want. That's all you need."
       },
       {
         id: "ff-4",
-        type: "identify",
-        prompt:
-          "You want AI to help you write code but you still want to see and edit the real React files yourself. Which tool feels best for that?",
-        options: [
-          { id: "a", label: "Cursor" },
-          { id: "b", label: "A database like PlanetScale" },
-          { id: "c", label: "An analytics tool like Posthog" }
+        type: "buildTask",
+        title: "Build a Card Component",
+        description: "Practice with another real prompt",
+        task: "In Cursor, create Card.tsx. Use this prompt: 'Create a card component with an image at the top, title, description, and a button at the bottom. Use Tailwind for styling. Make it responsive. The card should have a subtle shadow and rounded corners.'",
+        expectedOutcome: "A reusable Card component",
+        verificationSteps: [
+          "Card has image, title, description, button",
+          "Uses Tailwind styling",
+          "Has shadow and rounded corners",
+          "Works on mobile (responsive)"
         ],
-        correctOptionId: "a",
-        correctExplanation:
-          "Right. Cursor is an AI-first code editor where you keep full control over the actual React code.",
-        wrongExplanation:
-          "Not quite. Databases and analytics tools are important, but Cursor is the editor that works directly on your code."
+        tips: [
+          "Copy the prompt word-for-word",
+          "Let AI do the work",
+          "Test it by using it in a page"
+        ]
       },
       {
         id: "ff-5",
-        type: "sorting",
-        prompt: "Sort the steps of a simple frontend update.",
-        items: [
-          "User clicks a button",
-          "Component state changes",
-          "UI re-renders with the new value"
-        ],
-        correctOrder: [
-          "User clicks a button",
-          "Component state changes",
-          "UI re-renders with the new value"
+        type: "promptGame",
+        title: "Better Prompts = Better Results",
+        description: "Practice writing prompts that actually work",
+        timeLimit: 30,
+        scenarios: [
+          {
+            id: "scenario-1",
+            task: "You want to create a navigation bar",
+            badPrompt: "Make a navbar",
+            goodPrompts: [
+              {
+                id: "good-1",
+                text: "Create a responsive navigation bar component with a logo on the left, menu items in the center, and a login button on the right. Use Tailwind CSS. Make it sticky at the top. Add a mobile hamburger menu.",
+                explanation: "Perfect! Specific layout, tech stack, behavior (sticky), and mobile consideration."
+              },
+              {
+                id: "good-2",
+                text: "Navigation bar please",
+                explanation: "Too vague. No details about layout, styling, or behavior."
+              },
+              {
+                id: "good-3",
+                text: "I need a navbar for my website with some links",
+                explanation: "Better, but missing specific requirements like layout, styling approach, and mobile support."
+              }
+            ],
+            correctPromptId: "good-1"
+          }
         ]
       },
       {
         id: "ff-6",
-        type: "miniChallenge",
-        prompt:
-          "You want to sketch a quick layout and get React components generated for you with minimal setup. Which tool is a good fit to try first?",
-        options: [
-          { id: "a", label: "v0" },
-          { id: "b", label: "Supabase" },
-          { id: "c", label: "Posthog" }
+        type: "buildTask",
+        title: "Build a Landing Page Hero",
+        description: "Use v0 or Cursor to generate a hero section",
+        task: "Go to v0.dev or use Cursor. Prompt: 'Create a hero section for a SaaS landing page. Include a headline, subheadline, two CTA buttons (primary and secondary), and a hero image placeholder. Use Tailwind. Make it look like Stripe or Vercel - clean and modern.'",
+        expectedOutcome: "A hero section you can copy into your project",
+        verificationSteps: [
+          "Has headline and subheadline",
+          "Two buttons (primary/secondary styles)",
+          "Image placeholder",
+          "Modern, clean design",
+          "You can copy the code"
         ],
-        correctOptionId: "a",
-        correctExplanation:
-          "Yes. v0 is great for quickly generating React sections and pages from prompts.",
-        wrongExplanation:
-          "Close, but for generating frontend layouts directly, v0 is the best match here."
+        tips: [
+          "v0.dev is great for generating sections",
+          "Copy the code it generates",
+          "Paste into your project",
+          "Adjust colors/styling if needed"
+        ]
       },
       {
         id: "ff-7",
         type: "text",
-        title: "Frontend Summary",
+        title: "That's It",
         body:
-          "Frontend is the layer that users see and feel. Tools like v0, Base44, Lovable and Cursor all help you build that layer faster. They are competitors in the same slot, so you can pick the one that feels best and still follow the same Vibe Stack concepts."
-      },
-      {
-        id: "ff-8",
-        type: "speedQuiz",
-        title: "Frontend Speed Round",
-        description: "Answer quickly to test your frontend knowledge!",
-        questions: [
-          {
-            id: "q1",
-            question: "What happens when state changes?",
-            options: [
-              { id: "a", label: "UI rerenders" },
-              { id: "b", label: "Database updates" },
-              { id: "c", label: "Server restarts" },
-            ],
-            correct: "a",
-            timeLimit: 10,
-          },
-          {
-            id: "q2",
-            question: "What are reusable UI building blocks called?",
-            options: [
-              { id: "a", label: "Components" },
-              { id: "b", label: "Functions" },
-              { id: "c", label: "Variables" },
-            ],
-            correct: "a",
-            timeLimit: 10,
-          },
-          {
-            id: "q3",
-            question: "Which tool generates UI from text prompts?",
-            options: [
-              { id: "a", label: "v0" },
-              { id: "b", label: "GitHub" },
-              { id: "c", label: "Vercel" },
-            ],
-            correct: "a",
-            timeLimit: 10,
-          },
-        ],
-      },
-      {
-        id: "ff-9",
-        type: "memoryGame",
-        title: "Frontend Concepts Memory Game",
-        description: "Match frontend concepts to their definitions",
-        cards: [
-          { id: "ui", front: "UI", back: "Everything you see, click, and interact with" },
-          { id: "components", front: "Components", back: "Reusable building blocks (like LEGO bricks)" },
-          { id: "rendering", front: "Rendering", back: "Drawing the UI on the screen" },
-          { id: "state", front: "State", back: "Data that changes over time (like cart count)" },
-          { id: "v0", front: "v0", back: "AI that generates UI components from text" },
-          { id: "cursor", front: "Cursor", back: "IDE where you assemble components" },
-        ],
-        timeLimit: 60,
+          "You just learned frontend by building. No theory. No memorization. Just prompts and results. This is vibe coding."
       }
     ]
   },
+
+  ////////////////////////////////////////////////////////
+  // MISSION: backend-fundamentals
+  ////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////
   // MISSION: backend-fundamentals
@@ -681,102 +750,73 @@ export const tutorialMissions: TutorialMissionContent[] = [
       {
         id: "bf-1",
         type: "text",
-        title: "The Backend Is the Brain",
+        title: "Use Supabase. That's It.",
         body:
-          "The backend receives requests, applies logic, talks to the database, and sends responses back. It decides what actually happens when a user performs an action."
+          "For vibe coding, use Supabase. It's database + auth + APIs in one. No need to learn the theory. Just set it up and use it."
       },
       {
         id: "bf-2",
-        type: "text",
-        title: "Popular Backend Choices",
-        body:
-          "In Vibe Coding we often use Supabase as our main backend: it provides database, auth, and APIs in one place. Alternatives include Firebase, Appwrite, or using PlanetScale plus custom server code."
+        type: "buildTask",
+        title: "Set Up Supabase",
+        description: "Create your Supabase project",
+        task: "1. Go to supabase.com and sign up\n2. Create a new project\n3. Copy your project URL and anon key\n4. Create a .env.local file in your project\n5. Add: NEXT_PUBLIC_SUPABASE_URL=your-url and NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key",
+        expectedOutcome: "Supabase project created and connected to your app",
+        verificationSteps: [
+          "Supabase account created",
+          "New project created",
+          ".env.local file exists",
+          "Environment variables added"
+        ],
+        tips: [
+          "The URL and key are in Project Settings > API",
+          "Never commit .env.local to git",
+          "Add .env.local to .gitignore"
+        ]
       },
       {
         id: "bf-3",
-        type: "quiz",
-        question: "Which backend option gives you database, auth, and APIs in one platform?",
-        options: [
-          { id: "a", label: "Supabase" },
-          { id: "b", label: "PlanetScale" },
-          { id: "c", label: "Vercel" }
+        type: "buildTask",
+        title: "Create Your First Table",
+        description: "Use AI to create a database table",
+        task: "In Supabase dashboard, go to Table Editor. Click 'New Table'. In Cursor, ask: 'Help me create a users table in Supabase with columns: id (uuid, primary key), email (text, unique), name (text), created_at (timestamp). Write the SQL for me.' Copy the SQL into Supabase SQL Editor and run it.",
+        expectedOutcome: "A users table in your Supabase database",
+        verificationSteps: [
+          "Table created in Supabase",
+          "Has id, email, name, created_at columns",
+          "id is primary key",
+          "email is unique"
         ],
-        correctOptionId: "a",
-        correctExplanation: "Exactly. Supabase is an all-in-one backend platform.",
-        wrongExplanation: "Not quite. PlanetScale is only a database, and Vercel is for deployment."
+        tips: [
+          "Just ask AI for the SQL",
+          "Copy-paste into Supabase",
+          "Don't worry about understanding SQL yet"
+        ]
       },
       {
         id: "bf-4",
-        type: "identify",
-        prompt:
-          "A user clicks 'Create Post'. The app validates the data, saves it to the database, and returns the new post. Which part of this flow is backend logic?",
-        options: [
-          { id: "a", label: "Rendering the button on screen." },
-          { id: "b", label: "Saving the post to the database and returning the result." },
-          { id: "c", label: "The user typing into the input field." }
+        type: "buildTask",
+        title: "Connect Frontend to Backend",
+        description: "Fetch data from Supabase",
+        task: "In Cursor, create a file called lib/supabase.ts. Ask: 'Create a Supabase client for Next.js using @supabase/supabase-js. Use environment variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. Export a function that returns the client.' Then create a page that fetches users: 'Create a page that fetches all users from the users table using the Supabase client and displays them in a list.'",
+        expectedOutcome: "A page that shows data from your Supabase database",
+        verificationSteps: [
+          "supabase.ts file created",
+          "Client uses environment variables",
+          "Page fetches users",
+          "Users display on the page"
         ],
-        correctOptionId: "b",
-        correctExplanation:
-          "Correct. Backend logic validates, saves, and returns the new post.",
-        wrongExplanation:
-          "Not exactly. Backend logic is the part that talks to the database and processes the request."
+        tips: [
+          "Install @supabase/supabase-js first: npm install @supabase/supabase-js",
+          "Let AI write the code",
+          "Test by adding a user in Supabase dashboard"
+        ]
       },
       {
         id: "bf-5",
-        type: "miniChallenge",
-        prompt:
-          "You want to build a SaaS quickly with minimal backend setup and strong auth support. Which tool is the recommended default for Vibe Coding?",
-        options: [
-          { id: "a", label: "Supabase" },
-          { id: "b", label: "Firebase Realtime DB only" },
-          { id: "c", label: "Building everything from scratch with raw Node" }
-        ],
-        correctOptionId: "a",
-        correctExplanation:
-          "Yes. Supabase is the recommended default stack for Vibe Coding projects.",
-        wrongExplanation:
-          "Close, but Supabase is the option that balances speed, power, and simplicity."
-      },
-      {
-        id: "bf-6",
         type: "text",
-        title: "Backend Summary",
+        title: "You Just Built a Backend",
         body:
-          "The backend is where logic and security live. Supabase will usually be your main backend, but it is important to know there are alternatives like Firebase, Appwrite, and custom Node servers."
-      },
-      {
-        id: "bf-7",
-        type: "codePuzzle",
-        title: "Complete the Backend Code",
-        description: "Fill in the blanks to create a secure backend endpoint",
-        puzzle: "function handleRequest(req) {\n  const apiKey = process.env.__0__;\n  if (!apiKey) {\n    return { error: '__1__' };\n  }\n  return { success: true };\n}",
-        missingParts: [
-          {
-            id: "env-var",
-            options: ["API_KEY", "SECRET_KEY", "PASSWORD"],
-            correct: "API_KEY",
-            hint: "Environment variables store secrets",
-          },
-          {
-            id: "error-msg",
-            options: ["'Unauthorized'", "'Hello'", "'Success'"],
-            correct: "'Unauthorized'",
-            hint: "What error should you return when a key is missing?",
-          },
-        ],
-      },
-      {
-        id: "bf-8",
-        type: "memoryGame",
-        title: "Backend Fundamentals Memory Game",
-        description: "Match backend concepts to their definitions",
-        cards: [
-          { id: "backend", front: "Backend", back: "The brain - handles logic and secrets" },
-          { id: "server", front: "Server", back: "Computer in the cloud that runs code" },
-          { id: "supabase", front: "Supabase", back: "Recommended BaaS with PostgreSQL" },
-          { id: "secrets", front: "Secrets", back: "Sensitive data like API keys (must stay hidden)" },
-        ],
-        timeLimit: 60,
+          "That's it. You created a database, connected it, and fetched data. No theory. Just prompts and results. This is how you vibe code."
       }
     ]
   },
@@ -1015,14 +1055,18 @@ export const tutorialMissions: TutorialMissionContent[] = [
         type: "text",
         title: "Node.js",
         body:
-          "Node.js is the JavaScript runtime that lets your tools run scripts, install packages, and build your app. Many CLIs and dev tools rely on Node behind the scenes."
+          "Node.js is the JavaScript runtime that lets your tools run scripts, install packages, and build your app. Many CLIs and dev tools rely on Node behind the scenes.",
+        image: "https://nodejs.org/static/images/logo-hexagon-card.png",
+        youtubeVideo: "https://www.youtube.com/watch?v=TlB_eWDSMt4"
       },
       {
         id: "dt-2",
         type: "text",
         title: "GitHub Desktop",
         body:
-          "GitHub Desktop helps you track changes and create save points for your project. If something breaks, you can roll back to a previous commit, just like loading an older save in a game."
+          "GitHub Desktop helps you track changes and create save points for your project. If something breaks, you can roll back to a previous commit, just like loading an older save in a game.",
+        image: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+        youtubeVideo: "https://www.youtube.com/watch?v=77W2JSL7-r8"
       },
       {
         id: "dt-3",
@@ -1036,7 +1080,11 @@ export const tutorialMissions: TutorialMissionContent[] = [
         type: "text",
         title: "Cursor as Your IDE",
         body:
-          "Cursor is your AI powered editor. It understands your codebase and helps you generate, refactor, and navigate code with context aware suggestions."
+          "Cursor is your AI powered editor. It understands your codebase and helps you generate, refactor, and navigate code with context aware suggestions.",
+        // Cursor IDE - add cursor-logo.png to /public folder for best results
+        // Using placeholder for now - replace with actual Cursor logo image
+        image: undefined,
+        youtubeVideo: "https://www.youtube.com/watch?v=2aldTxnbNt0"
       },
       {
         id: "dt-5",
