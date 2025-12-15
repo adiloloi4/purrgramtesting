@@ -7,40 +7,68 @@ export const mission01: MissionData = {
     {
       type: "text",
       title: "The Shift",
-      content:
+      body:
         "For 40 years, coding meant typing. You were the Scribe. You memorized syntax. You hunted for missing semicolons. Today, that era ends. You are no longer the Scribe. You are the Director.",
     },
     {
       type: "text",
-      title: "Core Concept",
-      content:
+      title: "The Director's Role",
+      body:
         "A Director doesn't hold the camera. A Director tells the camera operator what to capture. In Vibe Coding, AI is your camera operator. You don't write the code; you direct the outcome. Your job is vision, taste, and decision.",
     },
     {
-      type: "quiz",
-      title: "Decision Game: The Waitlist",
-      question: "Scenario: You want to add a waitlist to your app to collect emails. What is the Director's move?",
-      options: [
-        { id: "a", label: "Spend 3 hours watching SQL tutorials to learn how to write 'CREATE TABLE' commands manually." },
-        { id: "b", label: "Ask the AI: 'I need a waitlist system. Design a database table for emails and an API route to save them.'" },
-        { id: "c", label: "Copy-paste random code from a blog post written in 2019." },
-      ],
-      correctOptionId: "b",
-      correctExplanation: "Correct. You defined the *outcome* (waitlist system) and the *requirements* (database + API). You let the AI handle the implementation.",
-      wrongExplanation: "That is the Scribe mindset. Don't learn the tool's internal language just to use it once. Direct the tool to do the work.",
+      type: "text",
+      title: "Concrete Example: The Waitlist",
+      body:
+        "Old Way (Scribe): Spend 3 hours learning SQL to write 'CREATE TABLE waitlist...'.\n\nNew Way (Director): Tell AI: 'I need a waitlist. Design a table for emails and an API to save them.'",
     },
     {
       type: "quiz",
-      title: "Decision Game: The Style",
-      question: "Scenario: The AI generated a login button, but it's blue and you wanted red. What do you do?",
+      question: "What is the primary role of a Vibe Coder?",
       options: [
-        { id: "a", label: "Search Google for 'CSS hex codes for red' and manually edit the file." },
-        { id: "b", label: "Tell the AI: 'Make the login button red and rounder.'" },
-        { id: "c", label: "Accept the blue button because you don't know how to change it." },
+        { id: "a", text: "Memorizing syntax" },
+        { id: "b", text: "Directing the outcome" },
+        { id: "c", text: "Writing binary code" },
       ],
       correctOptionId: "b",
-      correctExplanation: "Exactly. Don't context switch into manual labor. Give a visual correction just like a Director on a movie set.",
-      wrongExplanation: "Why do the work yourself? Your 'camera operator' (AI) is right there waiting for instructions.",
+      correctExplanation: "Exactly. You direct the AI to achieve the outcome you want.",
+      wrongExplanation: "Think about the movie set analogy. Do you hold the camera, or tell the story?",
+    },
+    {
+      type: "text",
+      title: "The Trap: Getting Your Hands Dirty",
+      body:
+        "When you try to fix the code yourself, you stop directing. You become a bad Scribe. You break things. You get frustrated. Stay in the Director's chair.",
+    },
+    {
+      type: "identify",
+      prompt: "Which of these is a Director move?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! Give visual feedback like a director.",
+      wrongExplanation: "Don't do the manual labor yourself.",
+      options: [
+        {
+          id: "a",
+          text: "Search Google for CSS hex codes",
+          icon: "🔍",
+        },
+        {
+          id: "b",
+          text: "Tell AI: 'Make the button red and rounder'",
+          icon: "🎬",
+        },
+        {
+          id: "c",
+          text: "Manually delete lines of code",
+          icon: "⌨️",
+        },
+      ],
+    },
+    {
+      type: "text",
+      title: "Recovery: When AI Fails",
+      body:
+        "Sometimes the camera operator misses the shot. The AI writes bad code. Do not fix it yourself. Tell the AI: 'That didn't work. The button is still blue. Fix it.' Direct the fix.",
     },
     {
       type: "buildTask",
@@ -52,38 +80,29 @@ export const mission01: MissionData = {
         "Open Cursor",
         "Press Cmd+K",
         "Enter the prompt",
-        "See the file created"
+        "See the file created",
       ],
       tips: [
         "Don't worry about where to save it yet.",
         "Just see how fast you can manifest an idea.",
-        "Trust the AI to handle the syntax."
+        "Trust the AI to handle the syntax.",
       ],
     },
     {
-      type: "quiz",
-      title: "Validation Check",
-      question: "Did you see the file appear in your explorer?",
-      options: [
-        { id: "a", label: "Yes, it appeared like magic." },
-        { id: "b", label: "No, I'm stuck." },
+      type: "checklist",
+      title: "Summary: The New Laws",
+      prompt: "Internalize the Vibe.",
+      items: [
+        { id: "1", label: "I will not memorize syntax." },
+        { id: "2", label: "I will direct, not type." },
+        { id: "3", label: "I will treat errors as information, not failure." },
       ],
-      correctOptionId: "a",
-      correctExplanation: "Welcome to the Director's Chair. That feeling of speed? That's Vibe Coding.",
-      wrongExplanation: "Try pressing Cmd+K again. Make sure you are in the editor window.",
     },
     {
-      type: "quiz",
-      title: "Decision Game: The Error",
-      question: "Scenario: You ran the code and got a big red error message. What is the Director's reaction?",
-      options: [
-        { id: "a", label: "Panic and assume you aren't smart enough for this." },
-        { id: "b", label: "Copy the error message, paste it to the AI, and say 'Fix this'." },
-        { id: "c", label: "Delete the whole project and start over." },
-      ],
-      correctOptionId: "b",
-      correctExplanation: "Perfect. Errors are just information. The AI can read the error and correct its own mistakes 99% of the time.",
-      wrongExplanation: "Emotional reactions don't fix bugs. The AI doesn't have feelings; use it to solve the problem.",
-    }
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You just generated code that would have taken a beginner 2 hours to write by hand. You did it in 10 seconds. You are ready.",
+    },
   ],
 };

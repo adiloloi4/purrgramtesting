@@ -7,47 +7,30 @@ export const mission06: MissionData = {
     {
       type: "text",
       title: "The Mindset Shift",
-      content:
+      body:
         "Developers think in code. Founders think in products. You're not just writing code - you're building something people will use. This shift changes everything.",
     },
     {
       type: "text",
       title: "Product Vision Over Code Perfection",
-      content:
+      body:
         "A founder asks: 'Does this solve a real problem?' A developer asks: 'Is this code perfect?' Both matter, but the product question comes first. Users don't pay for perfect code. They pay for solutions.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "Founder vs Developer Thinking",
-      cards: [
-        {
-          id: "founder",
-          title: "Founder Thinks",
-          description: "What problem am I solving? Who needs this? How do I validate this? What's the fastest path to users?",
-        },
-        {
-          id: "developer",
-          title: "Developer Thinks",
-          description: "Is this code clean? Are there bugs? Is it optimized? Is it maintainable?",
-        },
-        {
-          id: "vibe",
-          title: "Vibe Coder Thinks",
-          description: "Both. But product first, code second. Ship solutions, then optimize code.",
-        },
-      ],
+      prompt: "Compare the mindsets.",
+      items: [
+        { id: "founder", label: "Founder: Problem? Who needs it? Fast path?" },
+        { id: "developer", label: "Developer: Clean code? Optimized? Maintainable?" },
+        { id: "vibe", label: "Vibe Coder: Product First, Code Second." }
+      ]
     },
     {
       type: "text",
       title: "The User-First Approach",
-      content:
+      body:
         "Every feature starts with a user problem. Not with a cool technology. Not with a perfect architecture. With a problem someone has. Solve that, and the rest follows.",
-    },
-    {
-      type: "text",
-      title: "Validation Over Assumption",
-      content:
-        "Founders validate. They ship, measure, learn. They don't assume they know what users want. They find out. You should too. Build, ship, measure, iterate.",
     },
     {
       type: "quiz",
@@ -57,25 +40,39 @@ export const mission06: MissionData = {
         { id: "b", text: "Understanding the user problem" },
         { id: "c", text: "Choosing the best technology" },
       ],
-      correct: "b",
-      feedbackCorrect: "Exactly! Always start with the user problem. Everything else follows from that.",
-      feedbackWrong: "Think about what founders prioritize - it's always the user and their problems.",
+      correctOptionId: "b",
+      correctExplanation: "Exactly! Always start with the user problem. Everything else follows from that.",
+      wrongExplanation: "Think about what founders prioritize - it's always the user and their problems.",
     },
     {
-      type: "matching",
-      title: "Match the Mindset",
-      pairs: [
-        { left: "Product Vision", right: "What problem am I solving?" },
-        { left: "Code Quality", right: "Is this maintainable?" },
-        { left: "User Validation", right: "Do people actually use this?" },
-        { left: "Speed to Market", right: "How fast can I ship?" },
+      type: "identify",
+      prompt: "Which thought process is a Founder Mindset?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! Shipping to validate is the founder way.",
+      wrongExplanation: "Don't get stuck in optimization before you have users.",
+      options: [
+        {
+          id: "a",
+          text: "I need to optimize this database query before launch",
+          icon: "🐢",
+        },
+        {
+          id: "b",
+          text: "I need to ship this landing page to see if anyone cares",
+          icon: "🚀",
+        },
+        {
+          id: "c",
+          text: "I need to rewrite the CSS to be cleaner",
+          icon: "🧹",
+        },
       ],
     },
     {
       type: "text",
-      title: "The Founder's Edge",
-      content:
-        "When you think like a founder, you build what matters. You ship faster. You learn quicker. You win. This mindset is your edge. Use it.",
+      title: "Validation Over Assumption",
+      body:
+        "Founders validate. They ship, measure, learn. They don't assume they know what users want. They find out. You should too. Build, ship, measure, iterate.",
     },
     {
       type: "buildTask",
@@ -138,18 +135,10 @@ export const mission06: MissionData = {
       ],
     },
     {
-      type: "memoryGame",
-      title: "Founder vs Developer Thinking",
-      description: "Match the mindset to its focus",
-      cards: [
-        { id: "founder", front: "Founder Thinks", back: "What problem am I solving? Who needs this?" },
-        { id: "developer", front: "Developer Thinks", back: "Is this code clean? Is it maintainable?" },
-        { id: "vibe", front: "Vibe Coder Thinks", back: "Product first, code second" },
-        { id: "user-first", front: "User-First", back: "Every feature starts with a user problem" },
-        { id: "validate", front: "Validation", back: "Ship, measure, learn - don't assume" },
-      ],
-      timeLimit: 60,
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You are not just a coder. You are a builder. You solve problems. That is valuable.",
     },
   ],
 };
-

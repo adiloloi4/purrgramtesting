@@ -7,29 +7,30 @@ export const mission03: MissionData = {
     {
       type: "text",
       title: "The Contract",
-      content:
+      body:
         "API stands for Application Programming Interface. It's a contract. 'If you ask for X, I will give you Y'. It connects the Frontend to the Backend.",
     },
     {
       type: "text",
       title: "Requests & Responses",
-      content:
+      body:
         "The Frontend sends a 'Request' (The Order). The Backend sends a 'Response' (The Food). Every interaction is a conversation.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "Common API Methods",
-      cards: [
-        { id: "get", title: "GET", description: "Retrieve data. Like reading a menu. Safe to call multiple times." },
-        { id: "post", title: "POST", description: "Create new data. Like placing an order. Changes the state of the server." },
-        { id: "put", title: "PUT / PATCH", description: "Update existing data. Like changing your order." },
-        { id: "delete", title: "DELETE", description: "Remove data. Like cancelling an order." }
+      prompt: "Learn the verbs.",
+      items: [
+        { id: "get", label: "GET: Retrieve data (Reading a menu)" },
+        { id: "post", label: "POST: Create data (Placing an order)" },
+        { id: "put", label: "PUT/PATCH: Update data (Changing order)" },
+        { id: "delete", label: "DELETE: Remove data (Cancelling order)" }
       ]
     },
     {
       type: "text",
       title: "REST vs GraphQL",
-      content:
+      body:
         "REST is standard (separate endpoints for resources). GraphQL is flexible (ask for exactly what you want in one query). We focus on REST concepts first as they are foundational.",
     },
     {
@@ -56,9 +57,9 @@ export const mission03: MissionData = {
         { id: "b", text: "POST" },
         { id: "c", text: "DELETE" },
       ],
-      correct: "b",
-      feedbackCorrect: "Correct! POST is used to create or send new data to the server.",
-      feedbackWrong: "Creating new data changes the state of the server.",
+      correctOptionId: "b",
+      correctExplanation: "Correct! POST is used to create or send new data to the server.",
+      wrongExplanation: "Creating new data changes the state of the server.",
     },
     {
       type: "quiz",
@@ -68,31 +69,32 @@ export const mission03: MissionData = {
         { id: "b", text: "The Menu" },
         { id: "c", text: "The Table" },
       ],
-      correct: "b",
-      feedbackCorrect: "Yes. The Menu defines what requests are possible.",
-      feedbackWrong: "Recall the overview mission analogy.",
+      correctOptionId: "b",
+      correctExplanation: "Yes. The Menu defines what requests are possible.",
+      wrongExplanation: "Recall the overview mission analogy.",
     },
     {
       type: "matching",
-      title: "Match API Methods to Actions",
+      prompt: "Match API Methods to Actions",
       pairs: [
-        { left: "GET", right: "Retrieve data" },
-        { left: "POST", right: "Create new data" },
-        { left: "PUT", right: "Update existing data" },
-        { left: "DELETE", right: "Remove data" },
+        { id: "get", left: "GET", right: "Retrieve data" },
+        { id: "post", left: "POST", right: "Create new data" },
+        { id: "put", left: "PUT", right: "Update existing data" },
+        { id: "delete", left: "DELETE", right: "Remove data" },
       ],
     },
     {
-      type: "memoryGame",
-      title: "API Methods Memory Game",
-      description: "Match the HTTP methods with their purposes",
-      cards: [
-        { id: "get", front: "GET", back: "Read data safely" },
-        { id: "post", front: "POST", back: "Create new resources" },
-        { id: "put", front: "PUT", back: "Update existing data" },
-        { id: "delete", front: "DELETE", back: "Remove data" },
+      type: "sequenceGame",
+      title: "API Request Lifecycle",
+      description: "Order the steps of a successful API interaction",
+      items: [
+        { id: "user", label: "User clicks 'Sign Up'", correctPosition: 0 },
+        { id: "browser", label: "Browser sends POST request", correctPosition: 1 },
+        { id: "api", label: "API Endpoint receives data", correctPosition: 2 },
+        { id: "db", label: "Backend saves to Database", correctPosition: 3 },
+        { id: "response", label: "API sends 'Success' response", correctPosition: 4 },
+        { id: "ui", label: "Frontend shows 'Welcome!'", correctPosition: 5 },
       ],
-      timeLimit: 45,
     },
     {
       type: "speedQuiz",

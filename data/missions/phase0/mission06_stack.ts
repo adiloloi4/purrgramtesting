@@ -7,49 +7,55 @@ export const mission06: MissionData = {
     {
       type: "text",
       title: "The Final Challenge",
-      content:
+      body:
         "You have learned the components of a modern app. Now, prove your knowledge by assembling the ultimate Vibe Coding Stack.",
     },
     {
-      type: "drag_and_drop",
-      title: "Assemble the Stack",
-      categories: ["Frontend", "Backend", "Database", "API", "Deployment", "Auth"],
-      items: [
-        { id: "v0", text: "v0.dev" },
-        { id: "cursor", text: "Cursor" },
-        { id: "supabase-func", text: "Supabase Functions" },
-        { id: "supabase-db", text: "Supabase DB" },
-        { id: "openai", text: "OpenAI API" },
-        { id: "vercel", text: "Vercel" },
-        { id: "supabase-auth", text: "Supabase Auth" },
+      type: "dragDrop",
+      prompt: "Assemble the Stack",
+      categories: [
+        { id: "Frontend", label: "Frontend" },
+        { id: "Backend", label: "Backend" },
+        { id: "Database", label: "Database" },
+        { id: "API", label: "API" },
+        { id: "Deployment", label: "Deployment" },
+        { id: "Auth", label: "Auth" },
       ],
-      correctMapping: {
-        "v0": "Frontend",
-        "cursor": "Frontend", // or generic, but typically used for frontend logic in this context
-        "supabase-func": "Backend",
-        "supabase-db": "Database",
-        "openai": "API",
-        "vercel": "Deployment",
-        "supabase-auth": "Auth",
-      },
+      items: [
+        { id: "v0", label: "v0.dev", correctCategoryId: "Frontend" },
+        { id: "cursor", label: "Cursor", correctCategoryId: "Frontend" },
+        { id: "supabase-func", label: "Supabase Functions", correctCategoryId: "Backend" },
+        { id: "supabase-db", label: "Supabase DB", correctCategoryId: "Database" },
+        { id: "openai", label: "OpenAI API", correctCategoryId: "API" },
+        { id: "vercel", label: "Vercel", correctCategoryId: "Deployment" },
+        { id: "supabase-auth", label: "Supabase Auth", correctCategoryId: "Auth" },
+      ],
     },
     {
       type: "text",
       title: "Mission Complete",
-      content:
+      body:
         "You have selected the Golden Stack: Next.js (via Cursor/v0) + Supabase + Vercel. This stack powers million-dollar startups. You are now ready to build.",
     },
     {
-      type: "memoryGame",
-      title: "Stack Components Memory Game",
-      description: "Match the stack components to their purposes",
-      cards: [
-        { id: "v0", front: "v0.dev", back: "Frontend component generator" },
-        { id: "cursor", front: "Cursor", back: "AI-powered code editor" },
-        { id: "supabase", front: "Supabase", back: "Backend infrastructure" },
-        { id: "vercel", front: "Vercel", back: "Deployment platform" },
+      type: "codePuzzle",
+      title: "Configure the Stack Connection",
+      description: "Fix the environment variable to connect the App to Supabase",
+      puzzle: "const supabaseUrl = process.env.__0__;\nconst supabaseKey = process.env.__1__;\nconst supabase = createClient(supabaseUrl, supabaseKey);",
+      missingParts: [
+        {
+          id: "url",
+          options: ["NEXT_PUBLIC_SUPABASE_URL", "DB_PASSWORD", "LOCALHOST"],
+          correct: "NEXT_PUBLIC_SUPABASE_URL",
+          hint: "The URL needs to be public for the client",
+        },
+        {
+          id: "key",
+          options: ["NEXT_PUBLIC_SUPABASE_ANON_KEY", "SECRET_ADMIN_KEY", "123456"],
+          correct: "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          hint: "The Anon key is safe for the browser",
+        },
       ],
-      timeLimit: 50,
     },
     {
       type: "speedQuiz",

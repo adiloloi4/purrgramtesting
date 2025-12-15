@@ -12,6 +12,7 @@ export type QuizOption = {
   label?: string; // Legacy
   text?: string;  // New
   correct?: boolean; // New
+  icon?: string; // New
 };
 
 export type QuizSlide = {
@@ -60,6 +61,7 @@ export type IdentifyItem = {
   id: string;
   text: string;
   correct: boolean;
+  icon?: string;
 };
 
 export type IdentifySlide = {
@@ -366,16 +368,14 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "wivc-7",
-        type: "memoryGame",
-        title: "Vibe Coding Memory Challenge",
-        description: "Match the concepts to test your understanding",
-        cards: [
-          { id: "commander", front: "Commander", back: "Direct AI to build products" },
-          { id: "scribe", front: "Scribe", back: "Old way: memorizing syntax" },
-          { id: "vision", front: "Vision", back: "You provide the product vision" },
-          { id: "syntax", front: "Syntax", back: "AI writes the code" },
+        type: "matching",
+        prompt: "Match the concepts to test your understanding",
+        pairs: [
+          { id: "commander", left: "Commander", right: "Direct AI to build products" },
+          { id: "scribe", left: "Scribe", right: "Old way: memorizing syntax" },
+          { id: "vision", left: "Vision", right: "You provide the product vision" },
+          { id: "syntax", left: "Syntax", right: "AI writes the code" },
         ],
-        timeLimit: 60,
       },
       {
         id: "wivc-8",
@@ -518,18 +518,16 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "or-12",
-        type: "memoryGame",
-        title: "Restaurant Analogy Memory Game",
-        description: "Match each app component to its restaurant equivalent",
-        cards: [
-          { id: "frontend", front: "Frontend", back: "The Waiters (what customers interact with)" },
-          { id: "backend", front: "Backend", back: "The Kitchen (where work happens)" },
-          { id: "database", front: "Database", back: "The Fridge (storage for data)" },
-          { id: "api", front: "API", back: "The Menu (contract of what's available)" },
-          { id: "auth", front: "Auth", back: "The Manager (controls access)" },
-          { id: "deployment", front: "Deployment", back: "Food Delivery (makes it accessible)" },
+        type: "matching",
+        prompt: "Match each app component to its restaurant equivalent",
+        pairs: [
+          { id: "frontend", left: "Frontend", right: "The Waiters (what customers interact with)" },
+          { id: "backend", left: "Backend", right: "The Kitchen (where work happens)" },
+          { id: "database", left: "Database", right: "The Fridge (storage for data)" },
+          { id: "api", left: "API", right: "The Menu (contract of what's available)" },
+          { id: "auth", left: "Auth", right: "The Manager (controls access)" },
+          { id: "deployment", left: "Deployment", right: "Food Delivery (makes it accessible)" },
         ],
-        timeLimit: 60,
       },
       {
         id: "or-13",
@@ -880,16 +878,14 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "af-6",
-        type: "memoryGame",
-        title: "API Methods Memory Game",
-        description: "Match the HTTP methods with their purposes",
-        cards: [
-          { id: "get", front: "GET", back: "Read data safely" },
-          { id: "post", front: "POST", back: "Create new resources" },
-          { id: "put", front: "PUT", back: "Update existing data" },
-          { id: "delete", front: "DELETE", back: "Remove data" },
+        type: "matching",
+        prompt: "Match the HTTP methods with their purposes",
+        pairs: [
+          { id: "get", left: "GET", right: "Read data safely" },
+          { id: "post", left: "POST", right: "Create new resources" },
+          { id: "put", left: "PUT", right: "Update existing data" },
+          { id: "delete", left: "DELETE", right: "Remove data" },
         ],
-        timeLimit: 45,
       },
       {
         id: "af-7",
@@ -1027,18 +1023,16 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "df-8",
-        type: "memoryGame",
-        title: "Database Concepts Memory Game",
-        description: "Match database concepts to their definitions",
-        cards: [
-          { id: "persistence", front: "Persistence", back: "Data saved permanently (survives refresh)" },
-          { id: "table", front: "Table", back: "Like a spreadsheet sheet (e.g., Users)" },
-          { id: "row", front: "Row", back: "One item in a table (e.g., John Doe)" },
-          { id: "column", front: "Column", back: "A property (e.g., Email)" },
-          { id: "primary-key", front: "Primary Key", back: "Unique identifier for each row (like ID)" },
-          { id: "supabase", front: "Supabase", back: "Built on PostgreSQL - powerful standard DB" },
+        type: "matching",
+        prompt: "Match database concepts to their definitions",
+        pairs: [
+          { id: "persistence", left: "Persistence", right: "Data saved permanently (survives refresh)" },
+          { id: "table", left: "Table", right: "Like a spreadsheet sheet (e.g., Users)" },
+          { id: "row", left: "Row", right: "One item in a table (e.g., John Doe)" },
+          { id: "column", left: "Column", right: "A property (e.g., Email)" },
+          { id: "primary-key", left: "Primary Key", right: "Unique identifier for each row (like ID)" },
+          { id: "supabase", left: "Supabase", right: "Built on PostgreSQL - powerful standard DB" },
         ],
-        timeLimit: 60,
       }
     ]
   },
@@ -1185,16 +1179,14 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "bs-5",
-        type: "memoryGame",
-        title: "Stack Components Memory Game",
-        description: "Match the stack components to their purposes",
-        cards: [
-          { id: "v0", front: "v0.dev", back: "Frontend component generator" },
-          { id: "cursor", front: "Cursor", back: "AI-powered code editor" },
-          { id: "supabase", front: "Supabase", back: "Backend infrastructure" },
-          { id: "vercel", front: "Vercel", back: "Deployment platform" },
+        type: "matching",
+        prompt: "Match the stack components to their purposes",
+        pairs: [
+          { id: "v0", left: "v0.dev", right: "Frontend component generator" },
+          { id: "cursor", left: "Cursor", right: "AI-powered code editor" },
+          { id: "supabase", left: "Supabase", right: "Backend infrastructure" },
+          { id: "vercel", left: "Vercel", right: "Deployment platform" },
         ],
-        timeLimit: 50,
       },
       {
         id: "bs-6",

@@ -7,46 +7,59 @@ export const mission02: MissionData = {
     {
       type: "text",
       title: "The Golden Stack",
-      content:
+      body:
         "Every Vibe Coder needs the right tools. Not hundreds of them. Just four that work together perfectly: Cursor, V0, Supabase, and Claude. This is your stack. Master these, and you can build anything.",
     },
     {
-      type: "toggle_cards",
+      type: "text",
+      title: "Why These Four?",
+      body:
+        "These tools were chosen because they speak the same language: Speed. They remove the friction of setup, syntax, and servers. They let you move at the speed of thought.",
+    },
+    {
+      type: "checklist",
       title: "Your Four Tools",
-      cards: [
-        {
-          id: "cursor",
-          title: "Cursor",
-          description: "Your AI-powered IDE. Where you write, edit, and compose code with AI assistance. This is your command center.",
-        },
-        {
-          id: "v0",
-          title: "V0",
-          description: "AI component generator. Describe a UI, get React code. Perfect for rapid prototyping and component creation.",
-        },
-        {
-          id: "supabase",
-          title: "Supabase",
-          description: "Your backend in a box. Database, Auth, Storage, and Edge Functions. All the infrastructure you need, ready to go.",
-        },
-        {
-          id: "claude",
-          title: "Claude",
-          description: "Your AI co-pilot. Ask questions, get explanations, debug code, design systems. Your thinking partner.",
-        },
+      prompt: "The Golden Stack.",
+      items: [
+        { id: "cursor", label: "Cursor: AI IDE (Command Center)" },
+        { id: "v0", label: "V0: Component Generator (Designer)" },
+        { id: "supabase", label: "Supabase: Backend (Infrastructure)" },
+        { id: "claude", label: "Claude: AI Co-pilot (Thinking Partner)" }
+      ]
+    },
+    {
+      type: "quiz",
+      question: "Which tool is best for generating React components from a text description?",
+      options: [
+        { id: "a", text: "Cursor" },
+        { id: "b", text: "V0" },
+        { id: "c", text: "Supabase" },
+      ],
+      correctOptionId: "b",
+      correctExplanation: "Correct! V0 is specifically designed to generate UI components from natural language descriptions.",
+      wrongExplanation: "Think about which tool specializes in component generation from text prompts.",
+    },
+    {
+      type: "text",
+      title: "The Workflow Loop",
+      body:
+        "1. Use V0 to generate UI components. 2. Import them into Cursor. 3. Connect to Supabase for data. 4. Ask Claude when you get stuck. This is the Vibe Coding loop.",
+    },
+    {
+      type: "matching",
+      prompt: "Match the Tool to Its Purpose",
+      pairs: [
+        { id: "cursor", left: "Cursor", right: "AI-powered code editor" },
+        { id: "v0", left: "V0", right: "Component generator" },
+        { id: "supabase", left: "Supabase", right: "Backend infrastructure" },
+        { id: "claude", left: "Claude", right: "AI co-pilot" },
       ],
     },
     {
       type: "text",
-      title: "How They Work Together",
-      content:
-        "V0 generates components. Cursor integrates them. Supabase stores data. Claude explains concepts. Each tool does one thing exceptionally well. Together, they form an unstoppable workflow.",
-    },
-    {
-      type: "text",
-      title: "The Workflow",
-      content:
-        "1. Use V0 to generate UI components from descriptions. 2. Import them into Cursor. 3. Connect to Supabase for data. 4. Ask Claude when you're stuck. This is the Vibe Coding loop.",
+      title: "The Danger of Tool Hopping",
+      body:
+        "Beginners fail because they keep switching tools. 'Maybe I should try Python? Maybe AWS?' No. Stick to the Golden Stack until you have shipped. Mastery comes from focus.",
     },
     {
       type: "buildTask",
@@ -70,63 +83,24 @@ export const mission02: MissionData = {
       ],
     },
     {
-      type: "quiz",
-      question: "Which tool is best for generating React components from a text description?",
-      options: [
-        { id: "a", text: "Cursor" },
-        { id: "b", text: "V0" },
-        { id: "c", text: "Supabase" },
-      ],
-      correct: "b",
-      feedbackCorrect: "Correct! V0 is specifically designed to generate UI components from natural language descriptions.",
-      feedbackWrong: "Think about which tool specializes in component generation from text prompts.",
-    },
-    {
-      type: "quiz",
-      question: "Where do you write and edit code with AI assistance?",
-      options: [
-        { id: "a", text: "V0" },
-        { id: "b", text: "Cursor" },
-        { id: "c", text: "Claude" },
-      ],
-      correct: "b",
-      feedbackCorrect: "Yes! Cursor is your IDE where you write, edit, and compose code with AI superpowers.",
-      feedbackWrong: "Think about which tool is the code editor with AI features.",
-    },
-    {
-      type: "matching",
-      title: "Match the Tool to Its Purpose",
-      pairs: [
-        { left: "Cursor", right: "AI-powered code editor" },
-        { left: "V0", right: "Component generator" },
-        { left: "Supabase", right: "Backend infrastructure" },
-        { left: "Claude", right: "AI co-pilot" },
+      type: "spotTheBug",
+      title: "Broken Stack Config",
+      description: "Find the error in the tool configuration",
+      code: "// next.config.ts\n\nconst config = {\n  // We want to use V0 images\n  images: {\n    domains: ['v0.blob.com', 'google.com'],\n  },\n  // Connection to Backend\n  env: {\n    SUPABASE_URL: 'http://localhost:3000', // Bug is here\n  }\n}",
+      bugs: [
+        {
+          id: "wrong-url",
+          line: 9,
+          description: "Supabase URL is pointing to localhost frontend port instead of the Supabase API",
+          fix: "SUPABASE_URL should be the real project URL from Supabase dashboard",
+        },
       ],
     },
     {
-      type: "sequenceGame",
-      title: "The Vibe Coding Workflow",
-      description: "Order the steps of the Vibe Coding loop",
-      items: [
-        { id: "v0", label: "Generate components with V0", correctPosition: 0 },
-        { id: "cursor", label: "Import into Cursor", correctPosition: 1 },
-        { id: "supabase", label: "Connect to Supabase", correctPosition: 2 },
-        { id: "claude", label: "Ask Claude when stuck", correctPosition: 3 },
-      ],
-      hint: "Start with component generation, end with getting help",
-    },
-    {
-      type: "memoryGame",
-      title: "The Golden Stack Memory Game",
-      description: "Match each tool to its purpose in the Vibe Coding stack",
-      cards: [
-        { id: "cursor", front: "Cursor", back: "AI-powered IDE - your command center" },
-        { id: "v0", front: "V0", back: "AI component generator from descriptions" },
-        { id: "supabase", front: "Supabase", back: "Backend in a box - DB, Auth, Storage" },
-        { id: "claude", front: "Claude", back: "AI co-pilot - explains and debugs" },
-      ],
-      timeLimit: 50,
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You now have the best tools in the world. You are not hacking things together. You are building with professional-grade infrastructure.",
     },
   ],
 };
-

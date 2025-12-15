@@ -40,16 +40,31 @@ export const world9Missions: MissionData[] = [
         example: "Keys added.",
       },
       {
-        type: "memoryGame",
-        title: "Payment Providers Memory Game",
-        description: "Match payment providers to their features",
-        cards: [
-          { id: "stripe", front: "Stripe", back: "The standard - powerful, huge ecosystem" },
-          { id: "lemonsqueezy", front: "LemonSqueezy", back: "Merchant of Record - handles tax automatically" },
-          { id: "first-dollar", front: "First Dollar", back: "Moment you become a professional" },
-          { id: "test-keys", front: "Test Keys", back: "Public/Secret keys for development" },
+        type: "speedQuiz",
+        title: "Provider Choice",
+        description: "Pick the right tool for the job",
+        questions: [
+          {
+            id: "q1",
+            question: "You want someone else to handle Global Tax (VAT). Who do you pick?",
+            options: [
+              { id: "a", text: "Stripe (Standard)" },
+              { id: "b", text: "LemonSqueezy (Merchant of Record)" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "You want the massive ecosystem and customizability. Who do you pick?",
+            options: [
+              { id: "a", text: "Stripe" },
+              { id: "b", text: "PayPal" },
+            ],
+            correct: "a",
+            timeLimit: 12,
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -114,16 +129,16 @@ export const world9Missions: MissionData[] = [
         example: "Purchase successful.",
       },
       {
-        type: "memoryGame",
-        title: "Checkout Flow Memory Game",
-        description: "Match checkout concepts to their purposes",
-        cards: [
-          { id: "payment-link", front: "Payment Link", back: "Fastest way to sell - URL from dashboard" },
-          { id: "checkout", front: "Stripe Checkout", back: "Secure payment page" },
-          { id: "test-card", front: "Test Card", back: "4242 4242 4242 4242 for testing" },
-          { id: "success-page", front: "Success Page", back: "Where users return after payment" },
+        type: "identify",
+      prompt: "Where does the user go after clicking 'Buy'?",
+      correctOptionId: "stripe",
+      correctExplanation: "Correct. They leave your site to go to the secure Stripe Checkout page.",
+      wrongExplanation: "They don't stay on your site (unless you build custom elements). They go to Stripe.",
+        options: [
+          { id: "stripe", text: "Stripe Hosted Checkout", icon: "💳" },
+          { id: "home", text: "Your Homepage", icon: "🏠" },
+          { id: "admin", text: "Your Admin Panel", icon: "⚙️" },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -165,16 +180,18 @@ export const world9Missions: MissionData[] = [
         example: "Banner gone.",
       },
       {
-        type: "memoryGame",
-        title: "Paywalls Memory Game",
-        description: "Match paywall concepts to their purposes",
-        cards: [
-          { id: "paywall", front: "Paywall", back: "Blocks features until user pays" },
-          { id: "subscription-status", front: "Subscription Status", back: "Column in profiles table (free/active)" },
-          { id: "upgrade-banner", front: "Upgrade Banner", back: "Shown when status is not active" },
-          { id: "gating", front: "Gating Features", back: "Restricting access to paid users" },
+        type: "spotTheBug",
+        title: "Paywall Bypass",
+        description: "Find the logic flaw that lets free users see pro content",
+        code: "export default async function Dashboard() {\n  const user = await getUser();\n  \n  // BUG: What if status is 'cancelled'?\n  if (user.subscription_status === 'free') {\n    return <UpgradeBanner />;\n  }\n\n  return <ProFeatures />;\n}",
+        bugs: [
+          {
+            id: "loose-check",
+            line: 5,
+            description: "Only checks for 'free'. A 'cancelled' or 'past_due' user might slip through.",
+            fix: "Check if (user.subscription_status !== 'active')",
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -233,16 +250,18 @@ export const world9Missions: MissionData[] = [
         example: "User upgraded.",
       },
       {
-        type: "memoryGame",
-        title: "Webhooks for Pro Status Memory Game",
-        description: "Match webhook concepts to their purposes",
-        cards: [
-          { id: "webhook", front: "Webhook", back: "Stripe tells your app when payment happens" },
-          { id: "checkout-completed", front: "checkout.session.completed", back: "Event when payment succeeds" },
-          { id: "signature", front: "Signature Verification", back: "Security check for webhook authenticity" },
-          { id: "automation", front: "Automation", back: "Business runs while you sleep" },
+        type: "spotTheBug",
+        title: "Insecure Webhook",
+        description: "This webhook is dangerous. Why?",
+        code: "// app/api/webhooks/route.ts\nexport async function POST(req) {\n  const body = await req.json();\n  \n  // ❌ Missing Signature Verification!\n  if (body.type === 'checkout.session.completed') {\n    // Upgrade user\n    await upgradeUser(body.data.object.customer_email);\n  }\n}",
+        bugs: [
+          {
+            id: "no-signature",
+            line: 5,
+            description: "Anyone can send a fake request to this URL and upgrade themselves for free.",
+            fix: "Verify the Stripe-Signature header.",
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",

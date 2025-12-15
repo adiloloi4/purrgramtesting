@@ -1100,6 +1100,24 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
     return options.sort(() => Math.random() - 0.5);
   }, [currentQuestion, currentQuestionIndex]);
 
+  const handleNext = useCallback(() => {
+    if (isFailed) return;
+
+    if (currentQuestionIndex < slide.questions.length - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
+      setTimeLeft(slide.questions[currentQuestionIndex + 1]?.timeLimit || 0);
+    } else {
+      setIsComplete(true);
+      const timeout = setTimeout(() => {
+        if (isMountedRef.current) {
+          onComplete();
+        }
+      }, 2000);
+      timeoutRefs.current.push(timeout);
+    }
+  }, [isFailed, currentQuestionIndex, slide.questions, onComplete, isMountedRef, timeoutRefs]);
+
   const handleAnswer = useCallback((answerId: string | null) => {
     if (selectedAnswer) return;
 
@@ -1151,25 +1169,7 @@ export const SpeedQuizSlideComponent: React.FC<SpeedQuizSlideProps> = ({ slide, 
       }, 1500);
       timeoutRefs.current.push(timeout);
     }
-  };
-
-  const handleNext = () => {
-    if (isFailed) return;
-
-    if (currentQuestionIndex < slide.questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-      setSelectedAnswer(null);
-      setTimeLeft(slide.questions[currentQuestionIndex + 1]?.timeLimit || 0);
-    } else {
-      setIsComplete(true);
-      const timeout = setTimeout(() => {
-        if (isMountedRef.current) {
-          onComplete();
-        }
-      }, 2000);
-      timeoutRefs.current.push(timeout);
-    }
-  }, [selectedAnswer, currentQuestion, timeLeft, slide, currentQuestionIndex, isMountedRef, timeoutRefs, onComplete]);
+  }, [selectedAnswer, currentQuestion, timeLeft, slide, mistakes, isMountedRef, timeoutRefs, handleNext]);
 
   useEffect(() => {
     if (currentQuestion?.timeLimit && timeLeft > 0 && !isComplete && !isFailed && !selectedAnswer) {

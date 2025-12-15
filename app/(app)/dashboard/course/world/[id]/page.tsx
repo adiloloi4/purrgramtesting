@@ -151,7 +151,7 @@ export default function WorldPage() {
             </h2>
             {worldData.missions.map((mission) => {
                 const isMissionDone = completedMissionIds.includes(mission.id);
-                const hasInteractiveContent = worldId === 0 && !!getMissionContent(mission.id);
+                const hasInteractiveContent = !!getMissionContent(worldId, mission.id);
                 
                 return (
                     <motion.div 

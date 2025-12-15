@@ -7,47 +7,30 @@ export const mission05: MissionData = {
     {
       type: "text",
       title: "Not Replacement, Amplification",
-      content:
+      body:
         "AI isn't here to replace you. It's here to amplify you. You bring the vision, the strategy, the product sense. AI brings the speed, the syntax, the implementation. Together, you're unstoppable.",
     },
     {
       type: "text",
       title: "Building Trust",
-      content:
+      body:
         "Trust in AI collaboration comes from understanding its strengths and weaknesses. AI is great at code generation, pattern matching, and repetitive tasks. You're great at product vision, user empathy, and strategic thinking.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "The Partnership",
-      cards: [
-        {
-          id: "you",
-          title: "You Do",
-          description: "Define features, understand users, make product decisions, review code, test functionality.",
-        },
-        {
-          id: "ai",
-          title: "AI Does",
-          description: "Write boilerplate, generate components, find bugs, explain concepts, suggest improvements.",
-        },
-        {
-          id: "together",
-          title: "Together",
-          description: "You describe what you want. AI builds it. You review it. You iterate. This is the loop.",
-        },
-      ],
+      prompt: "Who does what?",
+      items: [
+        { id: "you", label: "You: Vision, Strategy, Product Decisions" },
+        { id: "ai", label: "AI: Boilerplate, Components, Debugging" },
+        { id: "loop", label: "Together: Describe -> Build -> Review -> Iterate" }
+      ]
     },
     {
       type: "text",
       title: "The Communication Loop",
-      content:
+      body:
         "Good AI collaboration is a conversation. You ask. AI responds. You refine. AI improves. You test. AI fixes. This back-and-forth is where the magic happens.",
-    },
-    {
-      type: "text",
-      title: "When to Trust, When to Verify",
-      content:
-        "Trust AI for syntax, patterns, and code generation. Verify AI for logic, security, and edge cases. Always review. Always test. AI is a tool, not a replacement for your judgment.",
     },
     {
       type: "quiz",
@@ -57,17 +40,16 @@ export const mission05: MissionData = {
         { id: "b", text: "Review it, test it, and verify it works" },
         { id: "c", text: "Assume it's always correct" },
       ],
-      correct: "b",
-      feedbackCorrect: "Exactly! Always review and test AI-generated code. Trust but verify.",
-      feedbackWrong: "Think about best practices for working with AI - you should always verify.",
+      correctOptionId: "b",
+      correctExplanation: "Exactly! Always review and test AI-generated code. Trust but verify.",
+      wrongExplanation: "Think about best practices for working with AI - you should always verify.",
     },
     {
       type: "identify",
-      title: "Identify the Best Collaboration",
-      question: "Which scenario shows the best AI collaboration?",
-      correctId: "b",
-      feedbackCorrect: "Yes! This shows a proper collaboration loop: describe, generate, review, refine.",
-      feedbackWrong: "Think about which scenario shows you working together with AI, not just using it blindly.",
+      prompt: "Which scenario shows the best AI collaboration?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! This shows a proper collaboration loop: describe, generate, review, refine.",
+      wrongExplanation: "Think about which scenario shows you working together with AI, not just using it blindly.",
       options: [
         {
           id: "a",
@@ -89,7 +71,7 @@ export const mission05: MissionData = {
     {
       type: "text",
       title: "Your Co-Pilot",
-      content:
+      body:
         "AI is your co-pilot, not your autopilot. You're still the captain. You make the decisions. AI executes them. This partnership is the future of building. Master it.",
     },
     {
@@ -109,57 +91,22 @@ export const mission05: MissionData = {
       example: "Prompt 1: 'Create a button component'\nPrompt 2: 'Add a loading spinner when clicked'\nPrompt 3: 'Make it disabled when loading'",
     },
     {
-      type: "memoryGame",
-      title: "AI Collaboration Memory Game",
-      description: "Match what you do vs what AI does",
-      cards: [
-        { id: "vision", front: "You: Product Vision", back: "Define features and strategy" },
-        { id: "code", front: "AI: Code Generation", back: "Write boilerplate and components" },
-        { id: "review", front: "You: Review & Test", back: "Verify and test functionality" },
-        { id: "explain", front: "AI: Explain Concepts", back: "Help you understand code" },
+      type: "sequenceGame",
+      title: "The Collab Loop",
+      description: "Order the steps of a healthy AI partnership",
+      items: [
+        { id: "describe", label: "You Describe (Vision)", correctPosition: 0 },
+        { id: "generate", label: "AI Generates (Code)", correctPosition: 1 },
+        { id: "review", label: "You Review (Verification)", correctPosition: 2 },
+        { id: "refine", label: "You Ask for Changes (Refinement)", correctPosition: 3 },
+        { id: "learn", label: "AI Explains (Learning)", correctPosition: 4 },
       ],
-      timeLimit: 50,
     },
     {
-      type: "speedQuiz",
-      title: "AI Collaboration Quiz",
-      description: "Test your understanding of working with AI",
-      questions: [
-        {
-          id: "q1",
-          question: "What should you always do with AI-generated code?",
-          options: [
-            { id: "a", text: "Use it immediately" },
-            { id: "b", text: "Review, test, and verify it" },
-            { id: "c", text: "Assume it's correct" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-        {
-          id: "q2",
-          question: "What is AI great at?",
-          options: [
-            { id: "a", text: "Product vision and strategy" },
-            { id: "b", text: "Code generation and pattern matching" },
-            { id: "c", text: "Making all decisions" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-        {
-          id: "q3",
-          question: "What is the collaboration loop?",
-          options: [
-            { id: "a", text: "You describe, AI builds, you review, you iterate" },
-            { id: "b", text: "AI does everything" },
-            { id: "c", text: "You do everything" },
-          ],
-          correct: "a",
-          timeLimit: 12,
-        },
-      ],
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You are not alone. You have the world's smartest engineer sitting next to you 24/7. Use them.",
     },
   ],
 };
-

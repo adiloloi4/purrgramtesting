@@ -7,35 +7,36 @@ export const mission01: MissionData = {
     {
       type: "text",
       title: "What is the Frontend?",
-      content:
+      body:
         "The Frontend is the User Interface (UI). It's everything you see, click, and interact with. It's built with HTML (structure), CSS (style), and JavaScript (interaction).",
     },
     {
       type: "text",
       title: "Components: The Building Blocks",
-      content:
+      body:
         "Modern frontends are built with Components. A button, a card, or a navbar are all reusable components. Think of them as LEGO bricks.",
     },
     {
       type: "text",
       title: "Rendering & State",
-      content:
+      body:
         "Rendering is drawing the UI on the screen. State is the data that changes over time (like a cart count). When state changes, the UI rerenders to show the new reality.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "The UI Builder Ecosystem",
-      cards: [
-        { id: "v0", title: "v0.dev", description: "AI that generates UI components from text prompts. Best for rapid prototyping." },
-        { id: "base44", title: "Base44", description: "A system for building consistent component libraries." },
-        { id: "lovable", title: "Lovable", description: "Full-page UI generator that converts designs to code." },
-        { id: "webflow", title: "Webflow", description: "Visual builder, great for static sites but less flexible for complex apps." }
+      prompt: "Explore the tools.",
+      items: [
+        { id: "v0", label: "v0.dev: AI Component Generator" },
+        { id: "base44", label: "Base44: Component Library System" },
+        { id: "lovable", label: "Lovable: Full-page UI Generator" },
+        { id: "webflow", label: "Webflow: Visual Builder" }
       ]
     },
     {
       type: "text",
       title: "Cursor: The Integrator",
-      content:
+      body:
         "While builders like v0 generate parts, Cursor is your IDE (Integrated Development Environment) where you assemble them. It gives you full code-level control with AI superpowers.",
     },
     {
@@ -46,9 +47,9 @@ export const mission01: MissionData = {
         { id: "b", text: "Webflow" },
         { id: "c", text: "GitHub Desktop" },
       ],
-      correct: "a",
-      feedbackCorrect: "Correct. v0 is specialized for component generation.",
-      feedbackWrong: "Think about the tool made by Vercel for generative UI.",
+      correctOptionId: "a",
+      correctExplanation: "Correct. v0 is specialized for component generation.",
+      wrongExplanation: "Think about the tool made by Vercel for generative UI.",
     },
     {
       type: "quiz",
@@ -58,14 +59,14 @@ export const mission01: MissionData = {
         { id: "b", text: "The UI Rerenders" },
         { id: "c", text: "The Server shuts down" },
       ],
-      correct: "b",
-      feedbackCorrect: "Yes! State changes trigger a rerender to update what the user sees.",
-      feedbackWrong: "State is connected to the visual display.",
+      correctOptionId: "b",
+      correctExplanation: "Yes! State changes trigger a rerender to update what the user sees.",
+      wrongExplanation: "State is connected to the visual display.",
     },
     {
       type: "text",
       title: "Simulation: State Change",
-      content:
+      body:
         "Imagine a 'Like' button. When you click it, the 'isLiked' state turns true, and the heart icon turns red. That's a rerender in action.",
     },
     {
@@ -125,18 +126,17 @@ export const mission01: MissionData = {
       ],
     },
     {
-      type: "memoryGame",
-      title: "Frontend Concepts Memory Game",
-      description: "Match frontend concepts to their definitions",
-      cards: [
-        { id: "ui", front: "UI", back: "Everything you see, click, and interact with" },
-        { id: "components", front: "Components", back: "Reusable building blocks (like LEGO bricks)" },
-        { id: "rendering", front: "Rendering", back: "Drawing the UI on the screen" },
-        { id: "state", front: "State", back: "Data that changes over time (like cart count)" },
-        { id: "v0", front: "v0.dev", back: "AI that generates UI components from text" },
-        { id: "cursor", front: "Cursor", back: "IDE where you assemble components" },
+      type: "sequenceGame",
+      title: "The Frontend Workflow",
+      description: "Order the steps of the frontend rendering cycle",
+      items: [
+        { id: "design", label: "Design component in v0", correctPosition: 0 },
+        { id: "code", label: "Assemble in Cursor", correctPosition: 1 },
+        { id: "render", label: "UI Renders on screen", correctPosition: 2 },
+        { id: "interact", label: "User clicks button (Interaction)", correctPosition: 3 },
+        { id: "state", label: "State updates", correctPosition: 4 },
+        { id: "rerender", label: "UI Rerenders with new data", correctPosition: 5 },
       ],
-      timeLimit: 60,
     },
   ],
 };

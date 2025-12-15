@@ -2,182 +2,227 @@ import { MissionData } from "../world0";
 
 export const world3Missions: MissionData[] = [
   {
-    id: "setup-the-vault",
-    title: "Setup The Vault",
+    id: "data-modeling-basics",
+    title: "Thinking in Tables",
     slides: [
       {
         type: "text",
-        title: "Intent",
-        body: "Your app has amnesia. If you refresh, data is gone. To build a business, you need a shared brain (Database). We use Supabase because it works perfectly with Next.js.",
+        title: "The Spreadsheet Mental Model",
+        body:
+          "Before you build a database, think of a spreadsheet. A database is just a collection of spreadsheets (Tables) that can talk to each other. If you can use Excel, you can design a database.",
       },
       {
-        type: "checklist",
-        title: "Foundation: Manual Setup",
-        prompt: "Do this manually (no AI yet):",
+        type: "text",
+        title: "Entities are Tables",
+        body:
+          "Everything in your app is an 'Entity'. Users, Posts, Comments, Products. Each Entity gets its own Table. User -> Users Table. Product -> Products Table.",
+      },
+      {
+        type: "dragDrop",
+        prompt: "Sort data into the correct table",
+        categories: [
+          { id: "users", label: "Users Table" },
+          { id: "products", label: "Products Table" },
+        ],
         items: [
-          { id: "1", label: "Go to supabase.com -> New Project" },
-          { id: "2", label: "Name it 'vibe-waitlist'" },
-          { id: "3", label: "Get your Project URL and Anon Key from Settings -> API" }
+          { id: "email", label: "email", correctCategoryId: "users" },
+          { id: "price", label: "price", correctCategoryId: "products" },
+          { id: "username", label: "username", correctCategoryId: "users" },
+          { id: "sku", label: "sku_code", correctCategoryId: "products" },
         ],
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Tell the AI you have secrets (URL and Key). Don't paste them in the chat. Ask where to put them in a Next.js app.",
+        title: "Rows and Columns",
+        body:
+          "Columns are the properties (Name, Email, Price). Rows are the actual items (John, john@gmail.com, $10). Every row needs a unique ID.",
+      },
+      {
+        type: "quiz",
+        question: "Where would you store the 'date_created' for a blog post?",
+        options: [
+          { id: "a", text: "In the Users table" },
+          { id: "b", text: "In the Posts table" },
+          { id: "c", text: "Nowhere" },
+        ],
+        correctOptionId: "b",
+        correctExplanation: "Correct. The date belongs to the Post entity.",
+        wrongExplanation: "The date describes the Post, not the User.",
       },
       {
         type: "text",
-        title: "Example message to AI",
-        body: "I have my Supabase URL and Anon Key.\nWhere do I store them securely in a Next.js app?\nI don't want them to be committed to Git.",
-      },
-      {
-        type: "text",
-        title: "Foundation: Env Files",
-        body: "The AI will tell you to create an .env.local file. This file is ignored by Git, so your secrets stay safe. You must restart your dev server after creating it.",
+        title: "The Blueprint",
+        body:
+          "Don't start coding yet. Draw your tables on paper or use a tool. What tables do you need? What columns do they have? This is the Blueprint.",
       },
       {
         type: "miniChallenge",
-        title: "Verification step",
-        task: "Create the .env.local file with your keys. Restart your server. If the app runs without error, the vault is ready.",
-        example: "Ready in 100ms",
-      }
-    ],
-  },
-  {
-    id: "design-memory",
-    title: "Save Emails for a Waitlist",
-    slides: [
-      {
-        type: "text",
-        title: "Intent",
-        body: "We want to save emails when someone joins our waitlist so we can contact them later.",
+        title: "Design a Todo App",
+        task: "Grab a pen (or open Notepad). List the tables and columns for a simple Todo App. (Hint: Users and Tasks).",
+        example: "Users: id, email. Tasks: id, title, is_complete, user_id.",
       },
       {
-        type: "checklist",
-        title: "What you need to decide",
-        prompt: "No AI yet. Just decide:",
-        items: [
-          { id: "1", label: "What info do we store? (email only)" },
-          { id: "2", label: "Do we care about duplicates? (no for now)" }
+        type: "identify",
+        prompt: "Which column is the Primary Key (Unique ID)?",
+        correctOptionId: "id",
+        correctExplanation: "Yes. The ID is the unique identifier for every row.",
+        wrongExplanation: "Names and titles can be duplicates. IDs must be unique.",
+        options: [
+          { id: "title", text: "Title: Buy Milk", icon: "📝" },
+          { id: "id", text: "ID: 1024", icon: "🔑" },
+          { id: "status", text: "Status: Pending", icon: "⏳" },
         ],
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Tell the AI what app you are building, what tool you are using (Supabase), what data you want to store, and that you do not care about implementation details.",
+        title: "Confidence Boost",
+        body:
+          "You just did Data Modeling. It sounds fancy, but it's just organizing information. You do this every day.",
       },
-      {
-        type: "text",
-        title: "Example message to AI",
-        body: "I am building a Next.js app using Supabase.\nI need to store emails for a waitlist.\nEach entry should have an id, email, and created time.\nI don't care about SQL details.\nAsk me questions if something is unclear.\nGenerate the SQL query for me.",
-      },
-      {
-        type: "text",
-        title: "AI Result",
-        body: "The AI will give you a SQL query block (starting with CREATE TABLE...). Copy it. Go to the Supabase Dashboard -> SQL Editor, paste it, and click RUN.",
-      },
-      {
-        type: "miniChallenge",
-        title: "How to know it worked",
-        task: "Go to the Table Editor in Supabase. Do you see a table named 'waitlist' (or similar)? If yes, your app now has memory.",
-        example: "Table exists",
-      },
-      {
-        type: "text",
-        title: "If it breaks",
-        body: "1. 'Permission denied' -> Tell AI: 'I got a permission error running the SQL. Give me a fix.'\n2. 'Table already exists' -> You likely ran it twice. That's fine.",
-      },
-      {
-        type: "text",
-        title: "Optional Bonus",
-        body: "The SQL 'CREATE TABLE' command tells the database to build a new spreadsheet. 'UUID' means a unique ID card for each row. 'Timestamp' means the exact time it was created.",
-      }
     ],
   },
   {
-    id: "connect-wires",
-    title: "Connect The Wires",
+    id: "relationships",
+    title: "Connecting the Dots (Relationships)",
     slides: [
       {
         type: "text",
-        title: "Intent",
-        body: "Your database lives in the cloud. Your code lives on your laptop. You need a bridge (Client) to connect them.",
+        title: "The Power of Relations",
+        body:
+          "Spreadsheets are lonely. Databases are social. Tables talk to each other. A Post belongs to a User. This connection is a Relationship.",
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Ask for a reusable helper file. You don't want to write connection code in every file.",
+        title: "Foreign Keys",
+        body:
+          "How do we link them? We give the child a 'Foreign Key'. The 'Posts' table has a column called 'user_id'. This points back to the 'Users' table.",
+      },
+      {
+        type: "quiz",
+        question: "If a User has many Orders, where does the 'user_id' go?",
+        options: [
+          { id: "a", text: "In the Users table" },
+          { id: "b", text: "In the Orders table" },
+          { id: "c", text: "In a separate list" },
+        ],
+        correctOptionId: "b",
+        correctExplanation: "Correct! The Order needs to know who it belongs to.",
+        wrongExplanation: "The Parent (User) doesn't hold the Child's ID. The Child (Order) points to the Parent.",
       },
       {
         type: "text",
-        title: "Example message to AI",
-        body: "Create a Supabase client helper file for my Next.js app.\nIt should read from my env vars and export the client so I can use it anywhere.\nUse the @supabase/ssr package if recommended.",
+        title: "One-to-Many",
+        body:
+          "One User, Many Posts. This is the most common relationship. The 'Many' side holds the ID of the 'One' side.",
       },
       {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Check your file tree for utils/supabase/client.ts (or similar). If it's there, the bridge is built.",
-        example: "File exists",
-      }
+        type: "matching",
+        prompt: "Match the Relationship Type",
+        pairs: [
+          { id: "one-many", left: "One User -> Many Posts", right: "One-to-Many" },
+          { id: "one-one", left: "One User -> One Profile", right: "One-to-One" },
+          { id: "many-many", left: "Students <-> Classes", right: "Many-to-Many" },
+        ],
+      },
+      {
+        type: "text",
+        title: "Why Not One Big Table?",
+        body:
+          "Why separate tables? Efficiency and organization. If we put everything in one table, we'd have duplicate data everywhere. Relations keep data clean.",
+      },
+      {
+        type: "identify",
+        prompt: "Which structure is better?",
+        correctOptionId: "b",
+        correctExplanation: "Yes! Separate tables linked by ID is the clean, relational way.",
+        wrongExplanation: "One giant table gets messy fast with duplicate data.",
+        options: [
+          {
+            id: "a",
+            text: "One giant table with user info repeated for every post",
+            icon: "📜",
+          },
+          {
+            id: "b",
+            text: "Two tables (Users, Posts) linked by user_id",
+            icon: "🔗",
+          },
+        ],
+      },
+      {
+        type: "text",
+        title: "Confidence Boost",
+        body:
+          "You now understand Relational Databases. This is the backbone of almost every major app in the world.",
+      },
     ],
   },
   {
-    id: "save-input",
-    title: "Save Input",
+    id: "schema-design",
+    title: "Data Types & Schema",
     slides: [
       {
         type: "text",
-        title: "Intent",
-        body: "We need a UI (Form) to get data from the user, and a function (Action) to send it across the bridge to the database.",
+        title: "Computers are Literal",
+        body:
+          "To a computer, '10' (text) is different from 10 (number). You must define the Type of data for every column. This is the Schema.",
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Describe the interaction flow: User types -> Click Button -> Data Saved. Mention 'Server Actions' for security.",
+        title: "Common Types",
+        body:
+          "Text (Strings), Integer (Whole Numbers), Boolean (True/False), Timestamp (Date & Time), JSON (Complex Data).",
+      },
+      {
+        type: "identify",
+        prompt: "Choose the correct type for 'is_published'",
+        correctOptionId: "bool",
+        correctExplanation: "Correct. It's either true or false.",
+        wrongExplanation: "Text is overkill. Integer doesn't make sense.",
+        options: [
+          { id: "text", text: "Text", icon: "abc" },
+          { id: "int", text: "Integer", icon: "123" },
+          { id: "bool", text: "Boolean", icon: "✅" },
+        ],
+      },
+      {
+        type: "quiz",
+        question: "What type should 'price' be?",
+        options: [
+          { id: "a", text: "Text" },
+          { id: "b", text: "Number (Integer/Decimal)" },
+          { id: "c", text: "Boolean" },
+        ],
+        correctOptionId: "b",
+        correctExplanation: "Yes. You need to do math on prices.",
+        wrongExplanation: "You can't multiply text.",
       },
       {
         type: "text",
-        title: "Example message to AI",
-        body: "Create a WaitlistForm component.\nIt should have an email input and a Join button.\nWhen submitted, use a Server Action to insert the email into the waitlist table.\nHandle success and error states.",
+        title: "Null vs Not Null",
+        body:
+          "Can a field be empty? Can a user exist without an email? If no, it is 'Not Null'. This creates rules that keep your data safe.",
+      },
+      {
+        type: "spotTheBug",
+        title: "Schema Error",
+        description: "Find the data type mismatch",
+        code: "CREATE TABLE products (\n  id SERIAL PRIMARY KEY,\n  name TEXT,\n  price TEXT, -- Wait, is this right?\n  in_stock BOOLEAN\n);",
+        bugs: [
+          {
+            id: "price-type",
+            line: 4,
+            description: "Price should be a Number (Integer or Decimal), not Text, so we can do math.",
+            fix: "price INTEGER",
+          },
+        ],
       },
       {
         type: "text",
-        title: "Foundation: Permissions",
-        body: "If you see a 'Permission Denied' error, it means Row Level Security (RLS) is blocking you. This is normal.",
+        title: "Confidence Boost",
+        body:
+          "You are speaking the language of data. Types ensure your app doesn't crash when someone types 'banana' into a price field.",
       },
-      {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Enter your email and click Join. Then go to Supabase -> Table Editor. Do you see your email?",
-        example: "Row added",
-      }
     ],
   },
-  {
-    id: "read-it-back",
-    title: "Read It Back",
-    slides: [
-      {
-        type: "text",
-        title: "Intent",
-        body: "Data is useless if it's trapped. Let's prove we can retrieve it. This completes the loop: Input -> Storage -> Output.",
-      },
-      {
-        type: "text",
-        title: "How to talk to AI",
-        body: "Ask for a new page that fetches and displays the data.",
-      },
-      {
-        type: "text",
-        title: "Example message to AI",
-        body: "Create an admin page at /admin/waitlist.\nFetch all emails from the waitlist table and display them in a list.\nShow the total count at the top.",
-      },
-      {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Visit /admin/waitlist. Do you see your email? If yes, you are a Full Stack Engineer.",
-        example: "List visible",
-      }
-    ],
-  }
 ];

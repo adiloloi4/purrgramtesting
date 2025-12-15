@@ -7,40 +7,42 @@ export const mission05: MissionData = {
     {
       type: "text",
       title: "The Workshop",
-      content:
+      body:
         "You can't cook without utensils. Dev Tools are your kitchen equipment. You need to master them to work efficiently.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "Your Toolkit",
-      cards: [
-        { id: "node", title: "Node.js", description: "The runtime that lets your computer speak JavaScript." },
-        { id: "git", title: "Git / GitHub", description: "The time machine. Saves your code history and lets you collaborate." },
-        { id: "cursor", title: "Cursor", description: "The magic wand. An AI-powered editor that writes code for you." },
-        { id: "vercel", title: "Vercel", description: "The stage. Where you publish your app to the world." }
+      prompt: "Review your arsenal.",
+      items: [
+        { id: "node", label: "Node.js: JavaScript Runtime" },
+        { id: "git", label: "Git / GitHub: Version Control (Time Machine)" },
+        { id: "cursor", label: "Cursor: AI Editor (Magic Wand)" },
+        { id: "vercel", label: "Vercel: Deployment (The Stage)" }
       ]
     },
     {
       type: "text",
       title: "Version Control (Git)",
-      content:
+      body:
         "Imagine a 'Save Game' feature for code. Git lets you save checkpoints. GitHub Desktop makes it easy to save, load, and share code without command line pain.",
     },
     {
       type: "text",
       title: "IDE (Cursor)",
-      content:
+      body:
         "The IDE (Integrated Development Environment) is where you write code. Cursor is a modern IDE built for speed and AI assistance.",
     },
     {
       type: "text",
       title: "Deployment (Vercel)",
-      content:
+      body:
         "It lives on your computer (Localhost) until you Deploy. Vercel takes your code from GitHub and puts it on the internet for the world to see.",
     },
     {
       type: "checklist",
       title: "Tool Check",
+      prompt: "Verify your setup.",
       items: [
         { id: "node", label: "Node.js Installed" },
         { id: "github", label: "GitHub Desktop Installed" },
@@ -50,7 +52,8 @@ export const mission05: MissionData = {
     {
       type: "terminal",
       title: "Final Vibe Check",
-      command: "vibe-check",
+      expectedCommand: "vibe-check",
+      prompt: "Type the command to verify.",
       successMessage: "SYSTEM READY. VIBE DETECTED. PHASE 0 COMPLETE.",
     },
     {
@@ -72,16 +75,16 @@ export const mission05: MissionData = {
       ],
     },
     {
-      type: "memoryGame",
-      title: "Dev Tools Memory Game",
-      description: "Match each dev tool to its purpose",
-      cards: [
-        { id: "node", front: "Node.js", back: "Runtime that lets computer speak JavaScript" },
-        { id: "git", front: "Git / GitHub", back: "Time machine - saves code history" },
-        { id: "cursor", front: "Cursor", back: "AI-powered editor (magic wand)" },
-        { id: "vercel", front: "Vercel", back: "Stage - where you publish your app" },
+      type: "identify",
+      prompt: "Which tool allows you to save code history and go back in time?",
+      correctOptionId: "git",
+      correctExplanation: "Yes! Git is your time machine. It saves every version of your code.",
+      wrongExplanation: "Think about which tool manages versions and history.",
+      options: [
+        { id: "node", text: "Node.js", icon: "🟢" },
+        { id: "git", text: "Git / GitHub", icon: "🕰️" },
+        { id: "vercel", text: "Vercel", icon: "🚀" },
       ],
-      timeLimit: 50,
     },
   ],
 };

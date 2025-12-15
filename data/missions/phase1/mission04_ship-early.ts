@@ -7,70 +7,74 @@ export const mission04: MissionData = {
     {
       type: "text",
       title: "The Launch Trap",
-      content:
+      body:
         "Most builders never launch. They perfect. They polish. They wait for the 'right time.' Meanwhile, competitors ship, learn, and win. Don't be most builders.",
     },
     {
       type: "text",
-      title: "The Power of Imperfect Launches",
-      content:
-        "Your first version will be bad. That's okay. Your second will be better. Your third will be good. But you can't get to version three without shipping version one.",
-    },
-    {
-      type: "text",
-      title: "What 'Done' Really Means",
-      content:
-        "Done doesn't mean perfect. Done means it works. Done means users can use it. Done means you can learn from it. Ship when it's done, not when it's perfect.",
-    },
-    {
-      type: "toggle_cards",
-      title: "The Iteration Cycle",
-      cards: [
-        {
-          id: "ship",
-          title: "Ship",
-          description: "Launch the working version. Get it in front of users. Make it real.",
-        },
-        {
-          id: "learn",
-          title: "Learn",
-          description: "Watch how users interact. Listen to feedback. See what breaks.",
-        },
-        {
-          id: "improve",
-          title: "Improve",
-          description: "Fix what's broken. Add what's missing. Make it better.",
-        },
-        {
-          id: "repeat",
-          title: "Repeat",
-          description: "Ship again. Learn again. Improve again. This is the loop.",
-        },
-      ],
-    },
-    {
-      type: "text",
-      title: "The 80/20 Rule",
-      content:
-        "The first 80% of your product takes 20% of the time. The last 20% takes 80% of the time. Ship at 80%. The remaining 20% can wait. Users will tell you what actually matters.",
+      title: "The 10% Rule",
+      body:
+        "Don't build 100% of the app before shipping. Build 10%. Ship it. Learn. Then build the next 10%. Your first version should be embarrassing.",
     },
     {
       type: "quiz",
-      question: "When should you ship your product?",
+      question: "When is the right time to ship?",
       options: [
-        { id: "a", text: "When it's perfect and bug-free" },
+        { id: "a", text: "When it's perfect" },
         { id: "b", text: "When it works and users can use it" },
-        { id: "c", text: "When you've added every feature you can think of" },
+        { id: "c", text: "When you've added every feature" },
       ],
-      correct: "b",
-      feedbackCorrect: "Exactly! Ship when it works. Perfection can come later through iteration.",
-      feedbackWrong: "Think about what actually matters to users - working features, not perfection.",
+      correctOptionId: "b",
+      correctExplanation: "Exactly! Ship when it works. Perfection can come later through iteration.",
+      wrongExplanation: "Think about what actually matters to users - working features, not perfection.",
     },
     {
       type: "text",
-      title: "The Founder's Advantage",
-      content:
-        "While others perfect, you ship. While others plan, you learn. While others wait, you iterate. This is your advantage. Use it.",
+      title: "Don't Eat the Elephant",
+      body:
+        "You can't build Facebook in one prompt. You build a login box. Then a profile. Then a post. Break it down. AI chokes on big tasks. It loves small tasks.",
+    },
+    {
+      type: "sequenceGame",
+      title: "The Iteration Cycle",
+      description: "Order the steps of the Ship-Learn-Improve cycle",
+      items: [
+        { id: "ship", label: "Ship the working version", correctPosition: 0 },
+        { id: "learn", label: "Learn from user feedback", correctPosition: 1 },
+        { id: "improve", label: "Improve based on learnings", correctPosition: 2 },
+        { id: "repeat", label: "Repeat the cycle", correctPosition: 3 },
+      ],
+      hint: "Start with shipping, end with repeating",
+    },
+    {
+      type: "identify",
+      prompt: "Which approach is better?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! Small steps are manageable. Big steps lead to burnout.",
+      wrongExplanation: "Don't try to do everything at once.",
+      options: [
+        {
+          id: "a",
+          text: "Prompt: 'Build a full social network'",
+          icon: "🐘",
+        },
+        {
+          id: "b",
+          text: "Prompt: 'Build a login component'",
+          icon: "🐜",
+        },
+        {
+          id: "c",
+          text: "Prompt: 'Write 10,000 lines of code'",
+          icon: "📜",
+        },
+      ],
+    },
+    {
+      type: "text",
+      title: "Recovery: When You Get Stuck",
+      body:
+        "If the AI gets confused or the app breaks, it usually means you tried to do too much at once. Delete the last change. Try again with a smaller step.",
     },
     {
       type: "buildTask",
@@ -93,57 +97,10 @@ export const mission04: MissionData = {
       ],
     },
     {
-      type: "sequenceGame",
-      title: "The Iteration Cycle",
-      description: "Order the steps of the Ship-Learn-Improve cycle",
-      items: [
-        { id: "ship", label: "Ship the working version", correctPosition: 0 },
-        { id: "learn", label: "Learn from user feedback", correctPosition: 1 },
-        { id: "improve", label: "Improve based on learnings", correctPosition: 2 },
-        { id: "repeat", label: "Repeat the cycle", correctPosition: 3 },
-      ],
-      hint: "Start with shipping, end with repeating",
-    },
-    {
-      type: "speedQuiz",
-      title: "Ship Early Quiz",
-      description: "Test your understanding of shipping and iteration",
-      questions: [
-        {
-          id: "q1",
-          question: "When should you ship?",
-          options: [
-            { id: "a", text: "When it's perfect" },
-            { id: "b", text: "When it works and users can use it" },
-            { id: "c", text: "When you've added every feature" },
-          ],
-          correct: "b",
-          timeLimit: 12,
-        },
-        {
-          id: "q2",
-          question: "What does the 80/20 rule say?",
-          options: [
-            { id: "a", text: "Ship at 80%, the last 20% can wait" },
-            { id: "b", text: "Perfect the first 20%" },
-            { id: "c", text: "Never ship until 100%" },
-          ],
-          correct: "a",
-          timeLimit: 12,
-        },
-        {
-          id: "q3",
-          question: "What's the iteration cycle?",
-          options: [
-            { id: "a", text: "Ship, Learn, Improve, Repeat" },
-            { id: "b", text: "Plan, Perfect, Ship" },
-            { id: "c", text: "Think, Think, Think" },
-          ],
-          correct: "a",
-          timeLimit: 12,
-        },
-      ],
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You are now in the top 1% of people who actually ship. Most people just talk about ideas. You put one on the internet. Keep going.",
     },
   ],
 };
-

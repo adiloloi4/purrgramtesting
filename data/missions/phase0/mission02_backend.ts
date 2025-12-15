@@ -7,35 +7,36 @@ export const mission02: MissionData = {
     {
       type: "text",
       title: "The Logic Center",
-      content:
+      body:
         "The Backend is the brain. It runs on a server (a computer in the cloud) and handles secrets, business logic, and heavy processing that users shouldn't see.",
     },
     {
       type: "text",
       title: "Servers & Runtimes",
-      content:
+      body:
         "Code needs a place to run. Node.js is a 'Runtime' that lets JavaScript run on servers. Edge functions are tiny servers that run very close to the user for speed.",
     },
     {
       type: "text",
       title: "Endpoints",
-      content:
+      body:
         "An Endpoint is a specific URL where the backend listens for requests. Like '/api/login' or '/api/get-user'. It's a door into the kitchen.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "Backend Platforms (BaaS)",
-      cards: [
-        { id: "supabase", title: "Supabase (Recommended)", description: "Open source Firebase alternative. SQL-based, great Auth, real-time, and Edge Functions. The Vibe Coding default." },
-        { id: "firebase", title: "Firebase", description: "Google's platform. Easy to start but can get expensive and locked-in. NoSQL based." },
-        { id: "appwrite", title: "Appwrite", description: "Another open-source option. Good, but Supabase has better AI integration currently." },
-        { id: "planetscale", title: "PlanetScale", description: "Pure database platform (MySQL). Amazing scaling, but no built-in Auth or Storage." }
+      prompt: "Compare the options.",
+      items: [
+        { id: "supabase", label: "Supabase (Recommended): Postgres + Auth + Realtime" },
+        { id: "firebase", label: "Firebase: Google's NoSQL Platform" },
+        { id: "appwrite", label: "Appwrite: Open Source Backend" },
+        { id: "planetscale", label: "PlanetScale: MySQL Database" }
       ]
     },
     {
       type: "text",
       title: "Why Supabase?",
-      content:
+      body:
         "For Vibe Coding, we choose Supabase because it uses PostgreSQL (standard SQL) which LLMs are very good at writing. It also combines Database, Auth, and APIs in one easy package.",
     },
     {
@@ -62,7 +63,7 @@ export const mission02: MissionData = {
     {
       type: "text",
       title: "Secrets & Security",
-      content:
+      body:
         "The Backend must protect 'Secrets' - sensitive information like API keys, passwords, and payment tokens. These are like the restaurant's safe combination. If they were visible on the Frontend, anyone could steal them. The Backend keeps them hidden and secure.",
     },
     {
@@ -73,9 +74,9 @@ export const mission02: MissionData = {
         { id: "b", text: "Payment Secret Keys" },
         { id: "c", text: "The font size" },
       ],
-      correct: "b",
-      feedbackCorrect: "Absolutely. Secret keys and sensitive data must never live on the Frontend.",
-      feedbackWrong: "Think about security. What would be dangerous if everyone saw it?",
+      correctOptionId: "b",
+      correctExplanation: "Absolutely. Secret keys and sensitive data must never live on the Frontend.",
+      wrongExplanation: "Think about security. What would be dangerous if everyone saw it?",
     },
     {
       type: "quiz",
@@ -85,9 +86,9 @@ export const mission02: MissionData = {
         { id: "b", text: "MongoDB" },
         { id: "c", text: "Excel" },
       ],
-      correct: "a",
-      feedbackCorrect: "Correct. Supabase + Postgres is a superpower with AI.",
-      feedbackWrong: "We want the one that uses PostgreSQL.",
+      correctOptionId: "a",
+      correctExplanation: "Correct. Supabase + Postgres is a superpower with AI.",
+      wrongExplanation: "We want the one that uses PostgreSQL.",
     },
     {
       type: "codePuzzle",
@@ -110,18 +111,18 @@ export const mission02: MissionData = {
       ],
     },
     {
-      type: "memoryGame",
-      title: "Backend Fundamentals Memory Game",
-      description: "Match backend concepts to their definitions",
-      cards: [
-        { id: "backend", front: "Backend", back: "The brain - handles logic and secrets" },
-        { id: "server", front: "Server", back: "Computer in the cloud that runs code" },
-        { id: "nodejs", front: "Node.js", back: "Runtime that lets JavaScript run on servers" },
-        { id: "endpoint", front: "Endpoint", back: "Specific URL where backend listens (like /api/login)" },
-        { id: "supabase", front: "Supabase", back: "Recommended BaaS with PostgreSQL" },
-        { id: "secrets", front: "Secrets", back: "Sensitive data like API keys (must stay hidden)" },
+      type: "spotTheBug",
+      title: "Security Audit",
+      description: "Find the security leak in this frontend code",
+      code: "function PaymentForm() {\n  // ❌ NEVER do this!\n  const secretKey = 'sk_live_12345secret';\n  \n  const handleSubmit = async () => {\n    await processPayment(secretKey);\n  };\n  \n  return <button onClick={handleSubmit}>Pay</button>;\n}",
+      bugs: [
+        {
+          id: "exposed-secret",
+          line: 3,
+          description: "Secret Key exposed on the Frontend",
+          fix: "const secretKey = process.env.PAYMENT_KEY; // But really, this should happen on the backend!",
+        },
       ],
-      timeLimit: 60,
     },
   ],
 };

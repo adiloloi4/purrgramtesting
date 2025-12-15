@@ -7,19 +7,19 @@ export const mission0A: MissionData = {
     {
       type: "text",
       title: "The Shift",
-      content:
+      body:
         "Vibe Coding is not about writing code character by character. It is about building products using AI-assisted development. The AI writes the syntax; you provide the vision.",
     },
     {
       type: "text",
       title: "Commander, not Scribe",
-      content:
+      body:
         "In the old world, developers were scribes, memorizing dense syntax. In the new world, you are a Commander. You direct powerful systems to execute your will.",
     },
     {
       type: "text",
       title: "Permissionless Creation",
-      content:
+      body:
         "Anyone can learn this. No prior knowledge is required. The barrier to entry has dropped from '4 years of CS degree' to 'Can you articulate what you want?'.",
     },
     {
@@ -30,17 +30,16 @@ export const mission0A: MissionData = {
         { id: "b", text: "Building products by commanding AI tools" },
         { id: "c", text: "Writing binary code manually" },
       ],
-      correct: "b",
-      feedbackCorrect: "Exactly. You focus on the product and the logic, the AI handles the implementation.",
-      feedbackWrong: "Think bigger. We are moving away from manual syntax generation.",
+      correctOptionId: "b",
+      correctExplanation: "Exactly. You focus on the product and the logic, the AI handles the implementation.",
+      wrongExplanation: "Think bigger. We are moving away from manual syntax generation.",
     },
     {
       type: "identify",
-      title: "Identify the Vibe Coder",
-      question: "Which of these developers is operating in God Mode?",
-      correctId: "c",
-      feedbackCorrect: "Yes! They are relaxed, orchestrating multiple AI agents, and shipping fast. That is the Vibe.",
-      feedbackWrong: "Look for the one who isn't struggling with syntax errors but is managing a high-level workflow.",
+      prompt: "Which of these developers is operating in God Mode?",
+      correctOptionId: "c",
+      correctExplanation: "Yes! They are relaxed, orchestrating multiple AI agents, and shipping fast. That is the Vibe.",
+      wrongExplanation: "Look for the one who isn't struggling with syntax errors but is managing a high-level workflow.",
       options: [
         { id: "a", text: "The Stack Overflow Copy-Paster", icon: "📋" },
         { id: "b", text: "The Syntax Memorizer", icon: "🧠" },
@@ -50,20 +49,18 @@ export const mission0A: MissionData = {
     {
       type: "text",
       title: "Welcome to the Future",
-      content:
+      body:
         "You are about to learn the most powerful skill of this decade. Let's begin your training.",
     },
     {
-      type: "memoryGame",
-      title: "Vibe Coding Memory Challenge",
-      description: "Match the concepts to test your understanding",
-      cards: [
-        { id: "commander", front: "Commander", back: "Direct AI to build products" },
-        { id: "scribe", front: "Scribe", back: "Old way: memorizing syntax" },
-        { id: "vision", front: "Vision", back: "You provide the product vision" },
-        { id: "syntax", front: "Syntax", back: "AI writes the code" },
+      type: "matching",
+      prompt: "The Vibe Roles",
+      pairs: [
+        { id: "commander", left: "Commander", right: "Directs the AI (You)" },
+        { id: "scribe", left: "Scribe", right: "Writes the syntax (AI)" },
+        { id: "vision", left: "Vision", right: "What to build (You)" },
+        { id: "impl", left: "Implementation", right: "How to build it (AI)" },
       ],
-      timeLimit: 60,
     },
     {
       type: "speedQuiz",

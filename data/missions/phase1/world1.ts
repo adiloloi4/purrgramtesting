@@ -215,8 +215,7 @@ export const world1Missions: MissionData[] = [
       },
       {
         type: "quiz",
-        title: "Speed Decision Challenge",
-        question: "You notice a small UI bug right before deploying.",
+        question: "Speed Decision Challenge: You notice a small UI bug right before deploying.",
         options: [
           { id: "a", label: "Fix everything before deploying." },
           { id: "b", label: "Deploy now and fix it after." },
@@ -291,8 +290,7 @@ export const world1Missions: MissionData[] = [
       },
       {
         type: "quiz",
-        title: "Bad Prompt Doctor",
-        question: "User says: 'Make it better'. Why does this fail?",
+        question: "Bad Prompt Doctor: User says: 'Make it better'. Why does this fail?",
         options: [
           { id: "a", label: "It's too rude to the AI." },
           { id: "b", label: "No context or goal provided." },

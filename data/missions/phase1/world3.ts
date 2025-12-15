@@ -36,16 +36,16 @@ export const world3Missions: MissionData[] = [
         example: "Cursor, v0, Supabase, Vercel.",
       },
       {
-        type: "memoryGame",
-        title: "The Vibe Stack Memory Game",
-        description: "Match each tool to its role",
-        cards: [
-          { id: "cursor", front: "Cursor", back: "The Builder (Writes code)" },
-          { id: "v0", front: "v0", back: "The Designer (Draws UI)" },
-          { id: "supabase", front: "Supabase", back: "The Brain (Remembers data)" },
-          { id: "vercel", front: "Vercel", back: "The Stage (Shows the world)" },
+        type: "identify",
+      prompt: "Which tool remembers your data?",
+      correctOptionId: "supabase",
+      correctExplanation: "Yes. Supabase is the database (The Brain).",
+      wrongExplanation: "Think about where data is stored.",
+        options: [
+          { id: "cursor", text: "Cursor", icon: "📝" },
+          { id: "supabase", text: "Supabase", icon: "🧠" },
+          { id: "vercel", text: "Vercel", icon: "🚀" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -113,16 +113,16 @@ export const world3Missions: MissionData[] = [
         example: "File created. Haiku written.",
       },
       {
-        type: "memoryGame",
-        title: "Cursor Memory Game",
-        description: "Match Cursor features to their purposes",
-        cards: [
-          { id: "vs-code", front: "Looks like VS Code", back: "But it's a fork with AI brain" },
-          { id: "composer", front: "Composer (Cmd+I)", back: "Multi-file editor - God feature" },
-          { id: "tab", front: "Tab Key", back: "Accept AI suggestions" },
-          { id: "context", front: "Sees Entire Project", back: "AI can see all your files" },
+        type: "identify",
+      prompt: "Which feature writes code across multiple files?",
+      correctOptionId: "composer",
+      correctExplanation: "Yes. Composer (Cmd+I) is the multi-file agent.",
+      wrongExplanation: "Chat is for questions. Composer is for building.",
+        options: [
+          { id: "chat", text: "Chat (Cmd+K)", icon: "💬" },
+          { id: "composer", text: "Composer (Cmd+I)", icon: "✨" },
+          { id: "terminal", text: "Terminal", icon: "💻" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -181,16 +181,16 @@ export const world3Missions: MissionData[] = [
         example: "Generated a pricing card.",
       },
       {
-        type: "memoryGame",
-        title: "v0 Memory Game",
-        description: "Match v0 concepts to their purposes",
-        cards: [
-          { id: "drawing", front: "Drawing with Words", back: "Type description, get UI" },
-          { id: "copy-paste", front: "Copy-Paste Design", back: "Generate in v0, paste into Cursor" },
-          { id: "taste", front: "You Need Taste", back: "Don't need to be a designer" },
-          { id: "vercel", front: "Made by Vercel", back: "Tool by Vercel for UI generation" },
+        type: "identify",
+      prompt: "To use v0 effectively, what do you need most?",
+      correctOptionId: "taste",
+      correctExplanation: "Yes. You need to know what looks good (Taste). AI handles the pixels.",
+      wrongExplanation: "You don't need a degree or Figma skills anymore.",
+        options: [
+          { id: "degree", text: "CS Degree", icon: "🎓" },
+          { id: "taste", text: "Taste", icon: "🎨" },
+          { id: "figma", text: "Figma Skills", icon: "✏️" },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -233,16 +233,14 @@ export const world3Missions: MissionData[] = [
         example: "I see the tables.",
       },
       {
-        type: "memoryGame",
-        title: "Supabase Memory Game",
-        description: "Match Supabase features to their purposes",
-        cards: [
-          { id: "postgres", front: "Postgres for Humans", back: "Friendly database interface" },
-          { id: "auth", front: "Auth", back: "Log in with Google" },
-          { id: "realtime", front: "Realtime", back: "Live chat capabilities" },
-          { id: "backend-box", front: "Backend in a Box", back: "Entire backend provided" },
+        type: "matching",
+        prompt: "Match Supabase features to their purposes",
+        pairs: [
+          { id: "postgres", left: "Postgres for Humans", right: "Friendly database interface" },
+          { id: "auth", left: "Auth", right: "Log in with Google" },
+          { id: "realtime", left: "Realtime", right: "Live chat capabilities" },
+          { id: "backend-box", left: "Backend in a Box", right: "Entire backend provided" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -307,16 +305,32 @@ export const world3Missions: MissionData[] = [
         example: "Signed up.",
       },
       {
-        type: "memoryGame",
-        title: "Vercel Memory Game",
-        description: "Match Vercel concepts to their purposes",
-        cards: [
-          { id: "click-deploy", front: "Click to Deploy", back: "Instant deployment" },
-          { id: "github", front: "GitHub Integration", back: "Connects to your repo" },
-          { id: "cdn", front: "Global CDN", back: "Hundreds of servers worldwide" },
-          { id: "auto-update", front: "Auto-Update", back: "Updates when you git push" },
+        type: "speedQuiz",
+        title: "Vercel Quiz",
+        description: "Fast facts about deployment",
+        questions: [
+          {
+            id: "q1",
+            question: "How do you deploy?",
+            options: [
+              { id: "a", text: "Upload ZIP file" },
+              { id: "b", text: "git push" },
+              { id: "c", text: "Email code to Vercel" },
+            ],
+            correct: "b",
+            timeLimit: 10,
+          },
+          {
+            id: "q2",
+            question: "Where does it run?",
+            options: [
+              { id: "a", text: "One server in basement" },
+              { id: "b", text: "Global Edge Network" },
+            ],
+            correct: "b",
+            timeLimit: 10,
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -362,16 +376,15 @@ export const world3Missions: MissionData[] = [
         body: "You know the philosophy. You know the tools. Now... we build.",
       },
       {
-        type: "memoryGame",
-        title: "Stack Assembly Memory Game",
-        description: "Match each tool to its job in the stack",
-        cards: [
-          { id: "cursor", front: "Cursor", back: "Build (Writes code)" },
-          { id: "v0", front: "v0", back: "Design (Draws UI)" },
-          { id: "supabase", front: "Supabase", back: "Data (Remembers data)" },
-          { id: "vercel", front: "Vercel", back: "Deploy (Shows the world)" },
+        type: "sequenceGame",
+        title: "Stack Assembly Flow",
+        description: "Order the tools in the development lifecycle",
+        items: [
+          { id: "v0", label: "Design (v0.dev)", correctPosition: 0 },
+          { id: "cursor", label: "Build (Cursor)", correctPosition: 1 },
+          { id: "supabase", label: "Data (Supabase)", correctPosition: 2 },
+          { id: "vercel", label: "Deploy (Vercel)", correctPosition: 3 },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",

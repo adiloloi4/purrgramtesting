@@ -27,16 +27,16 @@ export const world11Missions: MissionData[] = [
         example: "Video recorded.",
       },
       {
-        type: "memoryGame",
-        title: "Recording Content Memory Game",
-        description: "Match recording concepts to their purposes",
-        cards: [
-          { id: "stories", front: "Stories", back: "People buy stories, not code" },
-          { id: "loom", front: "Loom", back: "Easiest screen recording tool" },
-          { id: "obs", front: "OBS", back: "Pro/free recording software" },
-          { id: "authentic", front: "Authentic", back: "Authentic > Polished content" },
+        type: "identify",
+      prompt: "Which content builds more trust?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! Authenticity and showing the struggle builds real connection.",
+      wrongExplanation: "Perfectly polished content often feels like an ad. People want real.",
+        options: [
+          { id: "a", text: "Highly edited, scripted ad", icon: "🎬" },
+          { id: "b", text: "Raw screen recording with mistakes", icon: "📹" },
+          { id: "c", text: "AI generated voiceover", icon: "🤖" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -100,16 +100,15 @@ export const world11Missions: MissionData[] = [
         example: "Tweet sent.",
       },
       {
-        type: "memoryGame",
-        title: "Build in Public Memory Game",
-        description: "Match build-in-public concepts to their purposes",
-        cards: [
-          { id: "build-public", front: "Build in Public", back: "Share wins and failures openly" },
-          { id: "x-twitter", front: "X/Twitter Strategy", back: "Post daily updates about building" },
-          { id: "hashtags", front: "#buildinpublic", back: "Hashtag for discoverability" },
-          { id: "feedback", front: "Honest Feedback", back: "Ask for real opinions on your work" },
+        type: "sequenceGame",
+        title: "The X Post Flow",
+        description: "Order the steps for a killer update",
+        items: [
+          { id: "build", label: "Build a feature (and struggle)", correctPosition: 0 },
+          { id: "screenshot", label: "Take a screenshot/video", correctPosition: 1 },
+          { id: "write", label: "Write: 'Here is how I fixed it'", correctPosition: 2 },
+          { id: "post", label: "Post with #buildinpublic", correctPosition: 3 },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -154,16 +153,14 @@ export const world11Missions: MissionData[] = [
         example: "Submitted to directory.",
       },
       {
-        type: "memoryGame",
-        title: "Distribution Tactics Memory Game",
-        description: "Match distribution strategies to their purposes",
-        cards: [
-          { id: "product-hunt", front: "Product Hunt", back: "Great launch but only lasts 24 hours" },
-          { id: "cold-dms", front: "Cold DMs", back: "Direct outreach to people with the problem" },
-          { id: "directories", front: "Directories", back: "BetaList, MicroLaunch, IndieHackers" },
-          { id: "seo", front: "SEO (Long Game)", back: "Sustainable traffic over time" },
+        type: "matching",
+        prompt: "Distribution Channels",
+        pairs: [
+          { id: "ph", left: "Product Hunt", right: "Big Spike (24h)" },
+          { id: "seo", left: "SEO", right: "Long Term Compounding" },
+          { id: "cold", left: "Cold DMs", right: "Direct Sales (High Effort)" },
+          { id: "dir", left: "Directories", right: "Steady Drip Traffic" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -217,16 +214,16 @@ export const world11Missions: MissionData[] = [
         example: "I am a Founder.",
       },
       {
-        type: "memoryGame",
-        title: "Community Flywheel Memory Game",
-        description: "Match community concepts to their purposes",
-        cards: [
-          { id: "users-fans", front: "Users into Fans", back: "Invite happy users to Discord/Slack" },
-          { id: "tribe", front: "Build a Tribe", back: "Create community around your vibe" },
-          { id: "feedback-loop", front: "Feedback Loop", back: "Ask community what to build next" },
-          { id: "founder", front: "Founder Badge", back: "Get 1 real user - that's the only badge" },
+        type: "sequenceGame",
+        title: "Community Loop",
+        description: "How to turn users into a tribe",
+        items: [
+          { id: "user", label: "User says 'I love this'", correctPosition: 0 },
+          { id: "invite", label: "Invite to Discord", correctPosition: 1 },
+          { id: "ask", label: "Ask 'What should I build next?'", correctPosition: 2 },
+          { id: "build", label: "Build it and tag them", correctPosition: 3 },
+          { id: "fan", label: "User becomes Fan for life", correctPosition: 4 },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",

@@ -32,16 +32,16 @@ export const world10Missions: MissionData[] = [
         example: "vibe-coder.com is live.",
       },
       {
-        type: "memoryGame",
-        title: "Domain & DNS Memory Game",
-        description: "Match domain concepts to their purposes",
-        cards: [
-          { id: "domain", front: "Domain", back: ".com or .io - shows you're serious" },
-          { id: "dns", front: "DNS", back: "Points domain to your server" },
-          { id: "ssl", front: "SSL Lock", back: "Secure connection (HTTPS)" },
-          { id: "vercel-dns", front: "Vercel DNS", back: "Easy domain setup in Vercel" },
+        type: "sequenceGame",
+        title: "Go Live Flow",
+        description: "Order the steps to launch your domain",
+        items: [
+          { id: "buy", label: "Buy Domain", correctPosition: 0 },
+          { id: "vercel", label: "Add to Vercel Project", correctPosition: 1 },
+          { id: "nameservers", label: "Update Nameservers/DNS", correctPosition: 2 },
+          { id: "wait", label: "Wait for Propagation", correctPosition: 3 },
+          { id: "ssl", label: "Verify SSL (Lock Icon)", correctPosition: 4 },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -83,16 +83,31 @@ export const world10Missions: MissionData[] = [
         example: "Sitemap loads.",
       },
       {
-        type: "memoryGame",
-        title: "SEO Optimization Memory Game",
-        description: "Match SEO concepts to their purposes",
-        cards: [
-          { id: "seo", front: "SEO", back: "Search Engine Optimization - be found on Google" },
-          { id: "metadata", front: "Metadata", back: "Title, description, keywords for search" },
-          { id: "sitemap", front: "Sitemap", back: "Tells Google which pages to crawl" },
-          { id: "ai-seo", front: "AI SEO", back: "Let AI write optimized metadata" },
+        type: "speedQuiz",
+        title: "SEO Basics",
+        description: "How to get found on Google",
+        questions: [
+          {
+            id: "q1",
+            question: "What tells Google which pages exist on your site?",
+            options: [
+              { id: "a", text: "robots.txt" },
+              { id: "b", text: "sitemap.xml" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "Who should write your meta titles and descriptions?",
+            options: [
+              { id: "a", text: "You, manually" },
+              { id: "b", text: "AI (based on your content)" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -146,16 +161,16 @@ export const world10Missions: MissionData[] = [
         example: "OG Image renders.",
       },
       {
-        type: "memoryGame",
-        title: "Open Graph Memory Game",
-        description: "Match Open Graph concepts to their purposes",
-        cards: [
-          { id: "og-image", front: "OG Image", back: "Social card preview when sharing links" },
-          { id: "social-card", front: "Social Card", back: "Beautiful preview on Twitter/Discord" },
-          { id: "imageresponse", front: "ImageResponse", back: "Next.js function to generate OG images" },
-          { id: "opengraph", front: "Open Graph", back: "Protocol for rich link previews" },
+        type: "identify",
+      prompt: "Which of these is the Open Graph Image?",
+      correctOptionId: "b",
+      correctExplanation: "Yes! That big beautiful card is what people see on Twitter/Discord.",
+      wrongExplanation: "Look for the rich link preview card.",
+        options: [
+          { id: "a", text: "The Favicon", icon: "🔸" },
+          { id: "b", text: "The Social Card", icon: "🖼️" },
+          { id: "c", text: "The URL text", icon: "🔗" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -219,16 +234,15 @@ export const world10Missions: MissionData[] = [
         example: "Replay works.",
       },
       {
-        type: "memoryGame",
-        title: "Posthog Analytics Memory Game",
-        description: "Match analytics concepts to their purposes",
-        cards: [
-          { id: "posthog", front: "Posthog", back: "Standard analytics for Vibe Coders" },
-          { id: "session-replay", front: "Session Replay", back: "Watch users like a movie" },
-          { id: "events", front: "Events", back: "Track user actions (clicks, pageviews)" },
-          { id: "growth", front: "Product Growth", back: "Essential for understanding users" },
+        type: "sequenceGame",
+        title: "Analytics Setup",
+        description: "Order the steps to track users",
+        items: [
+          { id: "signup", label: "Sign up for Posthog", correctPosition: 0 },
+          { id: "env", label: "Add API Key to .env", correctPosition: 1 },
+          { id: "provider", label: "Wrap App in Provider", correctPosition: 2 },
+          { id: "replay", label: "Watch Session Replay", correctPosition: 3 },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",

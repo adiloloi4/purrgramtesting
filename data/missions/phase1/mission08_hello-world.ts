@@ -7,45 +7,35 @@ export const mission08: MissionData = {
     {
       type: "text",
       title: "Your First Ship",
-      content:
+      body:
         "This is it. Your first real deployment. In 15 minutes, you'll have a live website on the internet. No theory. No tutorials. Just you, building, and shipping.",
     },
     {
       type: "text",
       title: "What You'll Build",
-      content:
+      body:
         "A simple 'Hello World' page. It sounds small, but it's huge. This is your proof that you can ship. This is your first win. This is where it starts.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "The Steps",
-      cards: [
-        {
-          id: "create",
-          title: "Create the Project",
-          description: "Use Cursor to create a new Next.js project. One command, and you're ready.",
-        },
-        {
-          id: "build",
-          title: "Build the Page",
-          description: "Create a simple page that says 'Hello World'. Keep it simple. Make it work.",
-        },
-        {
-          id: "deploy",
-          title: "Deploy to Vercel",
-          description: "Push to GitHub, connect to Vercel, and watch it go live. That's it.",
-        },
+      prompt: "Mark the steps.",
+      items: [
+        { id: "create", label: "Create the Project: Use Cursor to create a new Next.js project." },
+        { id: "build", label: "Build the Page: Create a simple 'Hello World' page." },
+        { id: "deploy", label: "Deploy to Vercel: Push to GitHub, connect to Vercel, and go live." },
       ],
     },
     {
       type: "text",
       title: "The Commands",
-      content:
+      body:
         "You'll use: `npx create-next-app@latest` to create. `git push` to save. Vercel to deploy. Three steps. Fifteen minutes. One live website.",
     },
     {
       type: "checklist",
       title: "Deployment Checklist",
+      prompt: "Verify your setup.",
       items: [
         { id: "node", label: "Node.js installed" },
         { id: "git", label: "GitHub account created" },
@@ -58,7 +48,7 @@ export const mission08: MissionData = {
     {
       type: "text",
       title: "When It's Live",
-      content:
+      body:
         "When you see your site live on the internet, something clicks. You're not just learning anymore. You're building. You're shipping. You're a Vibe Coder.",
     },
     {
@@ -69,14 +59,14 @@ export const mission08: MissionData = {
         { id: "b", text: "Create the Next.js project" },
         { id: "c", text: "Write perfect code first" },
       ],
-      correct: "b",
-      feedbackCorrect: "Yes! Start by creating the project, then build, then deploy.",
-      feedbackWrong: "Think about the logical order - you need a project before you can deploy it.",
+      correctOptionId: "b",
+      correctExplanation: "Yes! Start by creating the project, then build, then deploy.",
+      wrongExplanation: "Think about the logical order - you need a project before you can deploy it.",
     },
     {
       type: "text",
       title: "Your First Win",
-      content:
+      body:
         "This is your first deployment. It won't be your last. Every great builder started with a 'Hello World.' You're now one of them. Keep shipping.",
     },
     {
@@ -98,6 +88,11 @@ export const mission08: MissionData = {
       text: "npx create-next-app@latest",
       wpmTarget: 25,
     },
+    {
+      type: "text",
+      title: "Confidence Boost",
+      body:
+        "You have a URL. You can send it to your friends. You are live. This feeling? This is what we chase.",
+    },
   ],
 };
-

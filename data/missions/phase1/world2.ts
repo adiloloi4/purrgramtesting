@@ -52,16 +52,33 @@ export const world2Missions: MissionData[] = [
         body: "The faster you can go through this loop, the faster you build. Expert Vibe Coders do this loop 50 times an hour. Prompt, check, prompt, check.",
       },
       {
-        type: "memoryGame",
-        title: "God Mode Loop Memory Game",
-        description: "Match the loop steps to their purposes",
-        cards: [
-          { id: "prompt", front: "Prompt", back: "Describe intent clearly" },
-          { id: "generate", front: "Generate", back: "AI writes code" },
-          { id: "vibe-check", front: "Vibe Check", back: "Most important - verify it works" },
-          { id: "refine", front: "Refine", back: "Iterate and improve" },
+        type: "speedQuiz",
+        title: "The Loop Quiz",
+        description: "Test your mastery of the God Mode steps",
+        questions: [
+          {
+            id: "q1",
+            question: "Which step ensures the code actually works?",
+            options: [
+              { id: "a", text: "Prompt" },
+              { id: "b", text: "Vibe Check" },
+              { id: "c", text: "Generate" },
+            ],
+            correct: "b",
+            timeLimit: 12,
+          },
+          {
+            id: "q2",
+            question: "What do you do if the Vibe Check fails?",
+            options: [
+              { id: "a", text: "Fix it manually" },
+              { id: "b", text: "Give up" },
+              { id: "c", text: "Refine (tell AI what's wrong)" },
+            ],
+            correct: "c",
+            timeLimit: 12,
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -131,16 +148,18 @@ export const world2Missions: MissionData[] = [
         ],
       },
       {
-        type: "memoryGame",
-        title: "Context Game Memory Game",
-        description: "Match context concepts to their purposes",
-        cards: [
-          { id: "amnesia", front: "AI has Amnesia", back: "Only knows what you show it" },
-          { id: "at-key", front: "@ Key", back: "Magic key to link files in Cursor" },
-          { id: "sniper", front: "Be a Sniper", back: "Add only what matters, not everything" },
-          { id: "pollution", front: "Context Pollution", back: "Adding whole codebase confuses AI" },
+        type: "spotTheBug",
+        title: "Context Pollution",
+        description: "Identify the file that is polluting the context",
+        code: "Files added to Context (@):\n\n- @Button.tsx (The component to fix)\n- @globals.css (The styles to use)\n- @package-lock.json (Auto-generated dependency tree)\n- @utils.ts (Helper functions)",
+        bugs: [
+          {
+            id: "pollution",
+            line: 5,
+            description: "package-lock.json is huge and irrelevant for styling. It wastes tokens.",
+            fix: "Remove @package-lock.json",
+          },
         ],
-        timeLimit: 50,
       },
     ],
   },
@@ -183,16 +202,15 @@ export const world2Missions: MissionData[] = [
         example: "Card -> Better Card -> Best Card.",
       },
       {
-        type: "memoryGame",
-        title: "Iterative Prompting Memory Game",
-        description: "Match iteration concepts to their purposes",
-        cards: [
-          { id: "elephant", front: "Don't Eat Elephant", back: "Can't build everything in one prompt" },
-          { id: "10-percent", front: "10% Rule", back: "Build 10% at a time" },
-          { id: "small-wins", front: "Small Wins", back: "Each step is verifiable" },
-          { id: "series", front: "Series of Prompts", back: "Better than one huge prompt" },
+        type: "sequenceGame",
+        title: "The Iterative Ladder",
+        description: "Order the steps to build a complex component",
+        items: [
+          { id: "html", label: "Structure (HTML)", correctPosition: 0 },
+          { id: "css", label: "Style (CSS/Tailwind)", correctPosition: 1 },
+          { id: "logic", label: "Logic (State/Handlers)", correctPosition: 2 },
+          { id: "refine", label: "Refinement (Edge cases)", correctPosition: 3 },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -241,16 +259,14 @@ export const world2Missions: MissionData[] = [
         example: "AI: You are missing a } on line 42.",
       },
       {
-        type: "memoryGame",
-        title: "Debugging as Dialogue Memory Game",
-        description: "Match debugging concepts to their purposes",
-        cards: [
-          { id: "red-wall", front: "The Red Wall", back: "Errors you will see and break things" },
-          { id: "errors-gold", front: "Errors are Gold", back: "Error messages are instructions" },
-          { id: "paste", front: "Copy-Paste", back: "Copy error and paste into Cursor" },
-          { id: "what-changed", front: "What Changed?", back: "Review recent commits if it worked before" },
+        type: "matching",
+        prompt: "Error to Action",
+        pairs: [
+          { id: "red-wall", left: "Red Wall", right: "Don't Panic" },
+          { id: "error", left: "Error Message", right: "Copy & Paste to AI" },
+          { id: "worked", left: "It worked before", right: "Ask 'What Changed?'" },
+          { id: "fixed", left: "Bug fixed", right: "Verify it works" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -313,16 +329,16 @@ export const world2Missions: MissionData[] = [
         example: "AI suggests splitting or says it's fine.",
       },
       {
-        type: "memoryGame",
-        title: "Clean Code for AI Memory Game",
-        description: "Match code quality concepts for AI",
-        cards: [
-          { id: "readability", front: "Readability", back: "Code must be readable for AI to fix it" },
-          { id: "variables", front: "Clear Variables", back: "Help AI understand context" },
-          { id: "small-files", front: "Small Files", back: "AI gets lost in 1000+ line files" },
-          { id: "refactor", front: "Refactor", back: "Split large files into smaller components" },
+        type: "identify",
+      prompt: "Select the file that should be refactored.",
+      correctOptionId: "c",
+      correctExplanation: "Yes! 1200 lines is too big for the AI to reason about effectively. Split it up.",
+      wrongExplanation: "Look at the line counts. Small files are better for context.",
+        options: [
+          { id: "a", text: "Button.tsx (45 lines)", icon: "📄" },
+          { id: "b", text: "Header.tsx (120 lines)", icon: "📄" },
+          { id: "c", text: "Dashboard.tsx (1200 lines)", icon: "⚠️" },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -391,16 +407,16 @@ export const world2Missions: MissionData[] = [
         example: "Click -> Dark Mode -> Click -> Light Mode.",
       },
       {
-        type: "memoryGame",
-        title: "Workflow Simulator Memory Game",
-        description: "Match workflow concepts to their purposes",
-        cards: [
-          { id: "feature", front: "Feature Build", back: "Put all skills together" },
-          { id: "steps", front: "Small Steps", back: "Build in increments (UI -> State -> Logic)" },
-          { id: "pivot", front: "Pivot Gracefully", back: "Change direction when needed" },
-          { id: "workflow", front: "God Mode Workflow", back: "Complete feature building process" },
+        type: "quiz",
+        question: "You built a toggle switch. Client now wants a dropdown. What do you do?",
+        options: [
+          { id: "a", text: "Refuse. The code is done." },
+          { id: "b", text: "Prompt: 'Change the toggle to a dropdown menu. Keep the same state logic.'" },
+          { id: "c", text: "Delete everything and start over." },
         ],
-        timeLimit: 50,
+        correctOptionId: "b",
+        correctExplanation: "Yes. Reuse the logic, change the UI. Fast pivot.",
+        wrongExplanation: "Rigidity is the enemy. Don't start over if you don't have to. Reuse logic where possible.",
       },
       {
         type: "sequenceGame",

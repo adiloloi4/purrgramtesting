@@ -7,23 +7,24 @@ export const mission00: MissionData = {
     {
       type: "text",
       title: "Welcome to Purrgram",
-      content:
+      body:
         "Before learning to build apps, you need one mental model. We will show you how apps work using a restaurant analogy. Forget the code for a moment... let's look at the system.",
     },
     {
       type: "text",
       title: "The Components",
-      content:
+      body:
         "Every app, from Instagram to Uber, has the same basic organs. We call this the 'Stack'. Understanding how they fit together is more important than knowing how to code them from scratch.",
     },
     {
-      type: "toggle_cards",
+      type: "checklist",
       title: "Explore the Restaurant",
-      cards: [
-        { id: "frontend", title: "Frontend = The Waiters", description: "What customers interact with. Takes orders, shows the menu." },
-        { id: "backend", title: "Backend = The Kitchen", description: "Where the work happens. Logic, processing, security." },
-        { id: "database", title: "Database = The Fridge", description: "Storage for ingredients (data) and history." },
-        { id: "api", title: "API = The Menu", description: "The contract of what can be ordered." }
+      prompt: "Learn the roles by checking them off.",
+      items: [
+        { id: "frontend", label: "Frontend = The Waiters (Takes orders)" },
+        { id: "backend", label: "Backend = The Kitchen (Cooks food)" },
+        { id: "database", label: "Database = The Fridge (Stores ingredients)" },
+        { id: "api", label: "API = The Menu (What you can order)" }
       ]
     },
     {
@@ -35,48 +36,48 @@ export const mission00: MissionData = {
         { id: "c", text: "The Menu" },
         { id: "d", text: "The Fridge" },
       ],
-      correct: "c",
-      feedbackCorrect: "Correct! The Menu defines what is available to order, just like an API defines requests.",
-      feedbackWrong: "Think about the list of available options.",
+      correctOptionId: "c",
+      correctExplanation: "Correct! The Menu defines what is available to order, just like an API defines requests.",
+      wrongExplanation: "Think about the list of available options.",
     },
     {
       type: "text",
       title: "Auth = The Manager",
-      content:
+      body:
         "Authentication is the Restaurant Manager. It controls who is allowed inside, who sits at which table (permissions), and ensures staff areas are secure.",
     },
     {
       type: "text",
       title: "External APIs = Suppliers",
-      content:
+      body:
         "External APIs are the Suppliers. The restaurant gets special ingredients or services from outside sources (like payment processing or maps) when needed.",
     },
     {
       type: "text",
       title: "Deployment = Food Delivery",
-      content:
+      body:
         "Deployment is like a food delivery service taking your restaurant's food to the entire city. Tools like Vercel make your app accessible to everyone on the internet.",
     },
     {
       type: "text",
       title: "Dev Tools = Staff Workspace",
-      content:
+      body:
         "Dev Tools are the staff workspace and utensils. Node.js, GitHub Desktop, and Cursor are the tools you use to build and manage the restaurant.",
     },
     {
       type: "matching",
-      title: "Match the Roles",
+      prompt: "Match the Roles",
       pairs: [
-        { left: "Frontend", right: "Waiters" },
-        { left: "Backend", right: "Kitchen" },
-        { left: "Database", right: "Fridge" },
-        { left: "API", right: "Menu" }
+        { id: "frontend", left: "Frontend", right: "Waiters" },
+        { id: "backend", left: "Backend", right: "Kitchen" },
+        { id: "db", left: "Database", right: "Fridge" },
+        { id: "api", left: "API", right: "Menu" }
       ]
     },
     {
       type: "text",
       title: "The Big Picture",
-      content:
+      body:
         "Every modern app contains these parts. The rest of Phase 0 will teach each part in depth. You are now ready to step into the kitchen.",
     },
     {
@@ -94,18 +95,44 @@ export const mission00: MissionData = {
       hint: "Start with user interaction, end with the response",
     },
     {
-      type: "memoryGame",
-      title: "Restaurant Analogy Memory Game",
-      description: "Match each app component to its restaurant equivalent",
-      cards: [
-        { id: "frontend", front: "Frontend", back: "The Waiters (what customers interact with)" },
-        { id: "backend", front: "Backend", back: "The Kitchen (where work happens)" },
-        { id: "database", front: "Database", back: "The Fridge (storage for data)" },
-        { id: "api", front: "API", back: "The Menu (contract of what's available)" },
-        { id: "auth", front: "Auth", back: "The Manager (controls access)" },
-        { id: "deployment", front: "Deployment", back: "Food Delivery (makes it accessible)" },
+      type: "speedQuiz",
+      title: "Restaurant Scenarios",
+      description: "Who handles what in these situations?",
+      questions: [
+        {
+          id: "q1",
+          question: "A customer (User) wants to see the menu. Who brings it?",
+          options: [
+            { id: "a", text: "The Kitchen (Backend)" },
+            { id: "b", text: "The Waiter (Frontend)" },
+            { id: "c", text: "The Fridge (Database)" },
+          ],
+          correct: "b",
+          timeLimit: 12,
+        },
+        {
+          id: "q2",
+          question: "The kitchen runs out of ingredients. Where do they check?",
+          options: [
+            { id: "a", text: "The Menu (API)" },
+            { id: "b", text: "The Fridge (Database)" },
+            { id: "c", text: "The Manager (Auth)" },
+          ],
+          correct: "b",
+          timeLimit: 12,
+        },
+        {
+          id: "q3",
+          question: "Someone tries to enter the kitchen without permission. Who stops them?",
+          options: [
+            { id: "a", text: "The Manager (Auth)" },
+            { id: "b", text: "The Waiter (Frontend)" },
+            { id: "c", text: "The Food Delivery (Deployment)" },
+          ],
+          correct: "a",
+          timeLimit: 12,
+        },
       ],
-      timeLimit: 60,
     },
   ],
 };

@@ -207,7 +207,10 @@ export const MiniChallengeSlide: React.FC<MiniChallengeSlideProps> = ({
         <div className="space-y-8">
             <SharedQuizView 
                 prompt={slide.prompt || ""}
-                options={slide.options || []}
+                options={(slide.options || []).map(o => ({
+                    id: o.id,
+                    label: o.label || o.text || "" 
+                }))}
                 selectedOptionId={selectedOptionId}
                 onSelectOption={onSelectOption}
             />

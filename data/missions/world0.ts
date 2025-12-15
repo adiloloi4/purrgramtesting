@@ -24,7 +24,7 @@ export type MissionData = {
 // Placeholder for legacy exports if any code imports them
 export type QuizOption = { id: string; label: string };
 
-export { 
+export type { 
   TextSlide, 
   QuizSlide, 
   DragDropSlide, 

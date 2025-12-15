@@ -2,146 +2,159 @@ import { MissionData } from "../world0";
 
 export const world5Missions: MissionData[] = [
   {
-    id: "fetching-data",
-    title: "Fetching External Data",
+    id: "auth-providers",
+    title: "The Bouncer (Authentication)",
     slides: [
       {
         type: "text",
-        title: "Intent",
-        body: "Your app is an island. APIs are bridges to the rest of the world. You can pull in weather, crypto prices, or anything else.",
+        title: "Who goes there?",
+        body:
+          "Your app is a public park. Anyone can walk in. To build a business, you need a private club. You need a Bouncer (Auth).",
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Tell AI *where* to fetch from and *what* to return. Mention 'API Route' to keep it secure.",
+        title: "Don't Build Auth",
+        body:
+          "Never build your own login system. It is hard and dangerous. Rent a Bouncer. We use Supabase Auth or Clerk. They handle passwords, emails, and security.",
       },
       {
-        type: "text",
-        title: "Example message to AI",
-        body: "Create a Next.js API route at /api/crypto.\nFetch the current Bitcoin price from api.coindesk.com.\nReturn just the USD rate as JSON.",
-      },
-      {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Visit http://localhost:3000/api/crypto. Do you see the price? You just connected your app to the global financial system.",
-        example: "Price visible",
-      }
-    ],
-  },
-  {
-    id: "ai-connection",
-    title: "Connecting OpenAI",
-    slides: [
-      {
-        type: "text",
-        title: "Intent",
-        body: "You don't need to build a brain. You can rent one. We will send text to OpenAI, and they will send intelligence back.",
-      },
-      {
-        type: "text",
-        title: "How to talk to AI",
-        body: "Ask for a 'Server Action' to keep your API keys safe.",
-      },
-      {
-        type: "text",
-        title: "Example message to AI",
-        body: "Create a Server Action that takes a user prompt, calls OpenAI (using the openai package), and returns the text response.\nAssume I have OPENAI_API_KEY in my env vars.",
-      },
-      {
-        type: "checklist",
-        title: "Foundation: API Keys",
-        prompt: "You need a key.",
-        items: [
-          { id: "1", label: "Get an API Key from platform.openai.com" },
-          { id: "2", label: "Add it to .env.local" },
-          { id: "3", label: "Restart your server" }
+        type: "quiz",
+        question: "Why shouldn't you build your own auth?",
+        options: [
+          { id: "a", text: "It's too easy" },
+          { id: "b", text: "It's a security risk and waste of time" },
+          { id: "c", text: "React doesn't allow it" },
         ],
-      }
-    ],
-  },
-  {
-    id: "streaming",
-    title: "Streaming Text",
-    slides: [
-      {
-        type: "text",
-        title: "Intent",
-        body: "Waiting 5 seconds for a response feels broken. Streaming (typewriter effect) feels magical. It's how ChatGPT works.",
+        correctOptionId: "b",
+        correctExplanation: "Correct. Security is hard. Use proven tools.",
+        wrongExplanation: "It's definitely not easy.",
       },
       {
-        type: "text",
-        title: "How to talk to AI",
-        body: "Ask to use the 'Vercel AI SDK'. It does the hard math for you.",
-      },
-      {
-        type: "text",
-        title: "Example message to AI",
-        body: "Update my AI action to use the Vercel AI SDK.\nI want to stream the text response back to the client component using the useChat hook.",
-      },
-      {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Send a message. Do the words appear one by one? If yes, you have achieved Peak Vibe.",
-        example: "Streaming works",
-      }
-    ],
-  },
-  {
-    id: "webhooks",
-    title: "Webhook Basics",
-    slides: [
-      {
-        type: "text",
-        title: "Intent",
-        body: "Normally, you call the API. Webhooks are when the API calls YOU. It's like a phone call saying 'Payment Received'.",
-      },
-      {
-        type: "text",
-        title: "How to talk to AI",
-        body: "Ask for a route that listens for 'POST' requests.",
-      },
-      {
-        type: "text",
-        title: "Example message to AI",
-        body: "Create a webhook route at /api/webhooks/test.\nIt should accept a POST request and console.log the body data.\nReturn a 200 OK status.",
-      },
-      {
-        type: "checklist",
-        title: "Verification step",
-        prompt: "Fake the call.",
-        items: [
-          { id: "1", label: "Open Postman or use Curl" },
-          { id: "2", label: "Send a POST to your localhost URL" },
-          { id: "3", label: "Check your VS Code terminal. Did the data appear?" }
+        type: "identify",
+        prompt: "Which is the best Auth method for speed?",
+        correctOptionId: "google",
+        correctExplanation: "Yes. Social Login (Google/GitHub) is one click. No passwords to forget.",
+        wrongExplanation: "Email/Password has friction.",
+        options: [
+          { id: "pass", text: "Email & Password", icon: "🔒" },
+          { id: "google", text: "Google Login", icon: "⚡" },
+          { id: "magic", text: "Magic Link", icon: "📨" },
         ],
-      }
+      },
+      {
+        type: "text",
+        title: "Confidence Boost",
+        body:
+          "Auth is the gatekeeper. Once you add it, you know exactly who is using your app.",
+      },
     ],
   },
   {
-    id: "api-error-handling",
-    title: "Handling Errors",
+    id: "user-profiles",
+    title: "User Profiles",
     slides: [
       {
         type: "text",
-        title: "Intent",
-        body: "The internet is chaos. APIs fail. Keys expire. If you don't plan for it, your app crashes.",
+        title: "More than an Email",
+        body:
+          "Auth gives you an ID and an Email. But you want an Avatar, a Bio, a Plan. You need a Profile.",
       },
       {
         type: "text",
-        title: "How to talk to AI",
-        body: "Ask AI to 'wrap' your code in safety blankets (try/catch).",
+        title: "Linking Tables",
+        body:
+          "We create a 'profiles' table. It has a column 'id' that matches the User ID from Auth. They are linked 1-to-1.",
+      },
+      {
+        type: "quiz",
+        question: "If I delete the User from Auth, what should happen to the Profile?",
+        options: [
+          { id: "a", text: "It should stay forever" },
+          { id: "b", text: "It should be deleted (Cascade)" },
+          { id: "c", text: "It should become an admin" },
+        ],
+        correctOptionId: "b",
+        correctExplanation: "Correct. No user, no profile. Clean up your data.",
+        wrongExplanation: "Zombie data clogs up your database.",
       },
       {
         type: "text",
-        title: "Example message to AI",
-        body: "Refactor my API route to handle errors gracefully.\nIf the external API fails, return a clean error message instead of crashing.",
+        title: "The Trigger Trap",
+        body:
+          "Advanced devs use 'Triggers' to make profiles automatically. This is magic, but magic breaks. We will use a simpler way: 'Create Profile on First Login'.",
       },
       {
-        type: "miniChallenge",
-        title: "Verification step",
-        task: "Disconnect your internet (or change the API URL to something broken). Try the request. Does it show a nice message or a scary crash?",
-        example: "Nice message",
-      }
+        type: "buildTask",
+        title: "Design the Profile",
+        description: "Ask AI to design the table",
+        task: "Ask AI: 'I need a profiles table that links to auth.users. It should have full_name and avatar_url. Give me the SQL.'",
+        expectedOutcome: "SQL code to create the table",
+        verificationSteps: [
+          "SQL generated",
+          "Includes foreign key to auth.users",
+          "Includes extra fields",
+        ],
+        tips: [
+          "Mention 'Foreign Key'",
+          "Ask for 'Row Level Security' (RLS) to be enabled",
+        ],
+      },
+      {
+        type: "text",
+        title: "Confidence Boost",
+        body:
+          "You are managing user identity. You are building a real system, not a toy.",
+      },
     ],
-  }
+  },
+  {
+    id: "middleware-protection",
+    title: "The Guard Dog (Middleware)",
+    slides: [
+      {
+        type: "text",
+        title: "The Back Door",
+        body:
+          "A login page isn't enough. If I know the URL '/dashboard', I can type it in. We need a guard that checks *every* request.",
+      },
+      {
+        type: "text",
+        title: "Middleware",
+        body:
+          "Middleware sits between the User and the Page. It asks: 'Are you logged in?'. If yes, pass. If no, redirect to Login.",
+      },
+      {
+        type: "identify",
+        prompt: "Where does Middleware sit?",
+        correctOptionId: "middle",
+        correctExplanation: "Yes. It intercepts the request before it hits the page.",
+        wrongExplanation: "It's not in the database or the browser.",
+        options: [
+          { id: "browser", text: "In the Browser", icon: "🌐" },
+          { id: "middle", text: "Between Request & Page", icon: "🛡️" },
+          { id: "db", text: "In the Database", icon: "🗄️" },
+        ],
+      },
+      {
+        type: "spotTheBug",
+        title: "Unprotected Route",
+        description: "Find the security hole",
+        code: "// middleware.ts\n\nexport const config = {\n  matcher: ['/dashboard/:path*', '/settings'],\n};\n\n// What about /admin ?",
+        bugs: [
+          {
+            id: "missing-admin",
+            line: 4,
+            description: "The /admin route is not in the matcher, so it is unprotected!",
+            fix: "Add '/admin' to the matcher array",
+          },
+        ],
+      },
+      {
+        type: "text",
+        title: "Confidence Boost",
+        body:
+          "Your app is secure. You have a Bouncer (Auth), a list of Members (Profiles), and a Guard Dog (Middleware). You are ready for business.",
+      },
+    ],
+  },
 ];

@@ -36,16 +36,31 @@ export const world7Missions: MissionData[] = [
         example: "Module not found: Can't resolve...",
       },
       {
-        type: "memoryGame",
-        title: "AI Hallucinations Memory Game",
-        description: "Match hallucination signs to their descriptions",
-        cards: [
-          { id: "phantom", front: "Phantom Imports", back: "Importing components that don't exist" },
-          { id: "looping", front: "Looping", back: "Tries the same fix 3 times in a row" },
-          { id: "complexity", front: "Over-complexity", back: "50 lines of regex for a simple check" },
-          { id: "hallucination", front: "Hallucination", back: "AI confidently invents things that don't exist" },
+        type: "speedQuiz",
+        title: "Spot the Lie",
+        description: "Is the AI telling the truth?",
+        questions: [
+          {
+            id: "q1",
+            question: "AI says: 'Import { MagicButton } from 'react-magic'' (You never installed this package)",
+            options: [
+              { id: "a", text: "Truth" },
+              { id: "b", text: "Lie (Hallucination)" },
+            ],
+            correct: "b",
+            timeLimit: 10,
+          },
+          {
+            id: "q2",
+            question: "AI says: 'You are missing a closing brace } on line 45'",
+            options: [
+              { id: "a", text: "Likely Truth" },
+              { id: "b", text: "Likely Lie" },
+            ],
+            correct: "a",
+            timeLimit: 10,
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -104,16 +119,14 @@ export const world7Missions: MissionData[] = [
         example: "Code restored.",
       },
       {
-        type: "memoryGame",
-        title: "AI Fixing AI Memory Game",
-        description: "Match debugging concepts to their purposes",
-        cards: [
-          { id: "redemption", front: "Loop of Redemption", back: "AI fixes its own mistakes" },
-          { id: "apology", front: "Apology Prompt", back: "Paste error and ask AI to analyze and fix" },
-          { id: "self-healing", front: "Self-Healing", back: "AI restores broken code automatically" },
-          { id: "debugging", front: "AI Debugging", back: "AI is often better at debugging than creating" },
+        type: "matching",
+        prompt: "The Fix Strategy",
+        pairs: [
+          { id: "break", left: "Code Breaks", right: "Don't Panic" },
+          { id: "ai", left: "AI Error", right: "Ask it to fix itself" },
+          { id: "lie", left: "Hallucination", right: "Call it out ('You lied')" },
+          { id: "loop", left: "Looping", right: "Stop and provide new context" },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
@@ -159,16 +172,18 @@ export const world7Missions: MissionData[] = [
         example: "Analysis: You are missing a prop.",
       },
       {
-        type: "memoryGame",
-        title: "Copy-Paste Debugging Memory Game",
-        description: "Match debugging strategies to their effectiveness",
-        cards: [
-          { id: "stare", front: "Staring at Errors", back: "What beginners do (ineffective)" },
-          { id: "copy-paste", front: "Copy-Paste", back: "What founders do (effective)" },
-          { id: "context", front: "Context is King", back: "Paste error AND the file that caused it" },
-          { id: "terminal", front: "Terminal Output", back: "The map to the treasure (the fix)" },
+        type: "spotTheBug",
+        title: "Bad Debug Prompt",
+        description: "Identify the ineffective prompt",
+        code: "// Terminal Output:\n// Error: Cannot read properties of undefined (reading 'map')\n\n// Prompt A:\n\"It's broken.\"\n\n// Prompt B:\n\"Fix the map error.\"\n\n// Prompt C:\n\"I'm getting this error in terminal: [paste error]. Here is my component code: [paste code]. Fix it.\"",
+        bugs: [
+          {
+            id: "prompt-a",
+            line: 5,
+            description: "Vague. AI has no context.",
+            fix: "Always include error + code.",
+          },
         ],
-        timeLimit: 50,
       },
       {
         type: "speedQuiz",
@@ -232,16 +247,16 @@ export const world7Missions: MissionData[] = [
         example: "File restored.",
       },
       {
-        type: "memoryGame",
-        title: "Git Save Game Memory Game",
-        description: "Match Git concepts to their purposes",
-        cards: [
-          { id: "save-game", front: "Git as Save Game", back: "Like video game save slots" },
-          { id: "wip", front: "WIP Commit", back: "Quick save with 'wip' or 'saving' message" },
-          { id: "safety-save", front: "Safety Save", back: "Commit before big refactor" },
-          { id: "respawning", front: "Respawning", back: "Restore code with git checkout" },
+        type: "identify",
+      prompt: "Which command saves your progress to the time machine?",
+      correctOptionId: "commit",
+      correctExplanation: "Yes. Commit saves your changes to the history.",
+      wrongExplanation: "Think about which command actually records the snapshot.",
+        options: [
+          { id: "add", text: "git add .", icon: "➕" },
+          { id: "commit", text: "git commit -m 'save'", icon: "💾" },
+          { id: "status", text: "git status", icon: "👀" },
         ],
-        timeLimit: 50,
       },
       {
         type: "sequenceGame",
