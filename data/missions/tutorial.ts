@@ -763,7 +763,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
           "Supabase account created",
           "New project created",
           ".env.local file exists",
-          "Environment variables added"
+          "Environment variables added" 
         ],
         tips: [
           "The URL and key are in Project Settings > API",
