@@ -24,6 +24,7 @@ type CourseState = {
   markWorldComplete: (worldId: number) => void;
   markAllInOneCheckpointComplete: (worldId: number, checkpointId: string) => void;
   markAllInOneMissionComplete: (worldId: number, xpReward?: number) => void;
+  awardXP: (amount: number) => void;
   unlockBadge: (badgeId: string) => Badge | null;
   getUnlockedBadges: () => Badge[];
   unlockAll: () => void; //delete later
@@ -158,6 +159,13 @@ export const useCourseStore = create<CourseState>()(
           completedAllInOneMissions: [...state.completedAllInOneMissions, worldId],
           xp: state.xp + xpReward
          });
+      },
+
+      awardXP: (amount: number) => {
+        const state = get();
+        set({
+          xp: state.xp + amount
+        });
       },
 
       unlockBadge: (badgeId: string) => {

@@ -12,85 +12,97 @@ type MatchingSlideProps = {
 
 export const MatchingSlide: React.FC<MatchingSlideProps> = ({ slide, onInteract }) => {
     const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
-    const [matches, setMatches] = useState<{ [leftId: string]: string }>({}); // leftId -> rightId
+    const [matches, setMatches] = useState<{ [leftId: string]: string }>({}); // leftId -> rightText
     const [completedPairs, setCompletedPairs] = useState<string[]>([]); // array of pair ids
 
-    const handleLeftClick = (id: string) => {
-        if (completedPairs.includes(slide.pairs.find(p => p.id === id)?.id || '')) return;
-        setSelectedLeft(id);
+    const handleLeftClick = (pairId: string) => {
+        if (completedPairs.includes(pairId)) return;
+        setSelectedLeft(pairId);
     };
 
-    const handleRightClick = (rightId: string) => {
+    const handleRightClick = (rightText: string) => {
         if (!selectedLeft) return;
         
         // Find pair for selected left
-        const pair = slide.pairs.find(p => p.id === selectedLeft);
-        if (!pair) return;
+        const selectedPair = slide.pairs.find(p => p.id === selectedLeft);
+        if (!selectedPair) return;
 
-        if (pair.right === rightId) {
+        // Check if this right text matches the selected pair's right
+        if (selectedPair.right === rightText) {
             // Correct match
-            setCompletedPairs(prev => [...prev, pair.id]);
-            setMatches(prev => ({ ...prev, [selectedLeft]: rightId }));
+            setCompletedPairs(prev => [...prev, selectedPair.id]);
+            setMatches(prev => ({ ...prev, [selectedLeft]: rightText }));
             setSelectedLeft(null);
             
             // Allow next after at least one match
             onInteract();
         } else {
-            // Wrong match - visual shake or something? For now just reset selection
+            // Wrong match - reset selection
             setSelectedLeft(null);
-            // Even an attempt could unlock it, but let's stick to "made at least one match"
-            // Or maybe "clicked something". The user said "once the user made at least one match or clicked something".
+            // Allow next on any interaction
             onInteract();
         }
     };
 
-    // Display rights in a fixed order (e.g. sorted by right text) to shuffle them relative to lefts
-    const rightOptions = [...slide.pairs].sort((a, b) => a.right.localeCompare(b.right)); 
+    // Get all unique right texts and shuffle them
+    const allRightTexts = [...new Set(slide.pairs.map(p => p.right))].sort(() => Math.random() - 0.5);
 
     return (
         <div className="space-y-6">
             <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
             <div className="flex justify-between gap-8">
                 <div className="flex-1 space-y-3">
+                    <h3 className="text-sm font-medium text-white/60 mb-2">Left Column</h3>
                     {slide.pairs.map(pair => {
                         const isCompleted = completedPairs.includes(pair.id);
                         const isSelected = selectedLeft === pair.id;
                         return (
-                            <div 
+                            <motion.div 
                                 key={pair.id}
                                 onClick={() => !isCompleted && handleLeftClick(pair.id)}
                                 className={cn(
                                     "p-4 rounded-xl border transition-all cursor-pointer text-sm",
                                     isCompleted ? "bg-green-500/10 border-green-500/30 text-green-200" : 
-                                    isSelected ? "bg-purple-500/20 border-purple-500 text-white" : "bg-white/5 border-white/10 hover:bg-white/10 text-slate-200"
+                                    isSelected ? "bg-purple-500/20 border-purple-500/50 text-white shadow-lg shadow-purple-500/20" : "bg-white/5 border-white/10 hover:bg-white/10 text-white"
                                 )}
+                                whileHover={{ scale: isCompleted ? 1 : 1.02 }}
+                                whileTap={{ scale: isCompleted ? 1 : 0.98 }}
                             >
                                 {pair.left}
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
                 <div className="flex-1 space-y-3">
-                    {rightOptions.map(pair => {
-                        // Check if this right option has been matched
-                        const matchedLeftId = Object.keys(matches).find(key => matches[key] === pair.right);
+                    <h3 className="text-sm font-medium text-white/60 mb-2">Right Column</h3>
+                    {allRightTexts.map(rightText => {
+                        // Check if this right text has been matched
+                        const matchedLeftId = Object.keys(matches).find(key => matches[key] === rightText);
                         const isMatched = !!matchedLeftId;
                         
                         return (
-                            <div 
-                                key={pair.right}
-                                onClick={() => !isMatched && handleRightClick(pair.right)}
+                            <motion.div 
+                                key={rightText}
+                                onClick={() => !isMatched && handleRightClick(rightText)}
                                 className={cn(
                                     "p-4 rounded-xl border transition-all cursor-pointer text-sm",
-                                    isMatched ? "bg-green-500/10 border-green-500/30 text-green-200 opacity-50" : "bg-white/5 border-white/10 hover:bg-white/10 text-slate-200"
+                                    isMatched ? "bg-green-500/10 border-green-500/30 text-green-200 opacity-50 cursor-not-allowed" : 
+                                    selectedLeft ? "bg-white/5 border-white/10 hover:bg-white/10 text-white" : "bg-white/5 border-white/10 text-white/60"
                                 )}
+                                whileHover={{ scale: isMatched ? 1 : 1.02 }}
+                                whileTap={{ scale: isMatched ? 1 : 0.98 }}
                             >
-                                {pair.right}
-                            </div>
+                                {rightText}
+                            </motion.div>
                         );
                     })}
                 </div>
             </div>
+            {completedPairs.length > 0 && (
+                <div className="mt-4 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-200 text-sm text-center">
+                    {completedPairs.length} of {slide.pairs.length} matched correctly!
+                </div>
+            )}
         </div>
     );
 };

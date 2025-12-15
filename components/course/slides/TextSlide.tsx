@@ -10,8 +10,15 @@ type TextSlideProps = {
 };
 
 export const TextSlide: React.FC<TextSlideProps> = ({ title, body, image, youtubeVideo }) => {
-  // Extract YouTube video ID from URL
+  // Extract YouTube video ID from URL (handles regular videos and Shorts)
   const getYouTubeVideoId = (url: string) => {
+    // Handle YouTube Shorts URLs: youtube.com/shorts/VIDEO_ID
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([^?&#]+)/);
+    if (shortsMatch && shortsMatch[1]) {
+      return shortsMatch[1];
+    }
+    
+    // Handle regular YouTube URLs
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11 ? match[2] : null;

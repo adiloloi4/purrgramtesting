@@ -15,20 +15,20 @@ export const world3Missions: MissionData[] = [
         type: "text",
         title: "Entities are Tables",
         body:
-          "Everything in your app is an 'Entity'. Users, Posts, Comments, Products. Each Entity gets its own Table. User -> Users Table. Product -> Products Table.",
+          "Everything in your ChatGPT wrapper is an 'Entity'. Users, Conversations, Messages. Each Entity gets its own Table. User -> Users Table. Conversation -> Conversations Table. Message -> Messages Table.",
       },
       {
         type: "dragDrop",
-        prompt: "Sort data into the correct table",
+        prompt: "Sort data into the correct table for your ChatGPT wrapper",
         categories: [
-          { id: "users", label: "Users Table" },
-          { id: "products", label: "Products Table" },
+          { id: "conversations", label: "Conversations Table" },
+          { id: "messages", label: "Messages Table" },
         ],
         items: [
-          { id: "email", label: "email", correctCategoryId: "users" },
-          { id: "price", label: "price", correctCategoryId: "products" },
-          { id: "username", label: "username", correctCategoryId: "users" },
-          { id: "sku", label: "sku_code", correctCategoryId: "products" },
+          { id: "title", label: "title (chat title)", correctCategoryId: "conversations" },
+          { id: "content", label: "content (message text)", correctCategoryId: "messages" },
+          { id: "user_id", label: "user_id", correctCategoryId: "conversations" },
+          { id: "role", label: "role (user/assistant)", correctCategoryId: "messages" },
         ],
       },
       {
@@ -39,15 +39,15 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "quiz",
-        question: "Where would you store the 'date_created' for a blog post?",
+        question: "Where would you store 'created_at' for a chat message in your ChatGPT wrapper?",
         options: [
-          { id: "a", text: "In the Users table" },
-          { id: "b", text: "In the Posts table" },
+          { id: "a", text: "In the Conversations table" },
+          { id: "b", text: "In the Messages table" },
           { id: "c", text: "Nowhere" },
         ],
         correctOptionId: "b",
-        correctExplanation: "Correct. The date belongs to the Post entity.",
-        wrongExplanation: "The date describes the Post, not the User.",
+        correctExplanation: "Correct. The timestamp belongs to the Message entity.",
+        wrongExplanation: "The timestamp describes when the message was created, not the conversation.",
       },
       {
         type: "text",
@@ -57,9 +57,9 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "miniChallenge",
-        title: "Design a Todo App",
-        task: "Grab a pen (or open Notepad). List the tables and columns for a simple Todo App. (Hint: Users and Tasks).",
-        example: "Users: id, email. Tasks: id, title, is_complete, user_id.",
+        title: "Design Your ChatGPT Wrapper Database",
+        task: "Grab a pen (or open Notepad). List the tables and columns you need for your ChatGPT wrapper. (Hint: Conversations and Messages tables).",
+        example: "Conversations: id, user_id, title, created_at. Messages: id, conversation_id, role, content, created_at.",
       },
       {
         type: "identify",
@@ -89,39 +89,39 @@ export const world3Missions: MissionData[] = [
         type: "text",
         title: "The Power of Relations",
         body:
-          "Spreadsheets are lonely. Databases are social. Tables talk to each other. A Post belongs to a User. This connection is a Relationship.",
+          "In your ChatGPT wrapper, tables talk to each other. A Message belongs to a Conversation. A Conversation belongs to a User. These connections are Relationships.",
       },
       {
         type: "text",
         title: "Foreign Keys",
         body:
-          "How do we link them? We give the child a 'Foreign Key'. The 'Posts' table has a column called 'user_id'. This points back to the 'Users' table.",
+          "How do we link them? We give the child a 'Foreign Key'. The 'Messages' table has a column called 'conversation_id'. This points back to the 'Conversations' table. The 'Conversations' table has 'user_id' pointing to 'Users'.",
       },
       {
         type: "quiz",
-        question: "If a User has many Orders, where does the 'user_id' go?",
+        question: "If a Conversation has many Messages in your ChatGPT wrapper, where does the 'conversation_id' go?",
         options: [
-          { id: "a", text: "In the Users table" },
-          { id: "b", text: "In the Orders table" },
+          { id: "a", text: "In the Conversations table" },
+          { id: "b", text: "In the Messages table" },
           { id: "c", text: "In a separate list" },
         ],
         correctOptionId: "b",
-        correctExplanation: "Correct! The Order needs to know who it belongs to.",
-        wrongExplanation: "The Parent (User) doesn't hold the Child's ID. The Child (Order) points to the Parent.",
+        correctExplanation: "Correct! The Message needs to know which conversation it belongs to.",
+        wrongExplanation: "The Parent (Conversation) doesn't hold the Child's ID. The Child (Message) points to the Parent.",
       },
       {
         type: "text",
         title: "One-to-Many",
         body:
-          "One User, Many Posts. This is the most common relationship. The 'Many' side holds the ID of the 'One' side.",
+          "One User, Many Conversations. One Conversation, Many Messages. This is the most common relationship in your ChatGPT wrapper. The 'Many' side holds the ID of the 'One' side.",
       },
       {
         type: "matching",
-        prompt: "Match the Relationship Type",
+        prompt: "Match the Relationship Type in Your ChatGPT Wrapper",
         pairs: [
-          { id: "one-many", left: "One User -> Many Posts", right: "One-to-Many" },
+          { id: "one-many", left: "One User -> Many Conversations", right: "One-to-Many" },
+          { id: "one-many2", left: "One Conversation -> Many Messages", right: "One-to-Many" },
           { id: "one-one", left: "One User -> One Profile", right: "One-to-One" },
-          { id: "many-many", left: "Students <-> Classes", right: "Many-to-Many" },
         ],
       },
       {
@@ -132,19 +132,19 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "identify",
-        prompt: "Which structure is better?",
+        prompt: "Which structure is better for your ChatGPT wrapper?",
         correctOptionId: "b",
-        correctExplanation: "Yes! Separate tables linked by ID is the clean, relational way.",
-        wrongExplanation: "One giant table gets messy fast with duplicate data.",
+        correctExplanation: "Yes! Separate tables (Conversations, Messages) linked by IDs is the clean, relational way.",
+        wrongExplanation: "One giant table gets messy fast with duplicate conversation data for every message.",
         options: [
           {
             id: "a",
-            text: "One giant table with user info repeated for every post",
+            text: "One giant table with conversation info repeated for every message",
             icon: "📜",
           },
           {
             id: "b",
-            text: "Two tables (Users, Posts) linked by user_id",
+            text: "Two tables (Conversations, Messages) linked by conversation_id",
             icon: "🔗",
           },
         ],
@@ -187,15 +187,15 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "quiz",
-        question: "What type should 'price' be?",
+        question: "What type should 'message_count' be in your ChatGPT wrapper profiles table?",
         options: [
           { id: "a", text: "Text" },
-          { id: "b", text: "Number (Integer/Decimal)" },
+          { id: "b", text: "Number (Integer)" },
           { id: "c", text: "Boolean" },
         ],
         correctOptionId: "b",
-        correctExplanation: "Yes. You need to do math on prices.",
-        wrongExplanation: "You can't multiply text.",
+        correctExplanation: "Yes. You need to count and increment message_count.",
+        wrongExplanation: "You can't do math on text or boolean.",
       },
       {
         type: "text",
@@ -205,15 +205,15 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "spotTheBug",
-        title: "Schema Error",
+        title: "Schema Error in ChatGPT Wrapper",
         description: "Find the data type mismatch",
-        code: "CREATE TABLE products (\n  id SERIAL PRIMARY KEY,\n  name TEXT,\n  price TEXT, -- Wait, is this right?\n  in_stock BOOLEAN\n);",
+        code: "CREATE TABLE messages (\n  id UUID PRIMARY KEY,\n  conversation_id UUID,\n  role TEXT,\n  content TEXT,\n  created_at TEXT -- Wait, is this right?\n);",
         bugs: [
           {
-            id: "price-type",
-            line: 4,
-            description: "Price should be a Number (Integer or Decimal), not Text, so we can do math.",
-            fix: "price INTEGER",
+            id: "timestamp-type",
+            line: 6,
+            description: "created_at should be TIMESTAMP, not TEXT, so we can sort and filter by date.",
+            fix: "created_at TIMESTAMP DEFAULT NOW()",
           },
         ],
       },

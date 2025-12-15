@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { IdentifySlide as IdentifySlideType } from '@/data/missions/tutorial';
 import { SharedQuizView } from './SharedQuizView';
 import { XPReward } from '../XPReward';
+import { Lightbulb } from 'lucide-react';
 
 type IdentifySlideProps = {
   slide: IdentifySlideType;
@@ -52,11 +53,38 @@ export const IdentifySlide: React.FC<IdentifySlideProps> = ({
     return options.sort(() => Math.random() - 0.5);
   }, [slide.items, slide.options]);
 
+  const [showHint, setShowHint] = useState(false);
+
   return (
     <div className="space-y-8">
       {xpRewardKey > 0 && <XPReward key={xpRewardKey} amount={2} position="top" />}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl md:text-2xl font-light text-white">{slide.prompt}</h2>
+          {slide.hint && (
+            <button
+              onClick={() => setShowHint(!showHint)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-200 hover:bg-yellow-500/20 transition-colors text-sm"
+            >
+              <Lightbulb className="w-4 h-4" />
+              Hint
+            </button>
+          )}
+        </div>
+        
+        {showHint && slide.hint && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-200 text-sm"
+          >
+            {slide.hint}
+          </motion.div>
+        )}
+      </div>
+      
       <SharedQuizView 
-        prompt={slide.prompt}
+        prompt=""
         options={viewOptions}
         selectedOptionId={selectedOptionId}
         onSelectOption={onSelectOption}

@@ -42,6 +42,7 @@ export type DragDropSlide = {
   prompt: string;
   categories: DragDropCategory[];
   items: DragDropItem[];
+  hint?: string;
 };
 
 export type MatchingPair = {
@@ -68,6 +69,7 @@ export type IdentifySlide = {
   id?: string;
   type: "identify";
   prompt: string;
+  hint?: string;
   options?: QuizOption[]; // Legacy
   items?: IdentifyItem[]; // New
   correctOptionId?: string; // Legacy
@@ -453,7 +455,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
           "The database is the fridge and storage room. All ingredients and user data live there. When the backend needs information, it fetches it from the database and updates it when things change."
       },
       {
-        id: "or-6",
+        id: "or-6", 
         type: "text",
         title: "Auth = Manager",
         body:
@@ -475,23 +477,86 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "or-9",
-        type: "dragDrop",
-        prompt: "Drag each restaurant role into the correct tech category.",
-        categories: [
-          { id: "frontend", label: "Frontend" },
-          { id: "backend", label: "Backend" },
-          { id: "api", label: "API" },
-          { id: "db", label: "Database" },
-          { id: "auth", label: "Auth" },
-          { id: "deploy", label: "Deployment" }
-        ],
+        type: "identify",
+        prompt: "Which restaurant role matches Frontend?",
+        hint: "Frontend is what users see and interact with - like the waiters who serve customers.",
         items: [
-          { id: "waiter", label: "Waiter", correctCategoryId: "frontend" },
-          { id: "kitchen", label: "Kitchen", correctCategoryId: "backend" },
-          { id: "menu", label: "Menu", correctCategoryId: "api" },
-          { id: "fridge", label: "Fridge", correctCategoryId: "db" },
-          { id: "manager", label: "Manager", correctCategoryId: "auth" },
-          { id: "truck", label: "Delivery Truck", correctCategoryId: "deploy" }
+          { id: "waiter", text: "Waiter", correct: true },
+          { id: "kitchen", text: "Kitchen", correct: false },
+          { id: "menu", text: "Menu", correct: false },
+          { id: "fridge", text: "Fridge", correct: false },
+          { id: "manager", text: "Manager", correct: false },
+          { id: "truck", text: "Delivery Truck", correct: false }
+        ]
+      },
+      {
+        id: "or-9b",
+        type: "identify",
+        prompt: "Which restaurant role matches Backend?",
+        hint: "Backend is where the work happens behind the scenes - like the kitchen where food is prepared.",
+        items: [
+          { id: "waiter", text: "Waiter", correct: false },
+          { id: "kitchen", text: "Kitchen", correct: true },
+          { id: "menu", text: "Menu", correct: false },
+          { id: "fridge", text: "Fridge", correct: false },
+          { id: "manager", text: "Manager", correct: false },
+          { id: "truck", text: "Delivery Truck", correct: false }
+        ]
+      },
+      {
+        id: "or-9c",
+        type: "identify",
+        prompt: "Which restaurant role matches API?",
+        hint: "API defines what's available - like the menu that shows what can be ordered.",
+        items: [
+          { id: "waiter", text: "Waiter", correct: false },
+          { id: "kitchen", text: "Kitchen", correct: false },
+          { id: "menu", text: "Menu", correct: true },
+          { id: "fridge", text: "Fridge", correct: false },
+          { id: "manager", text: "Manager", correct: false },
+          { id: "truck", text: "Delivery Truck", correct: false }
+        ]
+      },
+      {
+        id: "or-9d",
+        type: "identify",
+        prompt: "Which restaurant role matches Database?",
+        hint: "Database stores data permanently - like the fridge that stores ingredients.",
+        items: [
+          { id: "waiter", text: "Waiter", correct: false },
+          { id: "kitchen", text: "Kitchen", correct: false },
+          { id: "menu", text: "Menu", correct: false },
+          { id: "fridge", text: "Fridge", correct: true },
+          { id: "manager", text: "Manager", correct: false },
+          { id: "truck", text: "Delivery Truck", correct: false }
+        ]
+      },
+      {
+        id: "or-9e",
+        type: "identify",
+        prompt: "Which restaurant role matches Auth?",
+        hint: "Auth controls who can access what - like the manager who decides who gets in.",
+        items: [
+          { id: "waiter", text: "Waiter", correct: false },
+          { id: "kitchen", text: "Kitchen", correct: false },
+          { id: "menu", text: "Menu", correct: false },
+          { id: "fridge", text: "Fridge", correct: false },
+          { id: "manager", text: "Manager", correct: true },
+          { id: "truck", text: "Delivery Truck", correct: false }
+        ]
+      },
+      {
+        id: "or-9f",
+        type: "identify",
+        prompt: "Which restaurant role matches Deployment?",
+        hint: "Deployment makes your app available to users - like the delivery truck that brings food to customers.",
+        items: [
+          { id: "waiter", text: "Waiter", correct: false },
+          { id: "kitchen", text: "Kitchen", correct: false },
+          { id: "menu", text: "Menu", correct: false },
+          { id: "fridge", text: "Fridge", correct: false },
+          { id: "manager", text: "Manager", correct: false },
+          { id: "truck", text: "Delivery Truck", correct: true }
         ]
       },
       {
@@ -611,6 +676,89 @@ export const tutorialMissions: TutorialMissionContent[] = [
   },
 
   ////////////////////////////////////////////////////////
+  // MISSION: devtools-fundamentals
+  ////////////////////////////////////////////////////////
+  {
+    id: "devtools-fundamentals",
+    title: "Dev Tools & Workflow",
+    slides: [
+      {
+        id: "dt-1",
+        type: "text",
+        title: "Node.js",
+        body:
+          "Node.js is the JavaScript runtime that lets your tools run scripts, install packages, and build your app. Many CLIs and dev tools rely on Node behind the scenes.",
+        youtubeVideo: "https://www.youtube.com/watch?v=lt5D2EWZMN0"
+      },
+      {
+        id: "dt-2",
+        type: "text",
+        title: "GitHub Desktop",
+        body:
+          "GitHub Desktop helps you track changes and create save points for your project. If something breaks, you can roll back to a previous commit, just like loading an older save in a game.",
+        youtubeVideo: "https://www.youtube.com/watch?v=G4SIIp14Xx4"
+      },
+      {
+        id: "dt-3",
+        type: "text",
+        title: "Vercel for Deployment",
+        body:
+          "Vercel is where you will deploy most of your apps. It connects directly to GitHub, builds your project, and serves it globally with almost no configuration."
+      },
+      {
+        id: "dt-4",
+        type: "text",
+        title: "Cursor as Your IDE",
+        body:
+          "Cursor is your AI powered editor. It understands your codebase and helps you generate, refactor, and navigate code with context aware suggestions.",
+        // Cursor IDE - add cursor-logo.png to /public folder for best results
+        // Using placeholder for now - replace with actual Cursor logo image
+        image: undefined,
+        youtubeVideo: "https://www.youtube.com/watch?v=mM97V2FSzHg"
+      },
+      {
+        id: "dt-5",
+        type: "checklist",
+        title: "Tool Setup Checklist",
+        prompt: "Toggle each tool once you have it installed on your machine.",
+        items: [
+          { id: "node", label: "Node.js installed" },
+          { id: "github-desktop", label: "GitHub Desktop installed" },
+          { id: "cursor", label: "Cursor installed" }
+        ]
+      },
+      {
+        id: "dt-6",
+        type: "terminal",
+        title: "The Vibe Check",
+        prompt: "Type the secret command to verify your setup.",
+        expectedCommand: "vibe-check",
+        successMessage: "SYSTEM READY. VIBE DETECTED."
+      },
+      {
+        id: "dt-7",
+        type: "typingChallenge",
+        title: "Type the Dev Tools",
+        description: "Type the command to check your Node.js version",
+        text: "node --version",
+        wpmTarget: 30,
+      },
+      {
+        id: "dt-8",
+        type: "sequenceGame",
+        title: "Deployment Workflow",
+        description: "Order the steps to deploy your app",
+        items: [
+          { id: "code", label: "Write code in Cursor", correctPosition: 0 },
+          { id: "git", label: "Commit to GitHub", correctPosition: 1 },
+          { id: "vercel", label: "Deploy to Vercel", correctPosition: 2 },
+          { id: "live", label: "App goes live", correctPosition: 3 },
+        ],
+      }
+    ]
+  },
+
+  ////////////////////////////////////////////////////////
   // MISSION: frontend-fundamentals
   ////////////////////////////////////////////////////////
   {
@@ -692,8 +840,8 @@ export const tutorialMissions: TutorialMissionContent[] = [
                 id: "good-2",
                 text: "Navigation bar please",
                 explanation: "Too vague. No details about layout, styling, or behavior."
-              },
-              {
+          },
+          {
                 id: "good-3",
                 text: "I need a navbar for my website with some links",
                 explanation: "Better, but missing specific requirements like layout, styling approach, and mobile support."
@@ -727,6 +875,28 @@ export const tutorialMissions: TutorialMissionContent[] = [
       {
         id: "ff-7",
         type: "text",
+        title: "What is Terminal?",
+        body:
+          "Terminal (also called Command Line) is a text-based way to control your computer. Instead of clicking buttons, you type commands. It's how developers run their apps, install packages, and manage projects. Don't worry - you'll only need a few commands, and AI can help you with the rest."
+      },
+      {
+        id: "ff-8",
+        type: "terminal",
+        title: "Start Your Development Server",
+        prompt: "Open terminal in your project folder and type this command to start your development server:",
+        expectedCommand: "npm run dev",
+        successMessage: "Great! Your server is starting. Look for a URL like 'http://localhost:3000' in the output."
+      },
+      {
+        id: "ff-9",
+        type: "text",
+        title: "Open Your App in Browser",
+        body:
+          "After running 'npm run dev', you'll see a URL like 'http://localhost:3000'. Open your browser (Chrome, Firefox, Safari, etc.) and type 'localhost:3000' in the address bar, then press Enter. You should see your app running! This is your local development environment - changes you make will automatically update here."
+      },
+      {
+        id: "ff-10",
+        type: "text",
         title: "That's It",
         body:
           "You just learned frontend by building. No theory. No memorization. Just prompts and results. This is vibe coding."
@@ -754,59 +924,83 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "bf-2",
-        type: "buildTask",
-        title: "Set Up Supabase",
-        description: "Create your Supabase project",
-        task: "1. Go to supabase.com and sign up\n2. Create a new project\n3. Copy your project URL and anon key\n4. Create a .env.local file in your project\n5. Add: NEXT_PUBLIC_SUPABASE_URL=your-url and NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key",
-        expectedOutcome: "Supabase project created and connected to your app",
-        verificationSteps: [
-          "Supabase account created",
-          "New project created",
-          ".env.local file exists",
-          "Environment variables added" 
-        ],
-        tips: [
-          "The URL and key are in Project Settings > API",
-          "Never commit .env.local to git",
-          "Add .env.local to .gitignore"
-        ]
+        type: "text",
+        title: "Setting Up Supabase - Part 1",
+        body: "Watch this video to learn how to create your Supabase project and get started.",
+        youtubeVideo: "https://youtube.com/shorts/cZKdEeEf9Ro?si=OS-X28aarHBl9ZLa"
+      },
+      {
+        id: "bf-2b",
+        type: "text",
+        title: "Setting Up Supabase - Part 2",
+        body: "Watch this video to see how to configure your Supabase project.",
+        youtubeVideo: "https://www.youtube.com/shorts/5TGNpSXAn7A"
       },
       {
         id: "bf-3",
         type: "buildTask",
         title: "Create Your First Table",
-        description: "Use AI to create a database table",
-        task: "In Supabase dashboard, go to Table Editor. Click 'New Table'. In Cursor, ask: 'Help me create a users table in Supabase with columns: id (uuid, primary key), email (text, unique), name (text), created_at (timestamp). Write the SQL for me.' Copy the SQL into Supabase SQL Editor and run it.",
-        expectedOutcome: "A users table in your Supabase database",
+        description: "Use AI to generate SQL for your table",
+        task: "In Cursor, use this prompt: 'Help me create a users table in Supabase with columns: id (uuid, primary key), email (text, unique), name (text), created_at (timestamp). Write the SQL for me.' Copy the SQL that AI generates, then go to Supabase dashboard > SQL Editor, paste it, and run it.",
+        expectedOutcome: "A users table created in your Supabase database",
         verificationSteps: [
-          "Table created in Supabase",
-          "Has id, email, name, created_at columns",
-          "id is primary key",
-          "email is unique"
+          "SQL generated by AI in Cursor",
+          "SQL copied to Supabase SQL Editor",
+          "Table created successfully",
+          "Table has id, email, name, created_at columns"
         ],
         tips: [
-          "Just ask AI for the SQL",
-          "Copy-paste into Supabase",
-          "Don't worry about understanding SQL yet"
+          "Just copy the prompt exactly into Cursor",
+          "Let AI write the SQL for you",
+          "Paste into Supabase SQL Editor and click Run",
+          "Check Table Editor to see your new table"
+        ]
+      },
+      {
+        id: "bf-3b",
+        type: "text",
+        title: "Understanding the Auth Tab",
+        body: "The Auth tab manages user authentication - sign-ups, logins, and password resets. When users sign up, Supabase automatically creates them in the auth.users table. You can enable email/password, OAuth (Google, GitHub), or magic links. Supabase handles all the authentication logic for you."
+      },
+      {
+        id: "bf-3c",
+        type: "buildTask",
+        title: "Get Your API Keys",
+        description: "Copy your Supabase API keys for your frontend",
+        task: "1. Go to Supabase dashboard\n2. Click Settings (gear icon) in the sidebar\n3. Click API\n4. Find the 'Project API keys' section\n5. Copy the 'anon' 'public' key (this is your publishable key)\n6. Copy the 'Project URL'\n7. In your project, create or open .env.local file\n8. Add: NEXT_PUBLIC_SUPABASE_URL=your-project-url\n9. Add: NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key",
+        expectedOutcome: "API keys copied and added to .env.local file",
+        verificationSteps: [
+          "Settings > API page opened",
+          "anon public key copied",
+          "Project URL copied",
+          ".env.local file created/updated",
+          "Both environment variables added"
+        ],
+        tips: [
+          "The anon key is safe to use in frontend code",
+          "Never commit .env.local to git",
+          "Add .env.local to .gitignore if not already there"
         ]
       },
       {
         id: "bf-4",
         type: "buildTask",
-        title: "Connect Frontend to Backend",
-        description: "Fetch data from Supabase",
-        task: "In Cursor, create a file called lib/supabase.ts. Ask: 'Create a Supabase client for Next.js using @supabase/supabase-js. Use environment variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. Export a function that returns the client.' Then create a page that fetches users: 'Create a page that fetches all users from the users table using the Supabase client and displays them in a list.'",
-        expectedOutcome: "A page that shows data from your Supabase database",
+        title: "Connect Frontend to Backend with AI",
+        description: "Use AI to create the connection",
+        task: "In Cursor, use this prompt: 'Create a Supabase client for Next.js. Use @supabase/supabase-js with environment variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. Create lib/supabase.ts that exports a function to get the client. Then create a page that fetches all users from the users table and displays them in a list with Tailwind styling.'",
+        expectedOutcome: "A working page that displays data from your Supabase database",
         verificationSteps: [
-          "supabase.ts file created",
-          "Client uses environment variables",
-          "Page fetches users",
-          "Users display on the page"
+          "lib/supabase.ts file created",
+          "Supabase client uses environment variables",
+          "Page component created",
+          "Page fetches and displays users",
+          "Data shows on the page"
         ],
         tips: [
           "Install @supabase/supabase-js first: npm install @supabase/supabase-js",
-          "Let AI write the code",
-          "Test by adding a user in Supabase dashboard"
+          "Just copy the prompt exactly into Cursor",
+          "Let AI generate all the code",
+          "Test by adding a user in Supabase Table Editor"
         ]
       },
       {
@@ -961,7 +1155,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
           { id: "b", label: "In the database." },
           { id: "c", label: "In a random text file on your laptop." }
         ],
-        correctOptionId: "b",
+          correctOptionId: "b",
         correctExplanation: "Correct. The database stores data permanently across sessions and devices.",
         wrongExplanation: "Not quite. Frontend state and random files are not reliable or persistent storage."
       },
@@ -993,7 +1187,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
           { id: "b", label: "A CSV file on your desktop" },
           { id: "c", label: "A custom database engine you write from scratch" }
         ],
-        correctOptionId: "a",
+        correctOptionId: "a", 
         correctExplanation:
           "Yes. Supabase gives you a hosted Postgres database plus auth and APIs out of the box.",
         wrongExplanation:
@@ -1015,7 +1209,7 @@ export const tutorialMissions: TutorialMissionContent[] = [
         bugs: [
           {
             id: "missing-id",
-            line: 5,
+            line: 7,
             description: "Missing ID value in INSERT statement",
             fix: "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')",
           },
@@ -1023,101 +1217,75 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "df-8",
-        type: "matching",
-        prompt: "Match database concepts to their definitions",
-        pairs: [
-          { id: "persistence", left: "Persistence", right: "Data saved permanently (survives refresh)" },
-          { id: "table", left: "Table", right: "Like a spreadsheet sheet (e.g., Users)" },
-          { id: "row", left: "Row", right: "One item in a table (e.g., John Doe)" },
-          { id: "column", left: "Column", right: "A property (e.g., Email)" },
-          { id: "primary-key", left: "Primary Key", right: "Unique identifier for each row (like ID)" },
-          { id: "supabase", left: "Supabase", right: "Built on PostgreSQL - powerful standard DB" },
-        ],
-      }
-    ]
-  },
-
-  ////////////////////////////////////////////////////////
-  // MISSION: devtools-fundamentals
-  ////////////////////////////////////////////////////////
-  {
-    id: "devtools-fundamentals",
-    title: "Dev Tools & Workflow",
-    slides: [
-      {
-        id: "dt-1",
-        type: "text",
-        title: "Node.js",
-        body:
-          "Node.js is the JavaScript runtime that lets your tools run scripts, install packages, and build your app. Many CLIs and dev tools rely on Node behind the scenes.",
-        image: "https://nodejs.org/static/images/logo-hexagon-card.png",
-        youtubeVideo: "https://www.youtube.com/watch?v=TlB_eWDSMt4"
-      },
-      {
-        id: "dt-2",
-        type: "text",
-        title: "GitHub Desktop",
-        body:
-          "GitHub Desktop helps you track changes and create save points for your project. If something breaks, you can roll back to a previous commit, just like loading an older save in a game.",
-        image: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-        youtubeVideo: "https://www.youtube.com/watch?v=77W2JSL7-r8"
-      },
-      {
-        id: "dt-3",
-        type: "text",
-        title: "Vercel for Deployment",
-        body:
-          "Vercel is where you will deploy most of your apps. It connects directly to GitHub, builds your project, and serves it globally with almost no configuration."
-      },
-      {
-        id: "dt-4",
-        type: "text",
-        title: "Cursor as Your IDE",
-        body:
-          "Cursor is your AI powered editor. It understands your codebase and helps you generate, refactor, and navigate code with context aware suggestions.",
-        // Cursor IDE - add cursor-logo.png to /public folder for best results
-        // Using placeholder for now - replace with actual Cursor logo image
-        image: undefined,
-        youtubeVideo: "https://www.youtube.com/watch?v=2aldTxnbNt0"
-      },
-      {
-        id: "dt-5",
-        type: "checklist",
-        title: "Tool Setup Checklist",
-        prompt: "Toggle each tool once you have it installed on your machine.",
+        type: "identify",
+        prompt: "What is Persistence?",
+        hint: "Think about what happens to data when you refresh the page.",
         items: [
-          { id: "node", label: "Node.js installed" },
-          { id: "github-desktop", label: "GitHub Desktop installed" },
-          { id: "cursor", label: "Cursor installed" }
+          { id: "permanent", text: "Data saved permanently (survives refresh)", correct: true },
+          { id: "temporary", text: "Data lost when page refreshes", correct: false },
+          { id: "encrypted", text: "Data is encrypted for security", correct: false },
+          { id: "cached", text: "Data is cached in memory", correct: false }
         ]
       },
       {
-        id: "dt-6",
-        type: "terminal",
-        title: "The Vibe Check",
-        prompt: "Type the secret command to verify your setup.",
-        expectedCommand: "vibe-check",
-        successMessage: "SYSTEM READY. VIBE DETECTED."
-      },
-      {
-        id: "dt-7",
-        type: "typingChallenge",
-        title: "Type the Dev Tools",
-        description: "Type the command to check your Node.js version",
-        text: "node --version",
-        wpmTarget: 30,
-      },
-      {
-        id: "dt-8",
-        type: "sequenceGame",
-        title: "Deployment Workflow",
-        description: "Order the steps to deploy your app",
+        id: "df-9",
+        type: "identify",
+        prompt: "What is a Table?",
+        hint: "Think of how data is organized in a spreadsheet.",
         items: [
-          { id: "code", label: "Write code in Cursor", correctPosition: 0 },
-          { id: "git", label: "Commit to GitHub", correctPosition: 1 },
-          { id: "vercel", label: "Deploy to Vercel", correctPosition: 2 },
-          { id: "live", label: "App goes live", correctPosition: 3 },
-        ],
+          { id: "spreadsheet", text: "Like a spreadsheet sheet (e.g., Users)", correct: true },
+          { id: "row", text: "One item in a table", correct: false },
+          { id: "column", text: "A property like Email", correct: false },
+          { id: "database", text: "The entire database system", correct: false }
+        ]
+      },
+      {
+        id: "df-10",
+        type: "identify",
+        prompt: "What is a Row?",
+        hint: "Think about what represents a single record or item.",
+        items: [
+          { id: "one-item", text: "One item in a table (e.g., John Doe)", correct: true },
+          { id: "property", text: "A property like Email", correct: false },
+          { id: "sheet", text: "Like a spreadsheet sheet", correct: false },
+          { id: "identifier", text: "Unique identifier for each row", correct: false }
+        ]
+      },
+      {
+        id: "df-11",
+        type: "identify",
+        prompt: "What is a Column?",
+        hint: "Think about what represents a specific property or field.",
+        items: [
+          { id: "property", text: "A property (e.g., Email)", correct: true },
+          { id: "one-item", text: "One item in a table", correct: false },
+          { id: "sheet", text: "Like a spreadsheet sheet", correct: false },
+          { id: "identifier", text: "Unique identifier for each row", correct: false }
+        ]
+      },
+      {
+        id: "df-12",
+        type: "identify",
+        prompt: "What is a Primary Key?",
+        hint: "Think about what makes each row unique and identifiable.",
+        items: [
+          { id: "identifier", text: "Unique identifier for each row (like ID)", correct: true },
+          { id: "property", text: "A property like Email", correct: false },
+          { id: "one-item", text: "One item in a table", correct: false },
+          { id: "database", text: "The entire database system", correct: false }
+        ]
+      },
+      {
+        id: "df-13",
+        type: "identify",
+        prompt: "What is Supabase?",
+        hint: "Think about what database platform we use in this course.",
+        items: [
+          { id: "postgres", text: "Built on PostgreSQL - powerful standard DB", correct: true },
+          { id: "spreadsheet", text: "Like a spreadsheet sheet", correct: false },
+          { id: "property", text: "A property like Email", correct: false },
+          { id: "identifier", text: "Unique identifier for each row", correct: false }
+        ]
       }
     ]
   },
@@ -1138,29 +1306,74 @@ export const tutorialMissions: TutorialMissionContent[] = [
       },
       {
         id: "bs-2",
-        type: "dragDrop",
-        prompt:
-          "Click tools to add them into any categories where they fit. Some tools belong to more than one layer, so you can use them in multiple boxes.",
-        categories: [
-          { id: "frontend", label: "Frontend" },
-          { id: "backend", label: "Backend" },
-          { id: "database", label: "Database" },
-          { id: "api", label: "API" },
-          { id: "auth", label: "Auth" },
-          { id: "deploy", label: "Deployment" }
-        ],
+        type: "identify",
+        prompt: "Which tool belongs to Frontend?",
+        hint: "Frontend tools help you build what users see and interact with.",
         items: [
-          { id: "v0", label: "v0", correctCategoryId: "frontend" },
-          { id: "base44", label: "Base44", correctCategoryId: "frontend" },
-          { id: "lovable", label: "Lovable", correctCategoryId: "frontend" },
-          { id: "cursor", label: "Cursor", correctCategoryId: "frontend" },
-          { id: "supabase", label: "Supabase", correctCategoryId: "backend" },
-          { id: "firebase", label: "Firebase", correctCategoryId: "backend" },
-          { id: "appwrite", label: "Appwrite", correctCategoryId: "backend" },
-          { id: "planetscale", label: "PlanetScale", correctCategoryId: "database" },
-          { id: "vercel", label: "Vercel", correctCategoryId: "deploy" },
-          { id: "cloudflare", label: "Cloudflare Pages", correctCategoryId: "deploy" },
-          { id: "openai", label: "OpenAI API", correctCategoryId: "api" }
+          { id: "v0", text: "v0", correct: true },
+          { id: "cursor", text: "Cursor", correct: true },
+          { id: "supabase", text: "Supabase", correct: false },
+          { id: "vercel", text: "Vercel", correct: false }
+        ]
+      },
+      {
+        id: "bs-2b",
+        type: "identify",
+        prompt: "Which tool belongs to Backend?",
+        hint: "Backend tools handle server logic and data processing.",
+        items: [
+          { id: "supabase", text: "Supabase", correct: true },
+          { id: "v0", text: "v0", correct: false },
+          { id: "vercel", text: "Vercel", correct: false },
+          { id: "openai", text: "OpenAI API", correct: false }
+        ]
+      },
+      {
+        id: "bs-2c",
+        type: "identify",
+        prompt: "Which tool belongs to Database?",
+        hint: "Database tools store and manage your data permanently.",
+        items: [
+          { id: "supabase", text: "Supabase", correct: true },
+          { id: "v0", text: "v0", correct: false },
+          { id: "vercel", text: "Vercel", correct: false },
+          { id: "openai", text: "OpenAI API", correct: false }
+        ]
+      },
+      {
+        id: "bs-2d",
+        type: "identify",
+        prompt: "Which tool belongs to API?",
+        hint: "API tools provide external services and data connections.",
+        items: [
+          { id: "openai", text: "OpenAI API", correct: true },
+          { id: "supabase", text: "Supabase", correct: true },
+          { id: "v0", text: "v0", correct: false },
+          { id: "vercel", text: "Vercel", correct: false }
+        ]
+      },
+      {
+        id: "bs-2e",
+        type: "identify",
+        prompt: "Which tool belongs to Auth?",
+        hint: "Auth tools handle user authentication and authorization.",
+        items: [
+          { id: "supabase", text: "Supabase", correct: true },
+          { id: "v0", text: "v0", correct: false },
+          { id: "vercel", text: "Vercel", correct: false },
+          { id: "openai", text: "OpenAI API", correct: false }
+        ]
+      },
+      {
+        id: "bs-2f",
+        type: "identify",
+        prompt: "Which tool belongs to Deployment?",
+        hint: "Deployment tools make your app available on the internet.",
+        items: [
+          { id: "vercel", text: "Vercel", correct: true },
+          { id: "v0", text: "v0", correct: false },
+          { id: "supabase", text: "Supabase", correct: false },
+          { id: "openai", text: "OpenAI API", correct: false }
         ]
       },
       {

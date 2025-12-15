@@ -7,24 +7,39 @@ export const world8Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "The UI Cheat Code",
-        body: "Shadcn UI is not a library; it's a copy-paste collection. It looks clean but generic. To have Vibe, you must customize it. Don't look like every other SaaS.",
+        title: "Building Your ChatGPT Wrapper: Step 16",
+        body:
+          "Bugs are fixed. Your ChatGPT wrapper works. But it looks generic - like every other app. Let's make it beautiful and unique. This is where you add your brand, your style, your vibe. Make it look premium.",
       },
       {
         type: "text",
-        title: "Action: Install a Component",
-        body: "If you haven't yet, install the button component: npx shadcn@latest add button. Now you have a file at components/ui/button.tsx. This is yours. You own it.",
+        title: "Why Design Matters",
+        body:
+          "Users judge your ChatGPT wrapper in the first 3 seconds. If it looks cheap, they'll think it's cheap. If it looks premium, they'll trust it. Good design = higher conversion rates, more users, better reviews. This is worth the time.",
       },
       {
         type: "text",
-        title: "Copy This Prompt",
-        body: "Open components/ui/button.tsx. Prompt: Change the default button styles. Make the radius fully rounded (pill shape). Change the primary color to a deep purple gradient. Add a subtle shadow.",
+        title: "Customize Your ChatGPT Wrapper",
+        body: "Your ChatGPT wrapper works, but it looks generic. Let's make it beautiful and unique. Customize the colors, fonts, and styling to match your brand.",
       },
       {
-        type: "miniChallenge",
-        title: "Success Check",
-        task: "Look at your buttons. Are they purple pills now? If yes, you just created a Design System.",
-        example: "Buttons updated.",
+        type: "buildTask",
+        title: "Customize the Chat Interface",
+        description: "Use AI to style your ChatGPT wrapper",
+        task: "In Cursor, use this prompt: 'Customize my ChatGPT wrapper UI. Change the color scheme to [your choice: purple, blue, green]. Make the message bubbles rounded. Add a subtle gradient background. Style the input field to match. Make it look premium and unique.'",
+        expectedOutcome: "Customized ChatGPT wrapper with unique styling",
+        verificationSteps: [
+          "Color scheme updated",
+          "Message bubbles styled",
+          "Background has gradient",
+          "Input field matches design",
+          "Looks premium and unique",
+        ],
+        tips: [
+          "Use Tailwind CSS for styling",
+          "Pick a color that matches your brand",
+          "Make it feel like a premium product",
+        ],
       },
       {
         type: "identify",
@@ -75,8 +90,8 @@ export const world8Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "The Thumb Zone",
-        body: "50% of your users are on mobile. If your app sucks on a phone, it sucks. Period. Vibe Coding means checking mobile view constantly.",
+        title: "Make Your ChatGPT Wrapper Mobile-Friendly",
+        body: "50% of users will use your ChatGPT wrapper on mobile. If it's broken on phone, it's broken. Make sure the chat interface works perfectly on mobile devices.",
       },
       {
         type: "text",
@@ -100,8 +115,8 @@ export const world8Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Resize your window to mobile width. Does the menu collapse into an icon? If yes, you are Mobile First.",
-        example: "Hamburger menu appears.",
+        task: "Test your ChatGPT wrapper on mobile. Resize your browser to mobile width. Does the chat interface work well? Are messages readable? Is the input easy to use? Fix any issues.",
+        example: "Mobile view works perfectly.",
       },
       {
         type: "sequenceGame",
@@ -172,8 +187,8 @@ export const world8Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Find a grid of cards in your app. Ask Cursor: Make this grid 1 column on mobile, 2 on tablet, and 3 on desktop. Resize window to verify.",
-        example: "Grid adjusts.",
+        task: "Test your ChatGPT wrapper on mobile. Resize your browser to mobile width. Does the chat interface work well? Are messages readable? Is the input easy to use? Fix any issues.",
+        example: "Mobile view works perfectly.",
       },
       {
         type: "spotTheBug",
@@ -230,25 +245,29 @@ export const world8Missions: MissionData[] = [
         body: "Light mode burns retinas. Dark mode saves batteries. You need both. Next.js + Tailwind makes this easy with next-themes.",
       },
       {
-        type: "checklist",
-        title: "Setup Dark Mode",
-        prompt: "Install the provider.",
-        items: [
-          { id: "1", label: "npm install next-themes" },
-          { id: "2", label: "Ask Cursor to wrap app in <ThemeProvider>" },
-          { id: "3", label: "Add darkMode: class to tailwind.config (if needed)" },
+        type: "buildTask",
+        title: "Add Dark Mode to Your ChatGPT Wrapper",
+        description: "Use AI to implement dark mode",
+        task: "In Cursor, use this prompt: 'Add dark mode to my ChatGPT wrapper using next-themes. Install the package, wrap the app in ThemeProvider, create a dark mode toggle component, and place it in the chat interface header. Make sure the chat messages, input field, and sidebar all support dark mode.'",
+        expectedOutcome: "Dark mode working in ChatGPT wrapper",
+        verificationSteps: [
+          "next-themes installed",
+          "ThemeProvider wraps app",
+          "Dark mode toggle created",
+          "Chat interface supports dark mode",
+          "Persists on refresh",
         ],
-      },
-      {
-        type: "text",
-        title: "Copy This Prompt",
-        body: "Prompt: Implement a Dark Mode toggle component using next-themes. It should switch between Light, Dark, and System. Place it in the Navbar.",
+        tips: [
+          "Use next-themes for easy implementation",
+          "Test both light and dark modes",
+          "Make sure text is readable in both modes",
+        ],
       },
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Click the toggle. Does the background change? Does it persist on refresh? Welcome to the dark side.",
-        example: "Theme switches.",
+        task: "Test dark mode in your ChatGPT wrapper. Click the toggle. Does the chat interface switch to dark mode? Does it persist on refresh? Does it look good?",
+        example: "Dark mode works perfectly.",
       },
       {
         type: "identify",
@@ -298,8 +317,8 @@ export const world8Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Click the button. Did a nice popup appear? Does it vanish automatically? That's polish.",
-        example: "Toast appears.",
+        task: "Test toasts in your ChatGPT wrapper. Send a message. Does a toast appear showing 'Message sent'? If there's an error, does an error toast show? Do they vanish automatically?",
+        example: "Toasts work perfectly.",
       },
       {
         type: "sequenceGame",
@@ -386,25 +405,26 @@ export const world8Missions: MissionData[] = [
       {
         type: "text",
         title: "Motion is Emotion",
-        body: "Smooth transitions make apps feel expensive. A button that fades in feels better than one that pops. Use Framer Motion (already in your stack).",
+        body: "Smooth transitions make your ChatGPT wrapper feel expensive. Messages that fade in feel better than ones that pop. Use Framer Motion to add polish.",
       },
       {
         type: "buildTask",
-        title: "Add Animations to Your UI",
-        description: "Implement smooth animations throughout your app",
-        task: "Add Framer Motion animations to your components. Make buttons fade in on hover, lists stagger in, and modals slide in smoothly.",
-        expectedOutcome: "UI feels smooth and polished with animations",
+        title: "Add Animations to Your ChatGPT Wrapper",
+        description: "Use AI to add smooth animations",
+        task: "In Cursor, use this prompt: 'Add Framer Motion animations to my ChatGPT wrapper. Make messages fade in when they appear, add smooth scrolling when new messages arrive, add hover effects to buttons, and make the conversation sidebar slide in smoothly. Make it feel premium like the real ChatGPT.'",
+        expectedOutcome: "ChatGPT wrapper feels smooth and polished with animations",
         verificationSteps: [
+          "Messages fade in when displayed",
+          "Smooth scrolling when new messages arrive",
           "Buttons have hover animations",
-          "Lists stagger in when loaded",
-          "Modals slide in smoothly",
-          "Transitions feel natural"
+          "Sidebar slides in smoothly",
+          "Feels like premium ChatGPT",
         ],
         tips: [
-          "Use motion.div instead of div",
-          "Use whileHover for hover effects",
-          "Use initial/animate for entrance animations",
-          "Keep animations subtle (200-300ms)"
+          "Use motion.div for animated containers",
+          "Animate message appearance with initial={{ opacity: 0 }}",
+          "Use smooth scroll behavior",
+          "Keep animations subtle (200-300ms)",
         ],
       },
       {

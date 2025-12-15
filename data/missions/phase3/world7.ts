@@ -7,88 +7,70 @@ export const world7Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "The Liar Paradox",
-        body: "Your AI partner is brilliant but delusional. It will confidently invent libraries that don't exist (like react-magic-button) or import files you deleted. We call this Hallucinating.",
+        title: "Phase 3: Polish Your ChatGPT Wrapper",
+        body:
+          "Phase 2 is done! You have a working ChatGPT wrapper. But it has bugs, looks basic, and needs polish. Phase 3 is about making it production-ready: fixing bugs, improving UI, adding polish. Let's start with debugging.",
       },
       {
         type: "text",
-        title: "Signs of a Lie",
-        body: "1. Phantom Imports: Importing @/components/ui/sparkle when you don't have it.\n2. Looping: It tries the same fix 3 times in a row.\n3. Over-complexity: Writing 50 lines of regex for a simple check.",
+        title: "Building Your ChatGPT Wrapper: Step 15",
+        body:
+          "Your ChatGPT wrapper works, but there are bugs. Messages not saving? Streaming broken? Errors in console? Authentication not working? This mission teaches you to debug like a pro using AI.",
       },
       {
-        type: "quiz",
-        question: "The AI suggests import { MagicButton } from 'react-magic'; but you never installed react-magic. What is this?",
-        options: [
-          { id: "a", text: "A secret React feature", correct: false },
-          { id: "b", text: "A hallucination", correct: true },
-          { id: "c", text: "A clear instruction to install it", correct: false },
+        type: "text",
+        title: "Why Debugging Skills Matter",
+        body:
+          "Bugs are inevitable. Even AI-generated code has issues. The skill isn't writing perfect code - it's fixing bugs quickly. With AI, you can debug 10x faster. Paste the error, get the fix. This is a superpower.",
+      },
+      {
+        type: "text",
+        title: "Common ChatGPT Wrapper Bugs",
+        body: "1. Messages not saving to database\n2. Streaming not working (shows all at once)\n3. API errors (401, 429) not handled\n4. Chat history not loading\n5. Authentication issues\n6. UI bugs (messages overlap, scrolling broken)",
+      },
+      {
+        type: "buildTask",
+        title: "Find and Fix a Bug",
+        description: "Use AI to debug your ChatGPT wrapper",
+        task: "In Cursor, open your ChatGPT wrapper. Find a bug (check console, test the chat). Then prompt: 'My ChatGPT wrapper has this bug: [describe the bug]. Here's the error: [paste error]. Here's the relevant code: [paste code]. Fix it.'",
+        expectedOutcome: "Bug identified and fixed",
+        verificationSteps: [
+          "Bug identified",
+          "Error message copied",
+          "Relevant code provided to AI",
+          "AI suggests fix",
+          "Fix applied and tested",
+          "Bug resolved",
+        ],
+        tips: [
+          "Always include error messages",
+          "Show the relevant code file",
+          "Test after applying fix",
+          "If it doesn't work, ask AI again with more context",
         ],
       },
       {
         type: "text",
-        title: "Action: Bait the AI",
-        body: "Open a new chat. Ask it: Import the Sparkle component from my UI folder and use it on the page. (Assuming you don't have one).",
+        title: "The Debugging Process",
+        body:
+          "When debugging your ChatGPT wrapper: 1) Check browser console for errors (red text = problem), 2) Check network tab for failed API calls (red requests = broken), 3) Check Supabase logs for database errors, 4) Test each feature individually (isolate the bug), 5) Use AI to help fix issues (paste error + code).",
       },
       {
-        type: "miniChallenge",
-        title: "Success Check",
-        task: "Did it write the code confidently? Did it fail when you ran it? Good. You just caught a lie. Trust, but verify.",
-        example: "Module not found: Can't resolve...",
+        type: "text",
+        title: "Debugging Checklist",
+        body:
+          "When debugging your ChatGPT wrapper: 1) Check browser console for errors, 2) Check network tab for failed API calls, 3) Check Supabase logs for database errors, 4) Test each feature individually, 5) Use AI to help fix issues.",
       },
       {
-        type: "speedQuiz",
-        title: "Spot the Lie",
-        description: "Is the AI telling the truth?",
-        questions: [
-          {
-            id: "q1",
-            question: "AI says: 'Import { MagicButton } from 'react-magic'' (You never installed this package)",
-            options: [
-              { id: "a", text: "Truth" },
-              { id: "b", text: "Lie (Hallucination)" },
-            ],
-            correct: "b",
-            timeLimit: 10,
-          },
-          {
-            id: "q2",
-            question: "AI says: 'You are missing a closing brace } on line 45'",
-            options: [
-              { id: "a", text: "Likely Truth" },
-              { id: "b", text: "Likely Lie" },
-            ],
-            correct: "a",
-            timeLimit: 10,
-          },
-        ],
-      },
-      {
-        type: "speedQuiz",
-        title: "Recognizing AI Errors Quiz",
-        description: "Test your ability to spot AI hallucinations",
-        questions: [
-          {
-            id: "q1",
-            question: "What is a hallucination?",
-            options: [
-              { id: "a", text: "AI confidently invents things that don't exist" },
-              { id: "b", text: "AI working perfectly" },
-              { id: "c", text: "A real React feature" },
-            ],
-            correct: "a",
-            timeLimit: 12,
-          },
-          {
-            id: "q2",
-            question: "What should you do when you catch a hallucination?",
-            options: [
-              { id: "a", text: "Trust it completely" },
-              { id: "b", text: "Trust, but verify" },
-              { id: "c", text: "Ignore it" },
-            ],
-            correct: "b",
-            timeLimit: 12,
-          },
+        type: "checklist",
+        title: "Test Your ChatGPT Wrapper",
+        prompt: "Find and fix any bugs.",
+        items: [
+          { id: "1", label: "Messages save to database" },
+          { id: "2", label: "Streaming works correctly" },
+          { id: "3", label: "Chat history loads" },
+          { id: "4", label: "No console errors" },
+          { id: "5", label: "Authentication works" },
         ],
       },
     ],
@@ -148,40 +130,44 @@ export const world7Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "The Ultimate Weapon",
-        body: "Beginners stare at errors. Founders copy-paste them. The terminal output is the map to the treasure (the fix).",
+        title: "Debug Your ChatGPT Wrapper Issues",
+        body: "When your ChatGPT wrapper breaks, don't panic. Copy the error message and the relevant code. Paste both to AI. It will fix it.",
       },
       {
         type: "text",
         title: "Context is King",
-        body: "Don't just paste the error. Paste the error AND the file that caused it. Here is the error in terminal, and here is the code in @page.tsx.",
+        body: "Don't just paste 'chat not working'. Paste: 'Error: [exact error from console]' + 'Here's my /api/chat route code: [paste code]' + 'Fix it.' AI needs context to help.",
       },
       {
-        type: "identify",
-        prompt: "Which debugging prompt is best?",
-        items: [
-          { id: "1", text: "It's not working.", correct: false },
-          { id: "2", text: "Error: Undefined is not a function in line 20.", correct: false },
-          { id: "3", text: "I get Undefined error on line 20. Here is the code. Fix it.", correct: true },
+        type: "buildTask",
+        title: "Fix a ChatGPT Wrapper Bug",
+        description: "Use copy-paste debugging",
+        task: "Find a bug in your ChatGPT wrapper (or create a test bug). Then in Cursor, paste: 'My ChatGPT wrapper has this error: [paste exact error from console]. Here's my /api/chat route: [paste code]. Here's my chat component: [paste code]. Fix it.'",
+        expectedOutcome: "Bug fixed using copy-paste debugging",
+        verificationSteps: [
+          "Error message copied from console",
+          "Relevant code files pasted",
+          "AI suggests fix",
+          "Fix applied",
+          "Bug resolved",
+        ],
+        tips: [
+          "Always include the full error message",
+          "Paste the exact file that has the bug",
+          "If it doesn't work, add more context",
         ],
       },
       {
-        type: "miniChallenge",
-        title: "Success Check",
-        task: "Find a complex error log from the past (or create one). Paste the WHOLE thing into Cursor. See if it explains the root cause.",
-        example: "Analysis: You are missing a prop.",
-      },
-      {
         type: "spotTheBug",
-        title: "Bad Debug Prompt",
+        title: "Bad Debug Prompt for ChatGPT Wrapper",
         description: "Identify the ineffective prompt",
-        code: "// Terminal Output:\n// Error: Cannot read properties of undefined (reading 'map')\n\n// Prompt A:\n\"It's broken.\"\n\n// Prompt B:\n\"Fix the map error.\"\n\n// Prompt C:\n\"I'm getting this error in terminal: [paste error]. Here is my component code: [paste code]. Fix it.\"",
+        code: "// Console Error:\n// Error: Failed to fetch from /api/chat\n\n// Prompt A:\n\"Chat not working.\"\n\n// Prompt B:\n\"Fix the API error.\"\n\n// Prompt C:\n\"My ChatGPT wrapper shows this error: [paste error]. Here's my /api/chat route: [paste code]. Here's my chat component: [paste code]. Fix it.\"",
         bugs: [
           {
             id: "prompt-a",
             line: 5,
-            description: "Vague. AI has no context.",
-            fix: "Always include error + code.",
+            description: "Too vague. AI has no context about what's broken.",
+            fix: "Always include error message + relevant code files.",
           },
         ],
       },

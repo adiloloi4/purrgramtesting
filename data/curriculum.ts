@@ -55,11 +55,11 @@ export const curriculum: { phases: Phase[] } = {
           missions: [
             { id: "what-is-vibe-coding", title: "What is Vibe Coding", description: "Understanding the shift from Scribe to Commander.", xpReward: 10 },
             { id: "overview-restaurant", title: "Overview: The Restaurant Analogy", description: "The mental model for how apps work.", xpReward: 10 },
+            { id: "devtools-fundamentals", title: "Dev Tools & Workflow", description: "Node, Git, Cursor, and Vercel.", xpReward: 10 },
             { id: "frontend-fundamentals", title: "Frontend Fundamentals", description: "UI, Components, and State.", xpReward: 10 },
             { id: "backend-fundamentals", title: "Backend Fundamentals", description: "Servers, Logic, and Secrets.", xpReward: 10 },
             { id: "api-fundamentals", title: "API Fundamentals", description: "Requests, Responses, and The Menu.", xpReward: 10 },
             { id: "database-fundamentals", title: "Database Fundamentals", description: "Persistence and Tables.", xpReward: 10 },
-            { id: "devtools-fundamentals", title: "Dev Tools & Workflow", description: "Node, Git, Cursor, and Vercel.", xpReward: 10 },
             { id: "build-first-stack", title: "Build Your First Stack", description: "Assemble the ultimate Vibe Coding Stack.", xpReward: 10 }
           ],
           blackBox: {
@@ -178,7 +178,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "save-input", title: "Save Input", xpReward: 20 },
             { id: "read-it-back", title: "Read It Back", xpReward: 20 }
           ],
-          project: "A working waitlist that actually remembers emails.",
+          project: "Build the database foundation for your ChatGPT wrapper - conversations and messages tables.",
           blackBox: {
             title: "Where data actually lives",
             description: "Servers vs Client State"
@@ -199,7 +199,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "route-protection", title: "Route Protection", xpReward: 10 },
             { id: "user-profiles", title: "User Profiles", xpReward: 10 }
           ],
-          project: "Turn your Waitlist into a private dashboard.",
+          project: "Add authentication and user profiles to your ChatGPT wrapper.",
           blackBox: {
             title: "Sessions, cookies, JWTs",
             description: "Authentication mechanisms explained."
@@ -219,7 +219,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "api-error-handling", title: "Handling API Errors", xpReward: 10 },
             { id: "api-caching", title: "Caching API Responses", xpReward: 10 }
           ],
-          project: "Add an AI feature to your dashboard.",
+          project: "Connect to OpenAI, implement streaming, and build the complete ChatGPT wrapper interface.",
           blackBox: {
             title: "HTTP Methods & Headers",
             description: "GET, POST, and request anatomy."
@@ -244,7 +244,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "copy-paste-debug", title: "Copy-paste debugging", xpReward: 10 },
             { id: "git-save-game", title: "GitHub Desktop 'Save Game' strategy", xpReward: 10 }
           ],
-          project: "We break a repo → You fix it with AI.",
+          project: "Debug and fix issues in your ChatGPT wrapper using AI.",
           blackBox: {
             title: "Console errors",
             description: "Network tab"
@@ -269,7 +269,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "loading-states", title: "Loading States & Skeletons", xpReward: 10 },
             { id: "animations", title: "Smooth Animations", xpReward: 10 }
           ],
-          project: "UI Audit: Make your dashboard feel premium."
+          project: "Polish your ChatGPT wrapper UI - make it look and feel premium like the real ChatGPT."
         }
       ]
     },
@@ -290,7 +290,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "paywalls", title: "Gating features behind paywall", xpReward: 10 },
             { id: "webhooks-pro", title: "Webhooks for 'Pro' status", xpReward: 10 }
           ],
-          project: "Make yourself a real $1 payment.",
+          project: "Add payment/subscription to your ChatGPT wrapper - free tier with limits, pro tier unlimited.",
           blackBox: {
             title: "Signature verification",
             description: "Secure webhook patterns"
@@ -309,7 +309,7 @@ export const curriculum: { phases: Phase[] } = {
             { id: "opengraph", title: "Open Graph images", xpReward: 10 },
             { id: "posthog", title: "Posthog analytics setup", xpReward: 10 }
           ],
-          project: "Deploy your SaaS and unlock your Founder Badge.",
+          project: "Deploy your ChatGPT wrapper to production and make it live on the internet.",
           secretDrop: {
             title: "Golden Prompts Library download → Founder Protocol",
             description: "Unlock the complete library of prompts and the Founder Protocol when you complete this world."

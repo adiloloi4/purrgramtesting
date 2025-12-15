@@ -7,29 +7,56 @@ export const world10Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "Own Your Corner",
-        body: "A .vercel.app domain is fine for prototypes. A .com (or .io, .ai) is for businesses. Buying a domain is the signal that you are serious.",
+        title: "Building Your ChatGPT Wrapper: Step 23",
+        body:
+          "Your ChatGPT wrapper is complete: database, auth, OpenAI, streaming, UI, payments. But it's only on localhost. Time to deploy it to the world! Get a real domain (like mychatgpt.com) and make it live on the internet. This is the moment it becomes real.",
       },
       {
         type: "text",
-        title: "Vercel DNS",
-        body: "Vercel makes this easy. Buy the domain on Namecheap, Porkbun, or GoDaddy. Add it to Vercel Project Settings. It will tell you exactly what DNS records to change.",
+        title: "Why Deployment Matters",
+        body:
+          "Without deployment: only you can use it → no users → no revenue → no impact. With deployment: anyone can visit your domain → real users → real revenue → real impact. Deployment is what turns a project into a product.",
+      },
+      {
+        type: "text",
+        title: "Deploy Your ChatGPT Wrapper",
+        body: "Your ChatGPT wrapper is ready. Now deploy it to production. Get a real domain (like mychatgpt.com) and make it live on the internet. This is the moment it becomes real.",
+      },
+      {
+        type: "buildTask",
+        title: "Deploy to Vercel",
+        description: "Use AI to help deploy",
+        task: "In Cursor, use this prompt: 'Help me deploy my ChatGPT wrapper to Vercel. I need to: 1) Push code to GitHub, 2) Connect Vercel to GitHub repo, 3) Add environment variables (Supabase keys, OpenAI key, Stripe keys), 4) Deploy. Walk me through it.'",
+        expectedOutcome: "ChatGPT wrapper deployed and live",
+        verificationSteps: [
+          "Code pushed to GitHub",
+          "Vercel connected to repo",
+          "Environment variables added",
+          "Deployment successful",
+          "App accessible at .vercel.app URL",
+        ],
+        tips: [
+          "Make sure .env.local variables are in Vercel",
+          "Test the deployed version",
+          "Check that OpenAI API works in production",
+        ],
       },
       {
         type: "checklist",
-        title: "Go Live",
-        prompt: "Make it official.",
+        title: "Deploy Your ChatGPT Wrapper",
+        prompt: "Make your ChatGPT wrapper live.",
         items: [
-          { id: "buy", label: "Buy a domain ($10-50)" },
-          { id: "add", label: "Add to Vercel Project Settings > Domains" },
+          { id: "buy", label: "Buy a domain for your ChatGPT wrapper ($10-50)" },
+          { id: "add", label: "Add domain to Vercel Project Settings > Domains" },
           { id: "dns", label: "Update Nameservers or A Records as instructed" },
+          { id: "test", label: "Test your ChatGPT wrapper on the new domain" },
         ],
       },
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Visit your new domain. Does it load? Does it have the lock (SSL)? Congratulations. You are on the internet.",
-        example: "vibe-coder.com is live.",
+        task: "Visit your ChatGPT wrapper on your new domain. Does it load? Does it have the lock (SSL)? Can you log in and send a message? Congratulations. Your ChatGPT wrapper is live on the internet.",
+        example: "mychatgpt.com is live.",
       },
       {
         type: "sequenceGame",
@@ -63,8 +90,8 @@ export const world10Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "Be Found",
-        body: "Google needs to know you exist. You need a Title, Description, and Keywords. But don't write them yourself. Let AI analyze your page content and write them.",
+        title: "Make Your ChatGPT Wrapper Discoverable",
+        body: "Add SEO to your ChatGPT wrapper so people can find it on Google. You need a title, description, and keywords. Let AI help you write them based on your ChatGPT wrapper's features.",
       },
       {
         type: "text",
@@ -79,7 +106,7 @@ export const world10Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Visit yourdomain.com/sitemap.xml. Do you see your URLs listed there? If yes, Google will see them too.",
+        task: "Visit your ChatGPT wrapper domain/sitemap.xml. Do you see your URLs listed there? If yes, Google will see your ChatGPT wrapper too.",
         example: "Sitemap loads.",
       },
       {
@@ -157,7 +184,7 @@ export const world10Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Share your localhost or production link on a private Discord or Slack (or use metatags.io). Does the card preview appear? It should look sick.",
+        task: "Share your ChatGPT wrapper link on a private Discord or Slack (or use metatags.io). Does the card preview appear with your ChatGPT wrapper's image? It should look professional.",
         example: "OG Image renders.",
       },
       {
@@ -209,28 +236,32 @@ export const world10Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "Watching the Users",
-        body: "You need to know what users are doing. Posthog is the standard for Vibe Coders. It records sessions (like a movie) and tracks events. The free tier is generous.",
+        title: "Track Usage of Your ChatGPT Wrapper",
+        body: "You need to know how users are using your ChatGPT wrapper. How many messages are sent? Which features are popular? PostHog tracks this. It's free and essential for growth.",
       },
       {
-        type: "checklist",
-        title: "Action: Install",
-        prompt: "Set up the observer.",
-        items: [
-          { id: "signup", label: "Sign up for Posthog" },
-          { id: "key", label: "Get Project API Key" },
-          { id: "env", label: "Add to .env.local" },
+        type: "buildTask",
+        title: "Add Analytics to ChatGPT Wrapper",
+        description: "Use AI to add PostHog",
+        task: "In Cursor, use this prompt: 'Add PostHog analytics to my ChatGPT wrapper. Install posthog-js, create a provider component, wrap the app. Track events: message_sent, upgrade_clicked, subscription_completed. Show me how to track these events.'",
+        expectedOutcome: "PostHog tracking installed and working",
+        verificationSteps: [
+          "PostHog installed",
+          "Provider component created",
+          "App wrapped with provider",
+          "Events tracked (message_sent, etc.)",
+          "Can see data in PostHog dashboard",
         ],
-      },
-      {
-        type: "text",
-        title: "Copy This Prompt",
-        body: "Prompt: Install posthog-js. Create a client-side provider component to initialize Posthog. Wrap the app layout with it so I can track pageviews.",
+        tips: [
+          "Track key user actions",
+          "See which features are used most",
+          "Use data to improve the product",
+        ],
       },
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Click around your app. Go to Posthog Dashboard > Session Replay. Watch yourself clicking. It's creepy but essential for product growth.",
+        task: "Use your ChatGPT wrapper. Send some messages. Go to Posthog Dashboard > Session Replay. Watch yourself using it. See how users interact with your ChatGPT wrapper. It's essential for improving the product.",
         example: "Replay works.",
       },
       {

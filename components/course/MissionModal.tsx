@@ -105,7 +105,8 @@ export const MissionModal: React.FC<MissionModalProps> = ({
         currentSlide.type === 'spotTheBug' ||
         currentSlide.type === 'speedQuiz' ||
         currentSlide.type === 'interactiveSimulation' ||
-        currentSlide.type === 'promptGame'
+        currentSlide.type === 'promptGame' ||
+        currentSlide.type === 'dragDrop'
       ) {
         // These slides handle their own completion state
         setCanAdvance(false);
@@ -234,7 +235,21 @@ export const MissionModal: React.FC<MissionModalProps> = ({
   // Shared handler for quiz-like slides
   const handleOptionSelect = (id: string) => {
     setSelectedOptionId(id);
+    // For identify slides, only allow advance if correct answer is selected
+    const currentSlide = mission.slides[currentSlideIndex];
+    if (currentSlide.type === 'identify') {
+      const isNewSchema = !!(currentSlide as any).items;
+      let isCorrect = false;
+      if (isNewSchema) {
+        const selectedItem = (currentSlide as any).items?.find((i: any) => i.id === id);
+        isCorrect = selectedItem?.correct ?? false;
+      } else {
+        isCorrect = id === (currentSlide as any).correctOptionId;
+      }
+      setCanAdvance(isCorrect);
+    } else {
     setCanAdvance(true);
+    }
   };
 
   const renderSlideContent = (slide: TutorialSlide) => {
@@ -295,7 +310,10 @@ export const MissionModal: React.FC<MissionModalProps> = ({
         return (
           <DragDropSlide
             slide={slide}
-            onInteract={() => setCanAdvance(true)}
+            onInteract={() => {
+              // Interaction tracking (for analytics, etc.)
+            }}
+            onComplete={() => setCanAdvance(true)}
           />
         );
 

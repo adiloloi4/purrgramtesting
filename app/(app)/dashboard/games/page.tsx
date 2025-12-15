@@ -23,65 +23,65 @@ const games = [
   {
     id: "memory",
     title: "Memory Match",
-    description: "Test your memory by matching pairs of cards",
+    description: "Test your memory by matching pairs of cards. Endless rounds!",
     icon: Brain,
     href: "/dashboard/games/memory",
     difficulty: "Easy",
-    timeEstimate: "2-5 min"
+    timeEstimate: "Endless"
   },
   {
     id: "typing",
     title: "Typing Challenge",
-    description: "Improve your typing speed with code snippets",
+    description: "Improve your typing speed with code snippets. Endless rounds!",
     icon: Keyboard,
     href: "/dashboard/games/typing",
     difficulty: "Medium",
-    timeEstimate: "3-7 min"
+    timeEstimate: "Endless"
   },
   {
     id: "code-puzzle",
     title: "Code Puzzle",
-    description: "Fill in the blanks to complete code snippets",
+    description: "Fill in the blanks to complete code snippets. Endless rounds!",
     icon: Puzzle,
     href: "/dashboard/games/code-puzzle",
     difficulty: "Medium",
-    timeEstimate: "5-10 min"
+    timeEstimate: "Endless"
   },
   {
     id: "speed-quiz",
     title: "Speed Quiz",
-    description: "Answer questions as fast as you can",
+    description: "Answer questions as fast as you can. Endless rounds!",
     icon: Zap,
     href: "/dashboard/games/speed-quiz",
     difficulty: "Hard",
-    timeEstimate: "3-8 min"
+    timeEstimate: "Endless"
   },
   {
     id: "spot-bug",
     title: "Spot the Bug",
-    description: "Find bugs in code snippets",
+    description: "Find bugs in code snippets. Endless rounds!",
     icon: Code,
     href: "/dashboard/games/spot-bug",
     difficulty: "Hard",
-    timeEstimate: "5-12 min"
+    timeEstimate: "Endless"
   },
   {
     id: "sequence",
     title: "Sequence Master",
-    description: "Order steps in the correct sequence",
+    description: "Order steps in the correct sequence. Endless rounds!",
     icon: Target,
     href: "/dashboard/games/sequence",
     difficulty: "Easy",
-    timeEstimate: "2-5 min"
+    timeEstimate: "Endless"
   },
   {
     id: "prompt-game",
     title: "Perfect Prompt",
-    description: "Learn to write better AI prompts by choosing the best option",
+    description: "Learn to write better AI prompts by choosing the best option. Endless rounds!",
     icon: Sparkles,
     href: "/dashboard/games/prompt-game",
     difficulty: "Medium",
-    timeEstimate: "3-8 min"
+    timeEstimate: "Endless"
   }
 ];
 
@@ -172,7 +172,7 @@ export default function GamesPage() {
         </div>
         <p className="text-white/50 font-light text-sm leading-relaxed">
           These games are separate from the course missions. Play them anytime to practice your skills, 
-          improve your speed, and have fun. No XP rewards, no pressure—just pure gaming.
+          improve your speed, and have fun. Earn XP every 5 minutes of play—endless rounds, endless fun!
         </p>
       </motion.div>
     </div>

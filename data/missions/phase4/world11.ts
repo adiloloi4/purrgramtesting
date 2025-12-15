@@ -7,23 +7,31 @@ export const world11Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "Show Your Work",
-        body: "People don't buy code; they buy stories. Recording yourself coding (or just the screen) creates a connection. It proves you are real. It builds a fanbase before you launch.",
+        title: "Share Your ChatGPT Wrapper Journey",
+        body: "You built a real ChatGPT wrapper! Share the journey. Record yourself showing it off, explaining how it works, or fixing bugs. People love seeing real products being built.",
       },
       {
-        type: "text",
-        title: "The Stack",
-        body: "You don't need a studio. Use Loom (easiest), OBS (pro/free), or Screen Studio (aesthetic mac app). Just share the screen and talk.",
-      },
-      {
-        type: "text",
-        title: "What to Say",
-        body: "Don't overthink. Hey, I'm building X. Today I added this button. It broke, then I fixed it. Here it is. Authentic > Polished.",
+        type: "buildTask",
+        title: "Record a Demo of Your ChatGPT Wrapper",
+        description: "Use AI to help create content",
+        task: "Record a 2-minute video showing your ChatGPT wrapper. Show: 1) The interface, 2) Sending a message, 3) Streaming response, 4) Chat history. Use Loom, OBS, or Screen Studio. Post it on X/Twitter with #buildinpublic.",
+        expectedOutcome: "Video demo of your ChatGPT wrapper",
+        verificationSteps: [
+          "Video recorded",
+          "Shows key features",
+          "Under 3 minutes",
+          "Posted on social media",
+        ],
+        tips: [
+          "Keep it authentic, not perfect",
+          "Show the real product",
+          "Mention it's a ChatGPT wrapper you built",
+        ],
       },
       {
         type: "miniChallenge",
-        title: "Record 60 Seconds",
-        task: "Record a 1-minute video showing your new feature. Don't edit it. Just speak. Save it.",
+        title: "Record Your ChatGPT Wrapper",
+        task: "Record a 1-minute video showing your ChatGPT wrapper. Show the interface, send a message, show the streaming response. Don't edit it. Just speak. Save it.",
         example: "Video recorded.",
       },
       {
@@ -75,8 +83,8 @@ export const world11Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "The X/Twitter Strategy",
-        body: "Post your wins. Post your failures. Just spent 2 hours fixing a bug. Here is how I solved it. Developers and founders love this content.",
+        title: "Share Your ChatGPT Wrapper on Social Media",
+        body: "Post about your ChatGPT wrapper journey. Share wins (deployed it!), failures (debugging streaming), and learnings. Developers and founders love seeing real products being built.",
       },
       {
         type: "text",
@@ -149,7 +157,7 @@ export const world11Missions: MissionData[] = [
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Find one directory or community related to your niche. Create a profile or post. Get one external link back to your site.",
+        task: "Find one directory or community related to AI tools or ChatGPT alternatives. Submit your ChatGPT wrapper. Get one external link back to your site.",
         example: "Submitted to directory.",
       },
       {
@@ -199,18 +207,18 @@ export const world11Missions: MissionData[] = [
     slides: [
       {
         type: "text",
-        title: "Users into Fans",
-        body: "When a user says I love this, invite them to a Discord or Slack. Build a tribe around your vibe. Ask them what to build next.",
+        title: "Build a Community Around Your ChatGPT Wrapper",
+        body: "When users love your ChatGPT wrapper, invite them to a Discord or Slack. Build a community. Ask them what features to add next. Turn users into fans.",
       },
       {
         type: "text",
-        title: "The End",
-        body: "You have completed the Vibe Coding Course. You have the skills. You have the stack. You have the mindset. The world is waiting for your app.",
+        title: "You Built a Real Product",
+        body: "You have completed the Vibe Coding Course. You built a complete ChatGPT wrapper from scratch. It has authentication, database, OpenAI integration, payments, and it's deployed. You are a founder.",
       },
       {
         type: "miniChallenge",
-        title: "Final Boss",
-        task: "Deploy your SaaS to production. Get 1 real user to sign up. That is the only badge that matters. Go.",
+        title: "Final Mission",
+        task: "Your ChatGPT wrapper is live. Get 1 real user to sign up and use it. That's the only badge that matters. You built a real product. You are a founder.",
         example: "I am a Founder.",
       },
       {
