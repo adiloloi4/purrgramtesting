@@ -2,28 +2,80 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: Implement login logic
-    setTimeout(() => {
+    setError(null);
+
+    try {
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        setError(signInError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        // Check user flow status
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('onboarding_completed, is_subscribed')
+          .eq('id', data.user.id)
+          .single();
+
+        if (!profile?.onboarding_completed) {
+          router.push('/onboarding');
+        } else if (!profile?.is_subscribed) {
+          router.push('/paywall');
+        } else {
+          router.push('/dashboard');
+        }
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google login
-    console.log('Google login clicked');
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (oauthError) {
+        setError(oauthError.message);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,7 +114,7 @@ export default function LoginPage() {
                 <Sparkles className="w-8 h-8 text-purple-400" />
               </div>
               <h1 className="text-3xl md:text-4xl font-extralight text-white mb-2 tracking-tight">
-                Welcome back
+                Sign In
               </h1>
               <p className="text-white/60 font-light">
                 Continue your vibe coding journey

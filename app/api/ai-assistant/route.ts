@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
 
     if (!OPENAI_API_KEY) {
       return NextResponse.json(
-        { error: 'OpenAI API key is not configured' },
+        { error: 'OpenAI API key is not configured. Please add OPENAI_API_KEY to your .env.local file.' },
         { status: 500 }
       );
     }
@@ -141,9 +141,19 @@ Be friendly, concise, and practical. Help users understand the course structure 
 
     if (!response.ok) {
       const error = await response.text();
-      console.error('OpenAI API error:', error);
+      let errorMessage = 'Failed to get AI response';
+      
+      // Provide more specific error messages
+      if (response.status === 401) {
+        errorMessage = 'Invalid OpenAI API key. Please check your OPENAI_API_KEY in .env.local';
+      } else if (response.status === 429) {
+        errorMessage = 'OpenAI API rate limit exceeded. Please try again later.';
+      } else if (response.status === 500) {
+        errorMessage = 'OpenAI API server error. Please try again later.';
+      }
+      
       return NextResponse.json(
-        { error: 'Failed to get AI response' },
+        { error: errorMessage },
         { status: response.status }
       );
     }
@@ -153,7 +163,6 @@ Be friendly, concise, and practical. Help users understand the course structure 
 
     return NextResponse.json({ message });
   } catch (error) {
-    console.error('AI Assistant error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

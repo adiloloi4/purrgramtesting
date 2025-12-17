@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Lock, ArrowRight, Rocket, User } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -15,25 +16,123 @@ export default function SignupPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+
     setIsLoading(true);
-    // TODO: Implement signup logic
-    setTimeout(() => {
+
+    try {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name: name,
+          },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (signUpError) {
+        setError(signUpError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      // Check if user is automatically logged in (email confirmation disabled)
+      if (data.session && data.user) {
+        // User is logged in immediately - update profile and redirect
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({ name: name })
+          .eq('id', data.user.id);
+
+        if (updateError) {
+        }
+
+        // Refresh router to ensure auth context picks up the session
+        router.refresh();
+        // Redirect to onboarding
+        router.push('/onboarding');
+        return;
+      }
+
+      // If email confirmation is required, user needs to confirm email first
+      if (data.user && !data.session) {
+        setError('Please check your email to confirm your account before continuing.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Fallback: if we have a user but no session, try to get session
+      if (data.user) {
+        // Wait a moment for profile creation
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Try to update profile
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({ name: name })
+          .eq('id', data.user.id);
+
+        if (updateError) {
+        }
+
+        // Check if we can get a session now
+        const { data: { session: newSession } } = await supabase.auth.getSession();
+        
+        if (newSession) {
+          router.push('/onboarding');
+        } else {
+          setError('Please check your email to confirm your account.');
+          setIsLoading(false);
+        }
+      } else {
+        setError('Signup failed. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
       setIsLoading(false);
-      // Redirect to onboarding after signup
-      router.push('/onboarding');
-    }, 1000);
+    }
   };
 
-  const handleGoogleSignup = () => {
-    // TODO: Implement Google signup
-    console.log('Google signup clicked');
+  const handleGoogleSignup = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (oauthError) {
+        setError(oauthError.message);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,6 +177,13 @@ export default function SignupPage() {
                 Join thousands of vibe coders building the future
               </p>
             </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6">

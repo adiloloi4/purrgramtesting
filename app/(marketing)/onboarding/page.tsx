@@ -1,24 +1,43 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Sparkles, Zap, Rocket, Map, Lock, Unlock, Play, Star, Wrench, Gauge } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Rocket, Map, Lock, Unlock, Play, Star, Wrench, Gauge, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 type BuilderVibe = 'speedrunner' | 'tinkerer' | 'founder' | null;
 type Goal = 'build-fast' | 'launch-saas' | 'vibe-ai' | null;
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const { user, signOut, loading: authLoading } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [goal, setGoal] = useState<Goal>(null);
   const [builderVibe, setBuilderVibe] = useState<BuilderVibe>(null);
   const [idea, setIdea] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    // Check if user is authenticated - redirect to login if not
+    if (!authLoading) {
+      if (!user) {
+        router.push('/login');
+      }
+    }
+  }, [user, authLoading, router]);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
 
   const handleNext = () => {
     setCurrentStep(prev => prev + 1);
@@ -45,14 +64,23 @@ export default function OnboardingPage() {
     }
   };
 
-  const handlePurchase = () => {
-    // TODO: Integrate payment
-    console.log('Purchase clicked - $150');
-    router.push('/dashboard');
+  const handlePurchase = async () => {
+    // Redirect to paywall
+    router.push('/paywall');
   };
 
-  const handleSkip = () => {
-    router.push('/dashboard');
+  const handleSkip = async () => {
+    // Mark onboarding as complete and redirect to paywall
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user) {
+      await supabase
+        .from('profiles')
+        .update({ onboarding_completed: true })
+        .eq('id', user.id);
+    }
+    
+    router.push('/paywall');
   };
 
   const generateCodeSnippet = (ideaText: string): string => {
@@ -68,9 +96,42 @@ export default function Home() {
 }`;
   };
 
+  // Don't render if not authenticated
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white/60">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-12 relative z-10">
-      <div className="w-full max-w-3xl">
+    <div className="min-h-screen flex flex-col bg-black text-white">
+      {/* Navbar */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/40 backdrop-blur-xl">
+        <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="hover:opacity-80 transition-opacity flex items-center gap-2">
+            <img src="/logo.png" alt="Purrgram" className="h-10 w-auto" />
+            <span className="text-xl font-light text-white tracking-wide">Purrgram</span>
+          </Link>
+          
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={handleSignOut}
+              variant="ghost"
+              size="sm"
+              className="text-white/60 hover:text-white hover:bg-white/10 border border-white/10 font-light"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 flex items-center justify-center px-6 py-12 pt-24 relative z-10">
+        <div className="w-full max-w-3xl">
         <AnimatePresence mode="wait">
           {/* Step 1: Welcome Screen */}
           {currentStep === 1 && (
@@ -410,7 +471,17 @@ export default function Home() {
 
               <div className="mt-8 text-center">
                 <Button
-                  onClick={handleNext}
+                  onClick={async () => {
+                    // Mark onboarding as complete when user reaches paywall step
+                    const { data: { user } } = await supabase.auth.getUser();
+                    if (user) {
+                      await supabase
+                        .from('profiles')
+                        .update({ onboarding_completed: true })
+                        .eq('id', user.id);
+                    }
+                    handleNext();
+                  }}
                   size="lg"
                   className="bg-white text-black hover:bg-white/90 border-0 font-medium tracking-wide rounded-lg h-14 px-8 text-lg"
                 >
@@ -503,7 +574,8 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }

@@ -52,7 +52,6 @@ export const playSound = (type: 'correct' | 'levelup' | 'streak' | 'badge' | 'er
     oscillator.stop(audioContext.currentTime + duration);
   } catch (error) {
     // Silently fail if audio context is not available
-    console.debug('Audio not available:', error);
   }
 };
 

@@ -7,7 +7,7 @@ import { curriculum } from '@/data/curriculum';
 import { useCourseStore } from '@/store/courseStore';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Unlock, RotateCcw, ChevronDown, ChevronUp, CheckCircle, Circle, Play, Brain, Shield, Sparkles, Rocket, ArrowRight, Flame, Zap, Target, Trophy, TrendingUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, CheckCircle, Circle, Play, Brain, Shield, Sparkles, Rocket, ArrowRight, Flame, Zap, Target, Trophy, TrendingUp, Unlock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function CourseMapPage() {
@@ -21,7 +21,6 @@ export default function CourseMapPage() {
     xp,
     currentStreak,
     unlockAll, 
-    resetProgress 
   } = useCourseStore();
   
   const [expandedWorlds, setExpandedWorlds] = useState<Set<number>>(new Set());
@@ -140,15 +139,12 @@ export default function CourseMapPage() {
           );
         })}
       </div>
-         {/* Dev Tools - delete later */}
+
+      {/* Dev Tools - For Testing */}
       <div className="flex justify-center gap-4 mb-8 opacity-50 hover:opacity-100 transition-opacity">
             <Button variant="outline" size="sm" onClick={unlockAll} className="text-xs border-white/10 hover:bg-white/5">
                 <Unlock className="w-3 h-3 mr-2" />
-                Unlock All (Dev)
-            </Button>
-            <Button variant="outline" size="sm" onClick={resetProgress} className="text-xs border-white/10 hover:bg-white/5">
-                <RotateCcw className="w-3 h-3 mr-2" />
-                Reset
+          Unlock All (Testing)
             </Button>
       </div>
 

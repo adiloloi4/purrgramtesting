@@ -1,8 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
 import { 
   Map, Brain, Trophy, Rocket, 
   Terminal, Zap, Code2, Check,
@@ -11,7 +13,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Hero from '@/components/ui/neural-network-hero';
-import { WaitlistForm } from '@/components/marketing/WaitlistForm';
 import { cn } from '@/lib/utils';
 import { 
   Accordion,
@@ -21,6 +22,22 @@ import {
 } from "@/components/ui/accordion"
 
 export default function LandingPage() {
+  const router = useRouter();
+  const { user, profile, loading } = useAuth();
+
+  // Redirect logged-in users who completed flow to dashboard
+  useEffect(() => {
+    if (!loading && user && profile) {
+      if (profile.onboarding_completed && profile.is_subscribed) {
+        router.push('/dashboard');
+      } else if (profile.onboarding_completed && !profile.is_subscribed) {
+        router.push('/paywall');
+      } else if (!profile.onboarding_completed) {
+        router.push('/onboarding');
+      }
+    }
+  }, [user, profile, loading, router]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -46,13 +63,17 @@ export default function LandingPage() {
       <div id="hero" className="relative w-screen h-screen">
         <Hero 
           title="Turn ideas into apps with vibe coding."
-          description="A gamified coding platform that lets you build SaaS with AI, without drowning in docs. Join the waitlist for early access."
+          description="A gamified coding platform that lets you build SaaS with AI, without drowning in docs. Get started today and build your first app."
           badgeText="Private Beta"
           badgeLabel="New"
           ctaButtons={[]}
           microDetails={["Gamified Learning", "AI Workflows", "Founder Badges"]}
         >
-          <WaitlistForm />
+          <Link href="/login">
+            <Button size="lg" className="w-full sm:w-auto h-12 px-8 rounded-full bg-white text-black hover:bg-slate-200 border-0 text-sm font-medium tracking-wide">
+              Get Started
+            </Button>
+          </Link>
         </Hero>
       </div>
       
@@ -306,9 +327,9 @@ export const getUser = async (id: string) => {
                   Get help, share your wins, and vibe with 10,000+ other builders in our exclusive Discord community.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                  <Link href="#hero">
+                  <Link href="/login">
                       <Button variant="outline" className="h-12 px-8 rounded-full border-white/10 text-white hover:bg-white/10">
-                          Join Waitlist
+                          Get Started
                       </Button>
                   </Link>
               </div>
@@ -435,9 +456,9 @@ export const getUser = async (id: string) => {
                          </p>
                          
                          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                             <Link href="#hero">
+                             <Link href="/login">
                                  <Button size="lg" className="w-full sm:w-auto h-12 px-8 rounded-full bg-white text-black hover:bg-slate-200 border-0 text-sm font-medium tracking-wide">
-                                     Join Waitlist
+                                     Get Started
                                  </Button>
                              </Link>
                          </div>
@@ -578,10 +599,14 @@ export const getUser = async (id: string) => {
       {/* Pricing / Join CTA */}
       <section className="py-24 border-t border-white/5 bg-white/[0.02]">
           <div className="container mx-auto px-6 text-center">
-              <h2 className="text-3xl md:text-5xl font-extralight mb-8 tracking-tight">Get Early Access</h2>
-              <p className="text-white/60 mb-8 max-w-md mx-auto">We&apos;re currently in private beta. Join the waitlist to secure your spot.</p>
+              <h2 className="text-3xl md:text-5xl font-extralight mb-8 tracking-tight">Get Started Today</h2>
+              <p className="text-white/60 mb-8 max-w-md mx-auto">Start building your SaaS with AI-powered workflows. No experience required, just vibes.</p>
               <div className="flex justify-center">
-                  <WaitlistForm />
+                  <Link href="/login">
+                      <Button size="lg" className="h-12 px-8 rounded-full bg-white text-black hover:bg-slate-200 border-0 text-sm font-medium tracking-wide">
+                          Get Started
+                      </Button>
+                  </Link>
               </div>
           </div>
       </section>

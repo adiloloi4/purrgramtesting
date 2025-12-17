@@ -209,51 +209,51 @@ export default function MemoryGamePage() {
         </motion.div>
       )}
 
-      {/* Stats */}
+        {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-2">
-            <Clock className="w-5 h-5 text-white/60" />
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-2">
+              <Clock className="w-5 h-5 text-white/60" />
             <span className="text-xs font-medium uppercase tracking-wider text-white/40">Round Time</span>
+            </div>
+            <div className="text-3xl font-light text-white">{timeLeft}s</div>
           </div>
-          <div className="text-3xl font-light text-white">{timeLeft}s</div>
-        </div>
-        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-2">
-            <Trophy className="w-5 h-5 text-white/60" />
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-2">
+              <Trophy className="w-5 h-5 text-white/60" />
             <span className="text-xs font-medium uppercase tracking-wider text-white/40">Total Score</span>
           </div>
           <div className="text-3xl font-light text-white">{totalScore}</div>
-        </div>
+            </div>
         <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-medium uppercase tracking-wider text-white/40">Round #{roundNumber}</span>
           </div>
           <div className="text-3xl font-light text-white">{roundNumber}</div>
-        </div>
-        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-2">
+          </div>
+          <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-2">
             <Clock className="w-5 h-5 text-white/60" />
             <span className="text-xs font-medium uppercase tracking-wider text-white/40">Play Time</span>
-          </div>
+            </div>
           <div className="text-3xl font-light text-white">{formatTime(playTime)}</div>
+          </div>
         </div>
-      </div>
         
       <div className="flex justify-between mb-6">
         <div className="text-white/50 text-sm">
           {xpEarned > 0 && <span>XP Earned: {xpEarned} • </span>}
           Next XP in: {formatTime(Math.max(0, GAME_XP_REWARD_INTERVAL / 1000 - (playTime % (GAME_XP_REWARD_INTERVAL / 1000))))}
         </div>
-        <button
-          onClick={resetGame}
-          className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-light transition-colors"
-        >
+          <button
+            onClick={resetGame}
+            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-light transition-colors"
+          >
           Reset All
-        </button>
-      </div>
+          </button>
+        </div>
 
-      {/* Game Board */}
+        {/* Game Board */}
       {shuffledCards.length > 0 && (
         <div className="grid grid-cols-4 gap-3 mb-8">
           {shuffledCards.map((card) => {
@@ -317,42 +317,42 @@ export default function MemoryGamePage() {
 
       {/* Round Complete Screen */}
       {isRoundComplete && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-center"
-        >
           <motion.div
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 1, ease: "easeInOut" }}
-            className="mb-6"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm text-center"
           >
-            <Trophy className="w-16 h-16 text-white/80 mx-auto" />
-          </motion.div>
+            <motion.div
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              className="mb-6"
+            >
+              <Trophy className="w-16 h-16 text-white/80 mx-auto" />
+            </motion.div>
           <h3 className="text-3xl font-light text-white mb-3 tracking-wide">Round {roundNumber} Complete!</h3>
-          <p className="text-white/50 font-light mb-6">
+            <p className="text-white/50 font-light mb-6">
             You matched all {gameCards.length} pairs in {moves} moves.
-          </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/10 text-white font-light mb-6">
-            <Trophy className="w-4 h-4" />
+            </p>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/10 text-white font-light mb-6">
+              <Trophy className="w-4 h-4" />
             Round Score: {roundScore} • Total: {totalScore}
-          </div>
-          <div className="flex gap-3 justify-center">
-            <button
+            </div>
+            <div className="flex gap-3 justify-center">
+              <button
               onClick={nextRound}
               className="px-6 py-2 rounded-xl bg-white text-black hover:bg-white/90 text-sm font-medium transition-colors"
-            >
+              >
               Next Round →
-            </button>
-            <Link
-              href="/dashboard/games"
+              </button>
+              <Link
+                href="/dashboard/games"
               className="px-6 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm font-light transition-colors"
-            >
-              Back to Games
-            </Link>
-          </div>
-        </motion.div>
-      )}
+              >
+                Back to Games
+              </Link>
+            </div>
+          </motion.div>
+        )}
     </div>
   );
 }

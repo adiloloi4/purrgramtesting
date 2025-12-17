@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function MarketingLayout({
   children,
@@ -10,6 +13,8 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
+  const { user, signOut, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +25,11 @@ export default function MarketingLayout({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
@@ -58,11 +68,23 @@ export default function MarketingLayout({
             </nav>
 
             <div className="flex items-center gap-4">
-                 <Link href="#hero">
+                 {!loading && user ? (
+                    <Button 
+                      onClick={handleSignOut}
+                      variant="outline" 
+                      size="sm" 
+                      className="border-white/20 bg-transparent hover:bg-white/10 text-white font-light"
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
+                 ) : (
+                    <Link href="/login">
                     <Button variant="outline" size="sm" className="border-white/20 bg-transparent hover:bg-white/10 text-white font-light">
-                        Join Waitlist
+                          Get Started
                     </Button>
                  </Link>
+                 )}
             </div>
         </div>
       </header>

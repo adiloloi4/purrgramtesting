@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, LayoutDashboard, Flame, Trophy, TrendingUp, Zap, Target, BookOpen, CheckCircle2 } from 'lucide-react';
 import { useCourseStore } from '@/store/courseStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { curriculum } from '@/data/curriculum';
 import { Progress } from '@/components/ui/progress';
 import { motion } from 'framer-motion';
 
 export default function DashboardHome() {
   const { xp, currentStreak, completedWorlds, completedMissions } = useCourseStore();
+  const { user, profile, loading } = useAuth();
   
   const level = Math.floor(xp / 500) + 1;
   const nextLevelXp = level * 500;
@@ -80,7 +82,9 @@ export default function DashboardHome() {
         className="mb-12"
       >
         <h1 className="text-5xl md:text-7xl font-extralight mb-3 tracking-tight">
-          Welcome back, <span className="font-normal text-white">Vibe Coder</span>.
+          Welcome back, <span className="font-normal text-white">
+            {loading ? '...' : profile?.name || user?.email?.split('@')[0] || 'Vibe Coder'}
+          </span>.
         </h1>
         <p className="text-white/50 font-light text-lg">Ready to ship something today?</p>
       </motion.div>

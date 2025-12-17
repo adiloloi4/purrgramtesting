@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { loadCourseProgress, saveCourseProgress } from '@/lib/supabase/courseProgress';
 
 export type Badge = {
   id: string;
@@ -10,7 +11,7 @@ export type Badge = {
   unlockedAt?: string;
 };
 
-type CourseState = {
+export type CourseState = {
   completedWorlds: number[];
   completedMissions: { [worldId: number]: string[] };
   completedAllInOneCheckpoints: { [worldId: number]: string[] };
@@ -27,8 +28,9 @@ type CourseState = {
   awardXP: (amount: number) => void;
   unlockBadge: (badgeId: string) => Badge | null;
   getUnlockedBadges: () => Badge[];
-  unlockAll: () => void; //delete later
-  resetProgress: () => void; //delete later
+  loadFromDatabase: () => Promise<void>;
+  syncToDatabase: () => Promise<void>;
+  unlockAll: () => void; // For testing
   
   // Helper functions (computed values usually handled in components, but can be helpers here)
   isWorldUnlocked: (worldId: number) => boolean;
@@ -101,13 +103,16 @@ export const useCourseStore = create<CourseState>()(
           newlyUnlockedBadge = 'streak-30';
         }
 
-        set({
+        const newState = {
           completedMissions: newCompletedMissions,
           xp: state.xp + 10,
           currentStreak: newStreak,
           lastMissionCompletedDate: today,
           unlockedBadges: newBadges
-        });
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
       },
 
       markWorldComplete: (worldId) => {
@@ -129,11 +134,14 @@ export const useCourseStore = create<CourseState>()(
            newlyUnlockedBadge = 'founder';
          }
 
-         set({
+         const newState = {
            completedWorlds: [...state.completedWorlds, worldId],
            xp: state.xp + 100,
            unlockedBadges: newBadges
-         });
+         };
+         set(newState);
+         // Sync to database
+         saveCourseProgress(newState).catch(() => {});
       },
 
       markAllInOneCheckpointComplete: (worldId, checkpointId) => {
@@ -142,12 +150,15 @@ export const useCourseStore = create<CourseState>()(
         
         if (worldCheckpoints.includes(checkpointId)) return; // Already completed
 
-        set({
+        const newState = {
           completedAllInOneCheckpoints: {
             ...state.completedAllInOneCheckpoints,
             [worldId]: [...worldCheckpoints, checkpointId]
           }
-        });
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
       },
 
       markAllInOneMissionComplete: (worldId, xpReward = 50) => {
@@ -155,17 +166,35 @@ export const useCourseStore = create<CourseState>()(
         if (state.completedAllInOneMissions.includes(worldId)) return;
 
         // Award XP for completing all-in-one mission
-        set({
+        const newState = {
           completedAllInOneMissions: [...state.completedAllInOneMissions, worldId],
           xp: state.xp + xpReward
-         });
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
       },
 
       awardXP: (amount: number) => {
         const state = get();
-        set({
+        const newState = {
           xp: state.xp + amount
-        });
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
+      },
+
+      loadFromDatabase: async () => {
+        const progress = await loadCourseProgress();
+        if (progress) {
+          set(progress);
+        }
+      },
+
+      syncToDatabase: async () => {
+        const state = get();
+        await saveCourseProgress(state);
       },
 
       unlockBadge: (badgeId: string) => {
@@ -220,9 +249,12 @@ export const useCourseStore = create<CourseState>()(
         const badge = badges[badgeId];
         if (!badge) return null;
         
-        set({
+        const newState = {
           unlockedBadges: [...state.unlockedBadges, badgeId]
-        });
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
         
         return { ...badge, unlockedAt: new Date().toISOString() };
       },
@@ -277,28 +309,16 @@ export const useCourseStore = create<CourseState>()(
         return state.unlockedBadges.map(id => badges[id]).filter(Boolean) as Badge[];
       },
 
-      //delete later
       unlockAll: () => {
-          // IDs 0 to 10 based on curriculum
-          const allWorldIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-          set({
-              completedWorlds: allWorldIds,
-              xp: 1000 // Bonus XP
-          });
-      },
-
-      //delete later
-      resetProgress: () => {
-        set({
-            completedWorlds: [],
-            completedMissions: {},
-            completedAllInOneCheckpoints: {},
-            completedAllInOneMissions: [],
-            currentStreak: 0,
-            xp: 0,
-            lastMissionCompletedDate: null,
-            unlockedBadges: []
-        });
+        // IDs 0 to 10 based on curriculum
+        const allWorldIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const newState = {
+          completedWorlds: allWorldIds,
+          xp: 1000 // Bonus XP
+        };
+        set(newState);
+        // Sync to database
+        saveCourseProgress(newState).catch(() => {});
       },
 
       isWorldUnlocked: (worldId) => {
@@ -334,6 +354,21 @@ export const useCourseStore = create<CourseState>()(
     }),
     {
       name: 'purrgram-course-storage',
+      onRehydrateStorage: () => async (state, error) => {
+        // After rehydrating from localStorage, load from database to ensure we have the latest data
+        // Database data takes priority over localStorage
+        if (!error && typeof window !== 'undefined') {
+          try {
+            const progress = await loadCourseProgress();
+            if (progress) {
+              // Update state with database data (database takes priority)
+              const store = useCourseStore.getState();
+              store.loadFromDatabase();
+            }
+          } catch (error) {
+          }
+        }
+      },
     }
   )
 );

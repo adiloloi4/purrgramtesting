@@ -2,22 +2,31 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard, Gamepad2 } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard, Gamepad2, LogOut, User } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { useCourseStore } from '@/store/courseStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
 export const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const { currentStreak, xp, completedWorlds } = useCourseStore();
+  const { user, profile, signOut } = useAuth();
 
   const level = Math.floor(xp / 500) + 1;
   const nextLevelXp = level * 500;
   const currentLevelProgress = ((xp - (level - 1) * 500) / 500) * 100;
   
   const hasFounderBadge = completedWorlds.includes(9);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
 
   const navItems = [
     { href: '/dashboard', label: 'Home', icon: Home },
@@ -134,6 +143,35 @@ export const Sidebar = () => {
                 </TooltipProvider>
             </div>
         </div>
+      </div>
+
+      {/* User Info & Logout */}
+      <div className="p-4 border-t border-white/10">
+        {user && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+              <div className="p-2 rounded-lg bg-purple-500/20">
+                <User className="w-4 h-4 text-purple-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium text-white truncate">
+                  {profile?.name || user.email?.split('@')[0] || 'User'}
+                </div>
+                <div className="text-xs text-white/50 truncate">
+                  {user.email}
+                </div>
+              </div>
+            </div>
+            <Button
+              onClick={handleSignOut}
+              variant="ghost"
+              className="w-full justify-start text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
