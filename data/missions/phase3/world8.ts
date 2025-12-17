@@ -25,20 +25,17 @@ export const world8Missions: MissionData[] = [
       {
         type: "buildTask",
         title: "Customize the Chat Interface",
-        description: "Use AI to style your ChatGPT wrapper",
-        task: "In Cursor, use this prompt: 'Customize my ChatGPT wrapper UI. Change the color scheme to [your choice: purple, blue, green]. Make the message bubbles rounded. Add a subtle gradient background. Style the input field to match. Make it look premium and unique.'",
+        description: "Direct AI to style your app",
+        task: "Tell Cursor: 'Give my app a unique look. Change the primary color to [your color], make buttons rounded, and add a gradient background.'",
         expectedOutcome: "Customized ChatGPT wrapper with unique styling",
         verificationSteps: [
-          "Color scheme updated",
-          "Message bubbles styled",
-          "Background has gradient",
-          "Input field matches design",
-          "Looks premium and unique",
+          "You described the look you want",
+          "AI updated the CSS/Tailwind classes",
+          "It looks unique now",
         ],
         tips: [
-          "Use Tailwind CSS for styling",
-          "Pick a color that matches your brand",
-          "Make it feel like a premium product",
+          "Be descriptive: 'cyberpunk', 'minimalist', 'playful'",
+          "Don't write the CSS yourself",
         ],
       },
       {
@@ -192,15 +189,15 @@ export const world8Missions: MissionData[] = [
       },
       {
         type: "spotTheBug",
-        title: "Mobile Overflow",
-        description: "Find the CSS bug causing horizontal scroll on mobile",
-        code: "<div className=\"w-full\">\n  <h1 className=\"text-4xl\">My Title</h1>\n  <!-- The Bug is Below -->\n  <div className=\"w-[800px] bg-red-500\">\n    I am a fixed width box\n  </div>\n</div>",
+        title: "Mobile Layout Logic",
+        description: "Why is the mobile view broken?",
+        code: "Screen Width: 375px (iPhone)\nContent Width: 800px (Fixed)\n\n// Result: The user has to scroll sideways to see the content.",
         bugs: [
           {
             id: "fixed-width",
-            line: 4,
-            description: "Fixed width of 800px is wider than mobile screen (375px)",
-            fix: "Use w-full or max-w-full",
+            line: 2,
+            description: "The content is wider than the screen. Never use fixed widths for main containers.",
+            fix: "Tell AI: 'Make the container responsive (100% width) instead of fixed 800px.'",
           },
         ],
       },
@@ -247,20 +244,17 @@ export const world8Missions: MissionData[] = [
       {
         type: "buildTask",
         title: "Add Dark Mode to Your ChatGPT Wrapper",
-        description: "Use AI to implement dark mode",
-        task: "In Cursor, use this prompt: 'Add dark mode to my ChatGPT wrapper using next-themes. Install the package, wrap the app in ThemeProvider, create a dark mode toggle component, and place it in the chat interface header. Make sure the chat messages, input field, and sidebar all support dark mode.'",
+        description: "Direct AI to add theming",
+        task: "Tell Cursor: 'Add a dark mode toggle to the navbar. It should switch the whole app between light and dark themes.'",
         expectedOutcome: "Dark mode working in ChatGPT wrapper",
         verificationSteps: [
-          "next-themes installed",
-          "ThemeProvider wraps app",
-          "Dark mode toggle created",
-          "Chat interface supports dark mode",
-          "Persists on refresh",
+          "Toggle button appears",
+          "Clicking it changes the theme",
+          "Preference is saved",
         ],
         tips: [
-          "Use next-themes for easy implementation",
-          "Test both light and dark modes",
-          "Make sure text is readable in both modes",
+          "AI will likely use next-themes",
+          "Make sure to test both modes",
         ],
       },
       {
@@ -373,18 +367,20 @@ export const world8Missions: MissionData[] = [
         body: "When data is loading, show a skeleton. When saving, show a spinner. Empty states feel broken. Loading states feel professional.",
       },
       {
-        type: "codeChallenge",
-        title: "Build Loading Skeletons",
-        description: "Create skeleton loaders for your components",
-        task: "Build a skeleton component that mimics your task list layout. Show it while data is loading. Use Tailwind's animate-pulse for the shimmer effect.",
-        starterCode: "const [loading, setLoading] = useState(true);\n// Your skeleton component here",
-        successCriteria: [
-          "Skeleton matches actual layout",
-          "Shows while data loads",
-          "Uses animate-pulse",
-          "Replaces with real data when ready"
+        type: "buildTask",
+        title: "Add Loading Skeletons",
+        description: "Direct AI to improve the loading experience",
+        task: "Tell Cursor: 'When the chat is loading, show a skeleton placeholder (shimmer effect) instead of a blank screen. It should look like empty message bubbles.'",
+        expectedOutcome: "Skeleton loaders appear before data loads",
+        verificationSteps: [
+          "Refresh the page",
+          "You see grey 'bones' or shimmer before text appears",
+          "It feels faster than a blank screen"
         ],
-        hint: "Use <div className='animate-pulse bg-gray-200 dark:bg-gray-700 rounded' />",
+        tips: [
+          "Mention 'animate-pulse' or 'shadcn skeleton' if you want a specific style",
+          "AI can handle the loading state logic"
+        ],
       },
       {
         type: "matching",
@@ -410,21 +406,17 @@ export const world8Missions: MissionData[] = [
       {
         type: "buildTask",
         title: "Add Animations to Your ChatGPT Wrapper",
-        description: "Use AI to add smooth animations",
-        task: "In Cursor, use this prompt: 'Add Framer Motion animations to my ChatGPT wrapper. Make messages fade in when they appear, add smooth scrolling when new messages arrive, add hover effects to buttons, and make the conversation sidebar slide in smoothly. Make it feel premium like the real ChatGPT.'",
+        description: "Direct AI to add motion",
+        task: "Tell Cursor: 'Make the chat messages fade in smoothly when they arrive. Also add a hover effect to the send button.'",
         expectedOutcome: "ChatGPT wrapper feels smooth and polished with animations",
         verificationSteps: [
-          "Messages fade in when displayed",
-          "Smooth scrolling when new messages arrive",
-          "Buttons have hover animations",
-          "Sidebar slides in smoothly",
-          "Feels like premium ChatGPT",
+          "Messages animate in",
+          "Button reacts to hover",
+          "App feels more polished",
         ],
         tips: [
-          "Use motion.div for animated containers",
-          "Animate message appearance with initial={{ opacity: 0 }}",
-          "Use smooth scroll behavior",
-          "Keep animations subtle (200-300ms)",
+          "Small details matter",
+          "Ask for 'Framer Motion' if you want advanced effects",
         ],
       },
       {

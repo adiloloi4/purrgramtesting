@@ -776,21 +776,18 @@ export const tutorialMissions: TutorialMissionContent[] = [
         id: "ff-2",
         type: "buildTask",
         title: "Your First Component",
-        description: "Build a button component using Cursor",
-        task: "Open Cursor. Create a new file called Button.tsx. Paste this prompt: 'Create a React button component using Tailwind CSS. It should be purple, have a hover effect, and accept children as text. Export it as a default export.'",
-        expectedOutcome: "A working Button component that you can import and use",
+        description: "Direct the AI to build a button",
+        task: "Open Cursor's Chat (Cmd+L or Ctrl+L). Type this: 'Create a purple button component that I can click.'",
+        expectedOutcome: "A button appears in your project",
         verificationSteps: [
-          "Created Button.tsx file",
-          "Component uses Tailwind classes",
-          "Button is purple with hover effect",
-          "Component accepts children prop",
-          "You can import and use it in another file"
+          "You asked the AI to create it",
+          "The AI wrote the code for you",
+          "You can see the button file in your project"
         ],
         tips: [
-          "Just copy the prompt exactly into Cursor",
-          "Let AI generate the code",
-          "Check if it works by importing it",
-          "If it doesn't work, ask AI to fix it"
+          "Don't write any code yourself",
+          "Just tell the AI what you want",
+          "If it asks for details, say 'Make it look modern'"
         ]
       },
       {
@@ -798,25 +795,23 @@ export const tutorialMissions: TutorialMissionContent[] = [
         type: "text",
         title: "Real Prompt Example",
         body:
-          "Here's what a good prompt looks like:\n\n'Create a login form component in React with Tailwind. Include email and password fields, a submit button, and basic validation. Use useState for form state. Make it look modern and clean.'\n\nNotice: It's specific. It mentions the tech stack. It says what you want. That's all you need."
+          "See? You didn't need to know React or Tailwind. You just described the result. That is Vibe Coding."
       },
       {
         id: "ff-4",
         type: "buildTask",
         title: "Build a Card Component",
-        description: "Practice with another real prompt",
-        task: "In Cursor, create Card.tsx. Use this prompt: 'Create a card component with an image at the top, title, description, and a button at the bottom. Use Tailwind for styling. Make it responsive. The card should have a subtle shadow and rounded corners.'",
+        description: "Practice directing the AI again",
+        task: "Tell the AI: 'Create a nice card component with an image, a title, and a description.'",
         expectedOutcome: "A reusable Card component",
         verificationSteps: [
-          "Card has image, title, description, button",
-          "Uses Tailwind styling",
-          "Has shadow and rounded corners",
-          "Works on mobile (responsive)"
+          "You gave the instruction",
+          "AI generated the component",
+          "It looks like a card"
         ],
         tips: [
-          "Copy the prompt word-for-word",
-          "Let AI do the work",
-          "Test it by using it in a page"
+          "Be descriptive about the look if you want",
+          "Trust the AI to handle the file creation"
         ]
       },
       {
@@ -855,21 +850,17 @@ export const tutorialMissions: TutorialMissionContent[] = [
         id: "ff-6",
         type: "buildTask",
         title: "Build a Landing Page Hero",
-        description: "Use v0 or Cursor to generate a hero section",
-        task: "Go to v0.dev or use Cursor. Prompt: 'Create a hero section for a SaaS landing page. Include a headline, subheadline, two CTA buttons (primary and secondary), and a hero image placeholder. Use Tailwind. Make it look like Stripe or Vercel - clean and modern.'",
-        expectedOutcome: "A hero section you can copy into your project",
+        description: "Direct the AI to build a hero section",
+        task: "Tell Cursor: 'Create a modern hero section for a SaaS app. It should have a big headline, a subheadline, and two buttons.'",
+        expectedOutcome: "A hero section code block",
         verificationSteps: [
-          "Has headline and subheadline",
-          "Two buttons (primary/secondary styles)",
-          "Image placeholder",
-          "Modern, clean design",
-          "You can copy the code"
+          "You see the code for a hero section",
+          "It has the elements you asked for",
+          "You didn't write it manually"
         ],
         tips: [
-          "v0.dev is great for generating sections",
-          "Copy the code it generates",
-          "Paste into your project",
-          "Adjust colors/styling if needed"
+          "You can ask it to 'make it look like Stripe'",
+          "You can ask for 'dark mode styles'"
         ]
       },
       {
@@ -940,20 +931,19 @@ export const tutorialMissions: TutorialMissionContent[] = [
         id: "bf-3",
         type: "buildTask",
         title: "Create Your First Table",
-        description: "Use AI to generate SQL for your table",
-        task: "In Cursor, use this prompt: 'Help me create a users table in Supabase with columns: id (uuid, primary key), email (text, unique), name (text), created_at (timestamp). Write the SQL for me.' Copy the SQL that AI generates, then go to Supabase dashboard > SQL Editor, paste it, and run it.",
+        description: "Ask AI to help you design your database",
+        task: "In Cursor, ask: 'I need a Supabase table for users. What columns should I have? Please write the SQL for me.' Then copy the SQL it gives you into the Supabase SQL Editor.",
         expectedOutcome: "A users table created in your Supabase database",
         verificationSteps: [
-          "SQL generated by AI in Cursor",
-          "SQL copied to Supabase SQL Editor",
-          "Table created successfully",
-          "Table has id, email, name, created_at columns"
+          "You asked AI for the structure",
+          "AI gave you the SQL code",
+          "You ran it in Supabase",
+          "The table exists"
         ],
         tips: [
-          "Just copy the prompt exactly into Cursor",
-          "Let AI write the SQL for you",
-          "Paste into Supabase SQL Editor and click Run",
-          "Check Table Editor to see your new table"
+          "You don't need to know SQL syntax",
+          "AI handles the technical details",
+          "You just verify the columns look right"
         ]
       },
       {
@@ -966,41 +956,37 @@ export const tutorialMissions: TutorialMissionContent[] = [
         id: "bf-3c",
         type: "buildTask",
         title: "Get Your API Keys",
-        description: "Copy your Supabase API keys for your frontend",
-        task: "1. Go to Supabase dashboard\n2. Click Settings (gear icon) in the sidebar\n3. Click API\n4. Find the 'Project API keys' section\n5. Copy the 'anon' 'public' key (this is your publishable key)\n6. Copy the 'Project URL'\n7. In your project, create or open .env.local file\n8. Add: NEXT_PUBLIC_SUPABASE_URL=your-project-url\n9. Add: NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key",
-        expectedOutcome: "API keys copied and added to .env.local file",
+        description: "Find your connection keys in Supabase",
+        task: "Go to Supabase Settings > API. Copy the 'Project URL' and the 'anon' public key. Paste them into your project's .env file (ask AI where that is if you don't know).",
+        expectedOutcome: "API keys added to your project",
         verificationSteps: [
-          "Settings > API page opened",
-          "anon public key copied",
-          "Project URL copied",
-          ".env.local file created/updated",
-          "Both environment variables added"
+          "Found keys in Supabase",
+          "Added them to .env.local",
+          "AI helped you find the file"
         ],
         tips: [
-          "The anon key is safe to use in frontend code",
-          "Never commit .env.local to git",
-          "Add .env.local to .gitignore if not already there"
+          "These keys let your app talk to the database",
+          "The 'anon' key is safe for the frontend",
+          "AI can help you create the .env file"
         ]
       },
       {
         id: "bf-4",
         type: "buildTask",
         title: "Connect Frontend to Backend with AI",
-        description: "Use AI to create the connection",
-        task: "In Cursor, use this prompt: 'Create a Supabase client for Next.js. Use @supabase/supabase-js with environment variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. Create lib/supabase.ts that exports a function to get the client. Then create a page that fetches all users from the users table and displays them in a list with Tailwind styling.'",
-        expectedOutcome: "A working page that displays data from your Supabase database",
+        description: "Direct the AI to make the connection",
+        task: "Tell Cursor: 'Connect my app to Supabase using the keys in .env.local. Create a page that lists all the users from my users table.'",
+        expectedOutcome: "A page showing your database data",
         verificationSteps: [
-          "lib/supabase.ts file created",
-          "Supabase client uses environment variables",
-          "Page component created",
-          "Page fetches and displays users",
-          "Data shows on the page"
+          "You didn't write the connection code",
+          "AI installed the libraries",
+          "AI created the page",
+          "You see data from Supabase"
         ],
         tips: [
-          "Install @supabase/supabase-js first: npm install @supabase/supabase-js",
-          "Just copy the prompt exactly into Cursor",
-          "Let AI generate all the code",
-          "Test by adding a user in Supabase Table Editor"
+          "If AI needs a library, it will tell you",
+          "Just say 'Yes' or 'Run command' if it asks",
+          "Focus on the result: seeing the data"
         ]
       },
       {
@@ -1203,15 +1189,15 @@ export const tutorialMissions: TutorialMissionContent[] = [
       {
         id: "df-7",
         type: "spotTheBug",
-        title: "Find the Database Bug",
-        description: "Click on the line with the database error",
-        code: "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(50),\n  email VARCHAR(100)\n);\n\nINSERT INTO users (name, email) VALUES\n  ('John', 'john@example.com'),\n  ('Jane', 'jane@example.com');\n\nSELECT * FROM users WHERE name = 'John'",
+        title: "Find the Logic Bug",
+        description: "Click on the line where the logic doesn't make sense",
+        code: "function allowEntry(user) {\n  if (user.hasTicket) {\n    return \"Welcome in!\";\n  } else {\n    // Logic error here\n    return \"Welcome in!\";\n  }\n}",
         bugs: [
           {
-            id: "missing-id",
-            line: 7,
-            description: "Missing ID value in INSERT statement",
-            fix: "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')",
+            id: "logic-error",
+            line: 5,
+            description: "We are letting people in even if they don't have a ticket!",
+            fix: "return \"Please buy a ticket first.\";",
           },
         ],
       },

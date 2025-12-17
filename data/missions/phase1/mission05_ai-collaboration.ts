@@ -77,18 +77,17 @@ export const mission05: MissionData = {
     {
       type: "codeChallenge",
       title: "Build with AI Collaboration",
-      description: "Practice the collaboration loop with a real feature",
-      task: "Ask Cursor to create a button component. Then ask it to add a loading state. Then ask it to add a disabled state. Then ask it to make it look more modern. This is the collaboration loop - describe, generate, review, refine.",
-      starterCode: "// Ask Cursor: Create a button component\n// Then iterate on it",
+      description: "Practice the collaboration loop",
+      task: "Ask Cursor: 'Create a button that shows a loading spinner when I click it.' Then, once you see it, ask: 'Now make it look like a glossy 3D button.'",
+      starterCode: "// Ask AI to create the button first\n// Then ask for improvements",
       successCriteria: [
-        "Created button component with AI",
-        "Added loading state",
-        "Added disabled state",
-        "Improved styling",
-        "Component works correctly"
+        "You started with a simple request",
+        "You iterated to add the loading state",
+        "You iterated again for styling",
+        "You didn't write the CSS manually"
       ],
-      hint: "Use Cursor's chat (Cmd+K) to have a conversation with AI about the button",
-      example: "Prompt 1: 'Create a button component'\nPrompt 2: 'Add a loading spinner when clicked'\nPrompt 3: 'Make it disabled when loading'",
+      hint: "Treat it like a conversation. 'That looks good, but can you make it...'",
+      example: "// You don't write code here. You write prompts.",
     },
     {
       type: "sequenceGame",

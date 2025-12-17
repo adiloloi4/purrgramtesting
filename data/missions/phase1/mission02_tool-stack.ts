@@ -64,22 +64,18 @@ export const mission02: MissionData = {
     {
       type: "buildTask",
       title: "Try the Vibe Coding Workflow",
-      description: "Practice using all four tools together",
-      task: "1. Go to v0.dev and generate a simple button component. 2. Copy the code into Cursor. 3. Create a new Next.js page and use the component. 4. If you get stuck, ask Claude for help. This is the complete workflow in action.",
-      expectedOutcome: "A working page with a component generated from V0",
+      description: "Practice using AI tools together",
+      task: "1. Go to v0.dev and generate a 'Space Button'. 2. Copy the code. 3. In Cursor, tell the AI: 'I have this code for a button, please create a component for it.' and paste the code.",
+      expectedOutcome: "A component created from your v0 design",
       verificationSteps: [
-        "Generated a component on v0.dev",
-        "Copied code into Cursor",
-        "Created a Next.js page",
-        "Component renders correctly",
-        "Used Claude if needed for help"
+        "Generated design on v0.dev",
+        "Pasted into Cursor",
+        "AI created the file",
       ],
       tips: [
-        "Visit v0.dev and describe a simple button",
-        "Copy the generated React code",
-        "Paste it into a new component file in Cursor",
-        "Import and use it in a page",
-        "Ask Claude if you encounter any issues"
+        "v0 is for design/looks",
+        "Cursor is for assembly/logic",
+        "AI handles the copy-paste details if you ask nicely"
       ],
     },
     {

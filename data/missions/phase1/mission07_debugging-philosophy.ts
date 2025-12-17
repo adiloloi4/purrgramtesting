@@ -78,18 +78,16 @@ export const mission07: MissionData = {
     {
       type: "codeChallenge",
       title: "Debug This Code",
-      description: "Practice debugging with a real broken component",
-      task: "I've given you broken code below. There are 3 bugs in it. Use Cursor's AI to help you find and fix them. This is real debugging practice.",
-      starterCode: "function UserProfile({ user }) {\n  const [name, setName] = useState(user.name);\n  \n  return (\n    <div>\n      <h1>Welcome {name}</h1>\n      <button onClick={() => setName(user.name.toUpperCase())}>\n        Uppercase Name\n      </button>\n      <p>Email: {user.email}</p>\n    </div>\n  );\n}\n\n// Bugs: 1) Missing import for useState\n//       2) user might be undefined\n//       3) No error handling",
+      description: "Practice debugging by asking AI",
+      task: "I've provided code that has a bug: The 'Uppercase Name' button crashes the app if the user doesn't have a name. \n\nTell Cursor: 'This code crashes when the user has no name. Fix it so it handles empty names safely.'",
+      starterCode: "function UserProfile({ user }) {\n  // Bug: Crashes if user.name is missing\n  return (\n    <button onClick={() => setName(user.name.toUpperCase())}>\n      Uppercase Name\n    </button>\n  );\n}",
       successCriteria: [
-        "Fixed missing useState import",
-        "Added null/undefined checks for user",
-        "Added error handling",
-        "Code runs without errors",
-        "Component works correctly"
+        "You identified the crash cause (missing name)",
+        "You asked AI to fix it",
+        "AI added a check (like user.name?)",
       ],
-      hint: "Use Cursor's chat to ask: 'What's wrong with this code?' and it will help you find the bugs",
-      example: "// Fixed version should handle:\n// 1. Import useState\n// 2. Check if user exists\n// 3. Handle edge cases",
+      hint: "Don't write the check yourself. Ask AI to 'handle null values'.",
+      example: "// AI should generate:\n// user.name?.toUpperCase() || 'Guest'",
     },
     {
       type: "spotTheBug",

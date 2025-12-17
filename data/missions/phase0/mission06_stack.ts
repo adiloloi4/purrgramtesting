@@ -40,20 +40,20 @@ export const mission06: MissionData = {
     {
       type: "codePuzzle",
       title: "Configure the Stack Connection",
-      description: "Fix the environment variable to connect the App to Supabase",
-      puzzle: "const supabaseUrl = process.env.__0__;\nconst supabaseKey = process.env.__1__;\nconst supabase = createClient(supabaseUrl, supabaseKey);",
+      description: "Match the keys to the right environment",
+      puzzle: "// Browser (Frontend) needs: __0__\n// Server (Backend) needs: __1__",
       missingParts: [
         {
           id: "url",
-          options: ["NEXT_PUBLIC_SUPABASE_URL", "DB_PASSWORD", "LOCALHOST"],
-          correct: "NEXT_PUBLIC_SUPABASE_URL",
-          hint: "The URL needs to be public for the client",
+          options: ["Public API Key (Safe to share)", "Secret Admin Key (Dangerous)"],
+          correct: "Public API Key (Safe to share)",
+          hint: "The frontend is visible to everyone.",
         },
         {
           id: "key",
-          options: ["NEXT_PUBLIC_SUPABASE_ANON_KEY", "SECRET_ADMIN_KEY", "123456"],
-          correct: "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-          hint: "The Anon key is safe for the browser",
+          options: ["Secret Admin Key (Hidden)", "Public Key"],
+          correct: "Secret Admin Key (Hidden)",
+          hint: "The backend is hidden and secure.",
         },
       ],
     },

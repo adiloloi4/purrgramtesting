@@ -36,18 +36,16 @@ export const mission03: MissionData = {
     {
       type: "codeChallenge",
       title: "Make Your First API Call",
-      description: "Practice making API requests from the frontend",
-      task: "Create a simple page that fetches data from a public API (like jsonplaceholder.typicode.com/posts). Use fetch() to make a GET request. Display the results. This is your first real API integration.",
-      starterCode: "// Create app/api-practice/page.tsx\n// Use fetch() to get data\n// Display results",
+      description: "Direct the AI to fetch data",
+      task: "Tell Cursor: 'Create a page that fetches posts from jsonplaceholder.typicode.com and shows them in a grid.'",
+      starterCode: "// Ask AI to fetch and display the data\n// It will handle fetch() and useEffect()",
       successCriteria: [
-        "Created a page component",
-        "Uses fetch() to make GET request",
-        "Handles the response correctly",
-        "Displays the data",
-        "No errors in console"
+        "You gave the instruction",
+        "The page displays a list of posts",
+        "You didn't write the fetch code manually"
       ],
-      hint: "Use useEffect to fetch on component mount, useState to store data",
-      example: "const [data, setData] = useState([]);\nuseEffect(() => {\n  fetch('https://jsonplaceholder.typicode.com/posts')\n    .then(res => res.json())\n    .then(data => setData(data));\n}, []);",
+      hint: "If the list is ugly, tell AI: 'Make it look better with Tailwind cards.'",
+      example: "// AI will generate:\n// fetch('https://jsonplaceholder...').then(res => res.json())",
     },
     {
       type: "quiz",

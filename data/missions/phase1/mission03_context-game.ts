@@ -107,20 +107,16 @@ export const mission03: MissionData = {
       type: "buildTask",
       title: "Practice the Context Game",
       description: "Use proper context to build a feature",
-      task: "Open Cursor. Create a new file called UserProfile.tsx. Then, using Cursor's @ feature, reference this file and ask AI: 'Add a form with name, email, and bio fields. Use the same styling as the rest of my app.' This teaches you to provide context (the file) and be specific (the styling requirement).",
-      expectedOutcome: "AI generates a form component that matches your app's style because you provided context",
+      task: "Tell Cursor: 'Create a simple user profile page'. Once it's created, open Chat, type '@' to select that new file, and say: 'Add a bio field to this page.'",
+      expectedOutcome: "AI modifies the correct file because you gave context",
       verificationSteps: [
-        "Created UserProfile.tsx file",
-        "Used @ to reference the file in Cursor",
-        "Asked AI to add a form with specific fields",
-        "AI generated code that matches your app style",
-        "Form renders correctly in your app"
+        "AI created the page first",
+        "You used @ to reference it",
+        "AI added the bio field to the right place"
       ],
       tips: [
-        "Use Cmd+K or Cmd+L in Cursor to open the chat",
-        "Type @ and select your file to add context",
-        "Be specific about styling requirements",
-        "Review the generated code before using it"
+        "Always use @ to point AI to the right file",
+        "This prevents AI from guessing or creating duplicates"
       ],
     },
     {

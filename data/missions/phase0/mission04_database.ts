@@ -72,15 +72,15 @@ export const mission04: MissionData = {
     },
     {
       type: "spotTheBug",
-      title: "Find the Database Bug",
-      description: "Click on the line with the database error",
-      code: "CREATE TABLE users (\n  id INT PRIMARY KEY,\n  name VARCHAR(50),\n  email VARCHAR(100)\n);\n\nINSERT INTO users (name, email) VALUES\n  ('John', 'john@example.com'),\n  ('Jane', 'jane@example.com');\n\nSELECT * FROM users WHERE name = 'John'",
+      title: "Find the Data Logic Error",
+      description: "We have a rule: 'Every user must have a unique email'. Look at this situation:",
+      code: "1. User A signs up with 'john@example.com'\n2. User B tries to sign up with 'john@example.com'\n3. The database saves both users. \n\n// ❌ ERROR: Now we have two users with the same email!",
       bugs: [
         {
-          id: "missing-id",
-          line: 5,
-          description: "Missing ID value in INSERT statement",
-          fix: "INSERT INTO users (id, name, email) VALUES (1, 'John', 'john@example.com')",
+          id: "duplicate-email",
+          line: 3,
+          description: "The database shouldn't have saved the second user. The email column needs a 'UNIQUE' constraint.",
+          fix: "Tell AI: 'Add a UNIQUE constraint to the email column so duplicates are impossible.'",
         },
       ],
     },

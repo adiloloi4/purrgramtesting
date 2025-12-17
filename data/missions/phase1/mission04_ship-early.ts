@@ -79,21 +79,17 @@ export const mission04: MissionData = {
     {
       type: "buildTask",
       title: "Ship Your First Page",
-      description: "Build and deploy a simple page in 15 minutes",
-      task: "Create a simple 'Hello World' page in Next.js. Use Cursor to generate it. Then deploy it to Vercel. The goal is to go from zero to live in 15 minutes. Don't perfect it - just ship it.",
-      expectedOutcome: "A live page on the internet that you built and deployed",
+      description: "Build a page in 5 minutes",
+      task: "Tell Cursor: 'Create a new page at /hello that says Hello World in big purple text.' Then verify you can see it in your browser.",
+      expectedOutcome: "A live page in your local app",
       verificationSteps: [
-        "Created a Next.js page component",
-        "Deployed to Vercel",
-        "Page is accessible via a public URL",
-        "Took less than 15 minutes total",
-        "Page displays 'Hello World' or similar"
+        "You asked AI to create the page",
+        "You didn't touch the file system",
+        "You can see 'Hello World' at /hello"
       ],
       tips: [
-        "Use 'npx create-next-app@latest' to start",
-        "Ask Cursor to create a simple page component",
-        "Connect your GitHub repo to Vercel",
-        "Don't worry about perfection - just get it live"
+        "If you don't know the URL, ask AI: 'What URL is this at?'",
+        "Speed is key. Don't overthink the design."
       ],
     },
     {

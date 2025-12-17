@@ -43,21 +43,19 @@ export const mission02: MissionData = {
       type: "buildTask",
       title: "Set Up Your First Supabase Project",
       description: "Get hands-on with Supabase backend setup",
-      task: "1. Go to supabase.com and create a free account. 2. Create a new project. 3. Copy your project URL and anon key. 4. Create a .env.local file in your Next.js project and add SUPABASE_URL and SUPABASE_ANON_KEY. This is your first backend connection.",
+      task: "1. Go to supabase.com and sign up. 2. Create a new project. 3. Ask Cursor: 'Where do I save my Supabase keys?' and let it create the .env.local file for you. 4. Paste the keys from Supabase Settings > API.",
       expectedOutcome: "A Supabase project connected to your Next.js app",
       verificationSteps: [
         "Created Supabase account",
         "Created a new project",
-        "Got project URL and anon key",
-        "Created .env.local file",
-        "Added environment variables",
-        "Can access Supabase dashboard"
+        "AI helped create .env.local",
+        "Keys are pasted in",
+        "You didn't memorize file paths"
       ],
       tips: [
         "Sign up at supabase.com",
-        "Create a new project (choose a region close to you)",
-        "Go to Settings > API to find your keys",
-        "Never commit .env.local to git"
+        "Create a new project",
+        "Use AI to manage the config files"
       ],
     },
     {
@@ -92,21 +90,21 @@ export const mission02: MissionData = {
     },
     {
       type: "codePuzzle",
-      title: "Complete the Backend Code",
-      description: "Fill in the blanks to create a secure backend endpoint",
-      puzzle: "function handleRequest(req) {\n  const apiKey = process.env.__0__;\n  if (!apiKey) {\n    return { error: '__1__' };\n  }\n  return { success: true };\n}",
+      title: "Secure the Keys",
+      description: "Where should the secret API Key be stored?",
+      puzzle: "const apiKey = process.env.__0__; // Load from secure storage\nif (!apiKey) throw new Error('Missing Key');",
       missingParts: [
         {
           id: "env-var",
-          options: ["API_KEY", "SECRET_KEY", "PASSWORD"],
-          correct: "API_KEY",
-          hint: "Environment variables store secrets",
+          options: ["API_KEY (Environment Variable)", "HARDCODED_STRING ('123')", "PUBLIC_VARIABLE"],
+          correct: "API_KEY (Environment Variable)",
+          hint: "Secrets should never be written directly in the code.",
         },
         {
           id: "error-msg",
-          options: ["'Unauthorized'", "'Hello'", "'Success'"],
+          options: ["'Unauthorized'", "'Welcome'", "'Success'"],
           correct: "'Unauthorized'",
-          hint: "What error should you return when a key is missing?",
+          hint: "If the key is missing, what should happen?",
         },
       ],
     },

@@ -72,18 +72,17 @@ export const mission01: MissionData = {
     {
       type: "codeChallenge",
       title: "Build a Like Button Component",
-      description: "Practice state and rendering by building a real component",
-      task: "Open Cursor and create a LikeButton component. It should have a heart icon that turns red when clicked. Use React useState to manage the 'isLiked' state. This demonstrates state change triggering a rerender.",
-      starterCode: "// Create app/components/LikeButton.tsx\n// Use useState to track if liked\n// Change color when clicked",
+      description: "Direct the AI to build a real component",
+      task: "Open Cursor Chat. Type: 'Create a Like Button component. It should have a heart icon that turns red when I click it.'",
+      starterCode: "// Ask AI to create app/components/LikeButton.tsx\n// It will handle the state for you",
       successCriteria: [
-        "Component file created",
-        "Uses useState hook",
-        "Heart icon changes color on click",
-        "State properly updates",
-        "Component rerenders when state changes"
+        "You asked the AI to build it",
+        "The component exists",
+        "Clicking the heart turns it red",
+        "You didn't write the state logic yourself"
       ],
-      hint: "Use useState(false) for isLiked, then toggle it on click",
-      example: "const [isLiked, setIsLiked] = useState(false);",
+      hint: "If it doesn't work, tell the AI: 'It's not changing color. Fix it.'",
+      example: "// AI will generate:\n// const [isLiked, setIsLiked] = useState(false);",
     },
     {
       type: "speedQuiz",

@@ -21,28 +21,26 @@ export const mission08: MissionData = {
       title: "The Steps",
       prompt: "Mark the steps.",
       items: [
-        { id: "create", label: "Create the Project: Use Cursor to create a new Next.js project." },
-        { id: "build", label: "Build the Page: Create a simple 'Hello World' page." },
-        { id: "deploy", label: "Deploy to Vercel: Push to GitHub, connect to Vercel, and go live." },
+        { id: "create", label: "Create: You ask AI to scaffold the app." },
+        { id: "build", label: "Build: You direct AI to add features." },
+        { id: "deploy", label: "Deploy: You push to Vercel to go live." },
       ],
     },
     {
       type: "text",
       title: "The Commands",
       body:
-        "You'll use: `npx create-next-app@latest` to create. `git push` to save. Vercel to deploy. Three steps. Fifteen minutes. One live website.",
+        "To start a new project, you would normally run `npx create-next-app@latest`. This creates the entire skeleton for you. Then you just step into the Director's chair.",
     },
     {
       type: "checklist",
       title: "Deployment Checklist",
-      prompt: "Verify your setup.",
+      prompt: "The path to live.",
       items: [
-        { id: "node", label: "Node.js installed" },
-        { id: "git", label: "GitHub account created" },
-        { id: "vercel", label: "Vercel account created" },
-        { id: "project", label: "Next.js project created" },
-        { id: "pushed", label: "Code pushed to GitHub" },
-        { id: "deployed", label: "Deployed to Vercel" },
+        { id: "node", label: "Project Created" },
+        { id: "git", label: "Pushed to GitHub" },
+        { id: "vercel", label: "Connected to Vercel" },
+        { id: "live", label: "Live URL generated" },
       ],
     },
     {

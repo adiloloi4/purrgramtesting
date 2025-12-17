@@ -77,21 +77,18 @@ export const mission06: MissionData = {
     {
       type: "buildTask",
       title: "Build a Feature from a User Problem",
-      description: "Practice founder thinking by building a real feature",
-      task: "Think of a simple user problem (e.g., 'Users need a way to save their favorite items'). Use Cursor to build a solution. Create a component that lets users save/favorite items. Don't worry about perfection - just solve the problem and make it work.",
-      expectedOutcome: "A working feature that solves a real user problem",
+      description: "Solve a problem, don't write code",
+      task: "Problem: Users lose their place. Solution: A 'Bookmark' button. Tell Cursor: 'Create a simple Bookmark button that toggles between saved and unsaved states when clicked.'",
+      expectedOutcome: "A working bookmark component",
       verificationSteps: [
-        "Identified a user problem",
-        "Built a component to solve it",
-        "Feature works (users can interact with it)",
-        "Deployed or tested locally",
-        "Took less than 30 minutes total"
+        "You defined the problem",
+        "You asked AI for the solution",
+        "The button works (toggles state)"
       ],
       tips: [
-        "Start with the problem, not the code",
-        "Use Cursor to generate the component",
-        "Focus on functionality over perfection",
-        "Test it works before polishing"
+        "Don't worry about where to save data yet",
+        "Just make the UI work first",
+        "Focus on the user experience"
       ],
     },
     {

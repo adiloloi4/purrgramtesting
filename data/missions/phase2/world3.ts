@@ -205,15 +205,15 @@ export const world3Missions: MissionData[] = [
       },
       {
         type: "spotTheBug",
-        title: "Schema Error in ChatGPT Wrapper",
-        description: "Find the data type mismatch",
-        code: "CREATE TABLE messages (\n  id UUID PRIMARY KEY,\n  conversation_id UUID,\n  role TEXT,\n  content TEXT,\n  created_at TEXT -- Wait, is this right?\n);",
+        title: "Date Sorting Logic",
+        description: "We want to sort messages by date. Look at the data type:",
+        code: "message_content: \"Hello\" (Text)\ncreated_at: \"Yesterday\" (Text) \n\n// Problem: How does the computer know if \"Yesterday\" is before \"Today\"?",
         bugs: [
           {
             id: "timestamp-type",
-            line: 6,
-            description: "created_at should be TIMESTAMP, not TEXT, so we can sort and filter by date.",
-            fix: "created_at TIMESTAMP DEFAULT NOW()",
+            line: 2,
+            description: "Computers can't sort vague text like 'Yesterday'. Use a Timestamp.",
+            fix: "Change 'Text' to 'Timestamp' so the computer gets an exact date/time.",
           },
         ],
       },
