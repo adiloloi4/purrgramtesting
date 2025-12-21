@@ -45,7 +45,7 @@ export default function Paywall({
     }
 
     await refreshProfile();
-    router.push('/dashboard');
+    window.location.href = '/dashboard';
   };
 
   return (
