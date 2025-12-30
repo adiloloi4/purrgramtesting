@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -15,38 +15,41 @@ interface PaywallProps {
 
 export default function Paywall({ 
   title = "Unlock Full Access",
-  description = "Subscribe to access all features and content."
+  description = "Get lifetime access to the complete Purrgram course."
 }: PaywallProps) {
   const router = useRouter();
   const { refreshProfile } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubscribe = async () => {
-    // TODO: Replace with actual Stripe checkout link
-    // After successful payment, Stripe webhook will update is_subscribed
-    // Then user will be redirected back and can access dashboard
-    window.location.href = 'https://buy.stripe.com/your-link-here';
-  };
+  const handlePurchase = async () => {
+    setIsLoading(true);
+    setError(null);
 
-  const handleSkipPaywall = async () => {
-    // Skip paywall for now (development/testing)
-    const { createClient } = await import('@/lib/supabase/client');
-    const supabase = createClient();
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const { error } = await supabase
-      .from('profiles')
-      .update({ is_subscribed: true })
-      .eq('id', user.id);
+      const data = await response.json();
 
-    if (error) {
-      return;
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+
+      if (data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      }
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
+      setIsLoading(false);
     }
-
-    await refreshProfile();
-    window.location.href = '/dashboard';
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6 py-12">
@@ -78,10 +81,16 @@ export default function Paywall({
           </div>
 
           <div className="space-y-6 max-w-xl mx-auto relative z-10">
+            {error && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+            
             <div className="p-8 rounded-xl bg-white/5 border border-white/10">
               <div className="text-center mb-6">
-                <div className="text-5xl font-light text-white mb-2">$80</div>
-                <div className="text-sm text-white/60 font-light uppercase tracking-wider">Lifetime Access</div>
+                <div className="text-5xl font-light text-white mb-2">$149.99</div>
+                <div className="text-sm text-white/60 font-light uppercase tracking-wider">One-Time Payment</div>
               </div>
               <ul className="space-y-3 text-sm text-white/70 font-light">
                 <li className="flex items-center gap-3">
@@ -109,20 +118,13 @@ export default function Paywall({
 
             <div className="space-y-3">
               <Button
-                onClick={handleSubscribe}
+                onClick={handlePurchase}
+                disabled={isLoading}
                 size="lg"
-                className="w-full bg-white text-black hover:bg-white/90 border-0 font-medium tracking-wide rounded-lg h-14 text-lg"
+                className="w-full bg-white text-black hover:bg-white/90 border-0 font-medium tracking-wide rounded-lg h-14 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Subscribe Now
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-              <Button
-                onClick={handleSkipPaywall}
-                variant="ghost"
-                size="lg"
-                className="w-full text-white/60 hover:text-white font-light border border-white/10 hover:bg-white/5"
-              >
-                Skip for Now (Development)
+                {isLoading ? 'Processing...' : 'Purchase Now'}
+                {!isLoading && <ArrowRight className="w-5 h-5 ml-2" />}
               </Button>
             </div>
           </div>

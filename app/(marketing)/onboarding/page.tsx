@@ -23,16 +23,36 @@ export default function OnboardingPage() {
   const [idea, setIdea] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [hasSession, setHasSession] = useState<boolean | null>(null);
   const supabase = createClient();
+
+  // Check for session directly as fallback
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setHasSession(!!session?.user);
+      
+      if (session?.user && !user && authLoading) {
+        // Session exists but context hasn't updated yet, wait a bit more
+        setTimeout(() => {
+          if (authLoading) {
+            router.refresh();
+          }
+        }, 500);
+      }
+    };
+    
+    checkSession();
+  }, [supabase, user, authLoading, router]);
 
   useEffect(() => {
     // Check if user is authenticated - redirect to login if not
     if (!authLoading) {
-      if (!user) {
+      if (!user && hasSession === false) {
         router.push('/login');
       }
     }
-  }, [user, authLoading, router]);
+  }, [user, authLoading, router, hasSession]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -96,8 +116,24 @@ export default function Home() {
 }`;
   };
 
-  // Don't render if not authenticated
-  if (authLoading || !user) {
+  // Show loading only if we're still checking and don't have a session yet
+  if (hasSession === null && authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white/60">Loading...</div>
+      </div>
+    );
+  }
+
+  // If we have a session (even if context hasn't updated), allow rendering
+  // This prevents infinite loading when context is slow to update
+  if (hasSession === true) {
+    // Continue to render even if user is null - the session exists
+  } else if (!authLoading && !user && hasSession === false) {
+    // No session and not loading - will redirect in useEffect
+    return null;
+  } else if (authLoading && !user && hasSession === false) {
+    // Still checking, show loading
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-white/60">Loading...</div>
@@ -561,14 +597,7 @@ export default function Home() {
                     Unlock the full game
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
-                  <Button
-                    onClick={handleSkip}
-                    variant="ghost"
-                    size="lg"
-                    className="w-full text-white/60 hover:text-white font-light"
-                  >
-                    I&apos;ll explore the free part first
-                  </Button>
+                 
                 </div>
               </div>
             </motion.div>

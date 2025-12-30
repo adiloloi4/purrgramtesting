@@ -1,7 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check authentication
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check if user has subscribed
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('is_subscribed')
+      .eq('id', user.id)
+      .single();
+
+    if (!profile?.is_subscribed) {
+      return NextResponse.json(
+        { error: 'Subscription required' },
+        { status: 403 }
+      );
+    }
+
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
     if (!OPENAI_API_KEY) {
@@ -12,6 +40,14 @@ export async function POST(request: NextRequest) {
     }
 
     const { messages } = await request.json();
+
+    // Validate messages structure
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json(
+        { error: 'Invalid request: messages array required' },
+        { status: 400 }
+      );
+    }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',

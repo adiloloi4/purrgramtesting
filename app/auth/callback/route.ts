@@ -19,21 +19,36 @@ export async function GET(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (user) {
+    // Extract name from Google OAuth metadata if available
+    const googleName = user.user_metadata?.full_name || 
+                       user.user_metadata?.name || 
+                       user.user_metadata?.display_name ||
+                       null;
+
     const { data: profile } = await supabase
       .from('profiles')
-      .select('onboarding_completed, is_subscribed')
+      .select('onboarding_completed, is_subscribed, name')
       .eq('id', user.id)
       .single();
 
     if (!profile) {
-      // Create profile if it doesn't exist
+      // Create profile if it doesn't exist (should be created by trigger, but handle edge case)
       await supabase.from('profiles').insert({
         id: user.id,
         email: user.email,
+        name: googleName,
         onboarding_completed: false,
         is_subscribed: false,
       });
       return NextResponse.redirect(`${origin}/onboarding`);
+    }
+
+    // Update profile name if we have Google name and profile doesn't have a name
+    if (googleName && !profile.name) {
+      await supabase
+        .from('profiles')
+        .update({ name: googleName })
+        .eq('id', user.id);
     }
 
     // Flow: onboarding → paywall → dashboard

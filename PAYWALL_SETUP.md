@@ -19,11 +19,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
 ```
 
-**Your Supabase Keys:**
-- Publishable Key: `bqw6NU0sq7cdM5LJ44a_DQ_ka_ZEVqU`
-- Secret Key: `YbVG-h6YDznKxEHRDHJxCw_3LQDEgzN`
-
-**Note:** You'll need to get your Supabase project URL from your Supabase dashboard.
+**Note:** You'll need to get your Supabase project URL and API keys from your Supabase dashboard.
 
 ## Database Setup
 

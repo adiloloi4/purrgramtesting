@@ -8,11 +8,8 @@ The keys you showed (`sb_publishable_...` and `sb_secret_...`) are **LemonSqueez
 
 ### 1. Go to Your Supabase Project Settings
 
-Visit: **https://supabase.com/dashboard/project/ogezrrjcrkkyfbhdedwd/settings/api**
-
-Or:
 1. Go to https://supabase.com/dashboard
-2. Click on your project (`ogezrrjcrkkyfbhdedwd`)
+2. Click on your project
 3. Click **Settings** (gear icon) in the left sidebar
 4. Click **API** under Project Settings
 
@@ -47,11 +44,11 @@ Open `.env.local` and replace the keys:
 
 ```env
 # Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://ogezrrjcrkkyfbhdedwd.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZXpycmpjcmtreWZi... (paste your full anon key here)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ... (paste your full anon key here)
 
 # Supabase Service Role (for server-side operations)
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nZXpycmpjcmtreWZi... (paste your full service_role key here)
+SUPABASE_SERVICE_ROLE_KEY=eyJ... (paste your full service_role key here)
 ```
 
 ### 5. Restart Your Dev Server

@@ -34,7 +34,18 @@ export default function LoginPage() {
         return;
       }
 
-      if (data.user) {
+      if (data.user && data.session) {
+        // Wait for session to be fully established and cookies to be set
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Verify session is established
+        const { data: { session: verifiedSession } } = await supabase.auth.getSession();
+        if (!verifiedSession) {
+          setError('Session not established. Please try again.');
+          setIsLoading(false);
+          return;
+        }
+        
         // Check user flow status
         const { data: profile } = await supabase
           .from('profiles')
@@ -42,12 +53,13 @@ export default function LoginPage() {
           .eq('id', data.user.id)
           .single();
 
+        // Use full page reload to ensure auth context is refreshed
         if (!profile?.onboarding_completed) {
-          router.push('/onboarding');
+          window.location.href = '/onboarding';
         } else if (!profile?.is_subscribed) {
-          router.push('/paywall');
+          window.location.href = '/paywall';
         } else {
-          router.push('/dashboard');
+          window.location.href = '/dashboard';
         }
       }
     } catch (err) {
@@ -196,6 +208,7 @@ export default function LoginPage() {
               variant="outline"
               size="lg"
               onClick={handleGoogleLogin}
+              disabled={isLoading}
               className="w-full border-white/10 hover:bg-white/10 text-white font-light rounded-xl h-12"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
