@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Home, Map, Flame, Trophy, Lock, Shield, LayoutDashboard, Gamepad2, LogOut, User } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { useCourseStore } from '@/store/courseStore';
@@ -13,9 +13,9 @@ import { Button } from '@/components/ui/button';
 
 export const Sidebar = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const { currentStreak, xp, completedWorlds } = useCourseStore();
   const { user, profile, signOut } = useAuth();
+  const [isSigningOut, setIsSigningOut] = React.useState(false);
 
   const level = Math.floor(xp / 500) + 1;
   const nextLevelXp = level * 500;
@@ -24,8 +24,21 @@ export const Sidebar = () => {
   const hasFounderBadge = completedWorlds.includes(9);
 
   const handleSignOut = async () => {
-    await signOut();
-    router.push('/login');
+    if (isSigningOut) return; // Prevent double-clicks
+    
+    try {
+      setIsSigningOut(true);
+      await signOut();
+      // Use window.location.href to force a full page reload and clear any cached state
+      // This ensures cookies are fully cleared before navigation
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Failed to sign out:', error);
+      // Even if sign out fails, try to navigate to login
+      window.location.href = '/login';
+    } finally {
+      setIsSigningOut(false);
+    }
   };
 
   const navItems = [
@@ -165,10 +178,11 @@ export const Sidebar = () => {
             <Button
               onClick={handleSignOut}
               variant="ghost"
-              className="w-full justify-start text-white/60 hover:text-white hover:bg-white/10 border border-white/10"
+              disabled={isSigningOut}
+              className="w-full justify-start text-white/60 hover:text-white hover:bg-white/10 border border-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
+              {isSigningOut ? 'Signing out...' : 'Sign Out'}
             </Button>
           </div>
         )}
