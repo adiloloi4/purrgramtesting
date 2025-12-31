@@ -13,7 +13,7 @@ export const world3Missions: MissionData[] = [
       {
         type: "text",
         title: "Meet the Crew",
-        body: "Cursor: The Builder (Writes code).\nv0: The Designer (Draws UI).\nSupabase: The Brain (Remembers data).\nVercel: The Stage (Shows the world).",
+        body: "Cursor: The Builder (Writes code).\nv0: From Idea to First Draft (Prototypes fast).\nSupabase: The Brain (Remembers data).\nVercel: The Stage (Shows the world).",
       },
       {
         type: "quiz",
@@ -28,6 +28,11 @@ export const world3Missions: MissionData[] = [
         type: "text",
         title: "Why this stack?",
         body: "Because they all talk to each other. They all have great free tiers. And they all love AI. This is the stack that single founders use to make millions.",
+      },
+      {
+        type: "text",
+        title: "The Tool Flow",
+        body: "You do not choose one tool forever. You move between tools as your product evolves. Idea to v0 creates your first draft. First draft to Cursor becomes your real product. Tools are chosen by stage, not by role.",
       },
       {
         type: "miniChallenge",
@@ -157,49 +162,49 @@ export const world3Missions: MissionData[] = [
   },
   {
     id: "v0-designer",
-    title: "v0: The Artist",
+    title: "v0: From Idea to First Draft",
     slides: [
       {
         type: "text",
-        title: "Drawing with Words",
-        body: "v0.dev is a tool by Vercel. You type A dark mode dashboard with a chart, and it draws the UI. It gives you the React/Tailwind code.",
+        title: "Idea to Working UI",
+        body: "v0.dev is a tool by Vercel. You type your idea: A landing page for my app. A dashboard. A pricing page. It turns your idea into a working first draft. It gives you the code instantly.",
       },
       {
         type: "text",
-        title: "Copy-Paste Design",
-        body: "The workflow: 1. Generate in v0. 2. Copy the code. 3. Paste into Cursor. You don't need to be a designer. You just need taste.",
+        title: "Speed Over Perfection",
+        body: "The workflow: 1. Type your idea in v0. 2. Get your first draft. 3. Copy the code. 4. Paste into Cursor to refine. v0 is great for MVPs. v0 is not where most apps stay forever. v0 helps you see your idea instead of imagining it.",
       },
       {
         type: "text",
         title: "Action: Try v0",
-        body: "Go to v0.dev (it's free). Type: A pricing card with a gradient button. Watch it generate.",
+        body: "Go to v0.dev (it's free). Type: A landing page with a hero section and signup button. Watch it generate your first draft in seconds.",
       },
       {
         type: "miniChallenge",
         title: "Success Check",
-        task: "Did you generate a UI? Did it look cool? We will use this tool whenever we need complex layouts.",
-        example: "Generated a pricing card.",
+        task: "Did you generate a working UI? Did you see your idea materialize? This is the fastest way to prototype. We use this tool when speed matters.",
+        example: "Generated a landing page.",
       },
       {
         type: "identify",
-      prompt: "To use v0 effectively, what do you need most?",
-      correctOptionId: "taste",
-      correctExplanation: "Yes. You need to know what looks good (Taste). AI handles the pixels.",
-      wrongExplanation: "You don't need a degree or Figma skills anymore.",
+      prompt: "When should you choose v0?",
+      correctOptionId: "speed",
+      correctExplanation: "Yes. Choose v0 when you need speed. When you want to see your idea quickly. When you're building an MVP or first draft.",
+      wrongExplanation: "v0 is for prototyping fast, not for final products.",
         options: [
-          { id: "degree", text: "CS Degree", icon: "🎓" },
-          { id: "taste", text: "Taste", icon: "🎨" },
-          { id: "figma", text: "Figma Skills", icon: "✏️" },
+          { id: "perfection", text: "When you need perfect UI", icon: "✨" },
+          { id: "speed", text: "When speed matters", icon: "⚡" },
+          { id: "final", text: "For final production code", icon: "🏁" },
         ],
       },
       {
         type: "sequenceGame",
         title: "v0 Workflow",
-        description: "Order the steps to use v0",
+        description: "Order the steps from idea to product",
         items: [
-          { id: "generate", label: "Generate UI in v0", correctPosition: 0 },
-          { id: "copy", label: "Copy the code", correctPosition: 1 },
-          { id: "paste", label: "Paste into Cursor", correctPosition: 2 },
+          { id: "idea", label: "Have an idea", correctPosition: 0 },
+          { id: "prototype", label: "Prototype in v0", correctPosition: 1 },
+          { id: "refine", label: "Refine in Cursor", correctPosition: 2 },
         ],
       },
     ],
@@ -352,23 +357,28 @@ export const world3Missions: MissionData[] = [
       {
         type: "text",
         title: "The Voltron Moment",
-        body: "Cursor writes the code. v0 designs the look. Supabase stores the truth. Vercel shows the world. Together, they are unstoppable.",
+        body: "Prototype fast with v0. Build properly with Cursor. Ship with Vercel. Store data with Supabase. Together, they are unstoppable.",
       },
       {
         type: "dragDrop",
         prompt: "Match the tool to the job.",
         categories: [
           { id: "build", label: "Build" },
-          { id: "design", label: "Design" },
+          { id: "prototype", label: "Prototype" },
           { id: "data", label: "Data" },
           { id: "deploy", label: "Deploy" },
         ],
         items: [
           { id: "cursor", label: "Cursor", correctCategoryId: "build" },
-          { id: "v0", label: "v0", correctCategoryId: "design" },
+          { id: "v0", label: "v0", correctCategoryId: "prototype" },
           { id: "supabase", label: "Supabase", correctCategoryId: "data" },
           { id: "vercel", label: "Vercel", correctCategoryId: "deploy" },
         ],
+      },
+      {
+        type: "text",
+        title: "The Real Truth",
+        body: "This is not about tools. This is about moving from idea to market with the least friction. v0 is optional but powerful, often the first step. Cursor is mandatory for serious building. Prototype fast with v0. Build properly with Cursor. Ship with Vercel. Store data with Supabase.",
       },
       {
         type: "text",
@@ -380,7 +390,7 @@ export const world3Missions: MissionData[] = [
         title: "Stack Assembly Flow",
         description: "Order the tools in the development lifecycle",
         items: [
-          { id: "v0", label: "Design (v0.dev)", correctPosition: 0 },
+          { id: "v0", label: "Prototype (v0.dev)", correctPosition: 0 },
           { id: "cursor", label: "Build (Cursor)", correctPosition: 1 },
           { id: "supabase", label: "Data (Supabase)", correctPosition: 2 },
           { id: "vercel", label: "Deploy (Vercel)", correctPosition: 3 },

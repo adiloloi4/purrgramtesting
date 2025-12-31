@@ -38,6 +38,7 @@ export type Phase = {
   title: string;
   subtitle?: string;
   worlds: World[];
+  lockedByDefault?: boolean;
 };
 
 export const curriculum: { phases: Phase[] } = {
@@ -152,7 +153,7 @@ export const curriculum: { phases: Phase[] } = {
           missions: [
             { id: "stack-overview", title: "The Modern Stack", description: "Meet your team.", xpReward: 10 },
             { id: "cursor-deep-dive", title: "Cursor: The Magic Wand", description: "Not just VS Code.", xpReward: 10 },
-            { id: "v0-designer", title: "v0: The Artist", description: "Generative UI.", xpReward: 10 },
+            { id: "v0-designer", title: "v0: From Idea to First Draft", description: "Prototype fast.", xpReward: 10 },
             { id: "supabase-vault", title: "Supabase: The Vault", description: "The backend brain.", xpReward: 10 },
             { id: "vercel-stage", title: "Vercel: The Stage", description: "Ship to the world.", xpReward: 10 },
             { id: "stack-assembly", title: "Assemble Your Stack", description: "Put it all together.", xpReward: 10 }
@@ -165,6 +166,20 @@ export const curriculum: { phases: Phase[] } = {
       title: "Phase 2: The Build",
       subtitle: "Build the Real SaaS",
       worlds: [
+        {
+          id: 7,
+          phaseId: 2,
+          slug: "the-surface",
+          title: "The Surface (Frontend First)",
+          subtitle: "Build something visible immediately",
+          missions: [
+            { id: "idea-to-screen", title: "From Idea to Screen", description: "Screens are the product.", xpReward: 10 },
+            { id: "v0-first-draft", title: "Prototyping with v0", description: "First draft machine.", xpReward: 10 },
+            { id: "screenshot-build", title: "Screenshot → Build", description: "Steal like a founder.", xpReward: 10 },
+            { id: "cursor-workflow", title: "The Correct Way to Use Cursor", description: "PLAN → REVIEW → CONFIRM → BUILD.", xpReward: 10 }
+          ],
+          project: "Build your first visible screen - a landing page or dashboard that users can see and interact with.",
+        },
         {
           id: 4,
           phaseId: 2,
@@ -233,7 +248,7 @@ export const curriculum: { phases: Phase[] } = {
       subtitle: "Where others quit. You won't.",
       worlds: [
         {
-          id: 7,
+          id: 8,
           phaseId: 3,
           slug: "the-fixer-debugging",
           title: "The Fixer (Debugging)",
@@ -255,7 +270,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 8,
+          id: 9,
           phaseId: 3,
           slug: "the-polish-ui-ux",
           title: "The Polish (UI and UX)",
@@ -279,7 +294,7 @@ export const curriculum: { phases: Phase[] } = {
       subtitle: "The Business Layer",
       worlds: [
         {
-          id: 9,
+          id: 10,
           phaseId: 4,
           slug: "the-cash-register",
           title: "The Cash Register",
@@ -297,7 +312,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 10,
+          id: 11,
           phaseId: 4,
           slug: "the-launch",
           title: "THE LAUNCH",
@@ -316,7 +331,7 @@ export const curriculum: { phases: Phase[] } = {
           }
         },
         {
-          id: 11,
+          id: 12,
           phaseId: 4,
           slug: "the-public-build-bonus",
           title: "The Public Build (Bonus)",
@@ -327,6 +342,25 @@ export const curriculum: { phases: Phase[] } = {
             { id: "distribution", title: "Distribution tactics", xpReward: 10 },
             { id: "community-flywheel", title: "Vibe Coder community flywheel", xpReward: 10 }
           ]
+        }
+      ]
+    },
+    {
+      id: 5,
+      title: "Phase 5: The Blueprint",
+      subtitle: "Life-long execution template",
+      lockedByDefault: true,
+      worlds: [
+        {
+          id: 13,
+          phaseId: 5,
+          slug: "the-blueprint",
+          title: "The Blueprint",
+          subtitle: "Build any app from zero to live",
+          missions: [
+            { id: "build-any-app-from-scratch", title: "Build Any App From Scratch (0 → Live)", description: "The complete blueprint.", xpReward: 10 }
+          ],
+          project: "Build any MVP from scratch using the blueprint system.",
         }
       ]
     }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { loadCourseProgress, saveCourseProgress } from '@/lib/supabase/courseProgress';
+import { curriculum } from '@/data/curriculum';
 
 export type Badge = {
   id: string;
@@ -129,7 +130,7 @@ export const useCourseStore = create<CourseState>()(
          }
          
          // Founder Badge (World 10)
-         if (worldId === 10 && !newBadges.includes('founder')) {
+         if (worldId === 11 && !newBadges.includes('founder')) {
            newBadges.push('founder');
            newlyUnlockedBadge = 'founder';
          }
@@ -310,12 +311,59 @@ export const useCourseStore = create<CourseState>()(
       },
 
       unlockAll: () => {
-        // IDs 0 to 10 based on curriculum
-        const allWorldIds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        // Build completed missions object
+        const completedMissions: { [worldId: number]: string[] } = {};
+        const completedAllInOneCheckpoints: { [worldId: number]: string[] } = {};
+        const completedAllInOneMissions: number[] = [];
+        const completedWorlds: number[] = [];
+        let totalXP = 0;
+        const today = new Date().toISOString().split('T')[0];
+
+        // Iterate through all phases and worlds
+        curriculum.phases.forEach((phase) => {
+          phase.worlds.forEach((world) => {
+            // Mark all missions as completed
+            if (world.missions && world.missions.length > 0) {
+              completedMissions[world.id] = world.missions.map((mission) => mission.id);
+              totalXP += world.missions.length * 10; // 10 XP per mission
+            }
+
+            // Mark all-in-one mission checkpoints and mission as completed
+            if (world.allInOneMission) {
+              completedAllInOneCheckpoints[world.id] = world.allInOneMission.checkpoints.map(
+                (checkpoint) => checkpoint.id
+              );
+              completedAllInOneMissions.push(world.id);
+              totalXP += world.allInOneMission.totalXpReward || 50; // Use totalXpReward from curriculum
+            }
+
+            // Mark world as completed
+            completedWorlds.push(world.id);
+            totalXP += 100; // 100 XP per world
+          });
+        });
+
+        // Unlock all badges
+        const allBadges = [
+          'first-mission',
+          'mission-master',
+          'world-explorer',
+          'streak-7',
+          'streak-30',
+          'founder'
+        ];
+
         const newState = {
-          completedWorlds: allWorldIds,
-          xp: 1000 // Bonus XP
+          completedWorlds,
+          completedMissions,
+          completedAllInOneCheckpoints,
+          completedAllInOneMissions,
+          xp: totalXP,
+          currentStreak: 30,
+          lastMissionCompletedDate: today,
+          unlockedBadges: allBadges
         };
+
         set(newState);
         // Sync to database
         saveCourseProgress(newState).catch(() => {});
@@ -324,9 +372,25 @@ export const useCourseStore = create<CourseState>()(
       isWorldUnlocked: (worldId) => {
         const state = get();
         if (worldId === 0) return true;
-        // World 9 locked until 8 completed
-        if (worldId === 9) {
-            return state.completedWorlds.includes(8);
+        
+        const hasFounderBadge = state.unlockedBadges.includes('founder');
+        
+        // World 11 locked until 9 completed
+        if (worldId === 11) {
+            return state.completedWorlds.includes(9);
+        }
+        
+        // World 12 (The Public Build Bonus) unlocked with Founder Badge or by completing world 11
+        if (worldId === 12) {
+            return hasFounderBadge || state.completedWorlds.includes(11);
+        }
+        
+        // World 13 (Phase 5: The Blueprint) unlocked with Founder Badge or when all phases 0-4 are completed
+        // Phases 0-4 contain worlds: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+        if (worldId === 13) {
+            if (hasFounderBadge) return true;
+            const requiredWorlds = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+            return requiredWorlds.every(world => state.completedWorlds.includes(world));
         }
         
         // General rule: World X unlocked if World X-1 completed
