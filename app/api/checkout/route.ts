@@ -33,7 +33,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Stripe Checkout Session for one-time payment
-    const origin = request.headers.get('origin') || 'http://localhost:3000';
+    // Use request.nextUrl.origin to get the actual domain from the request URL
+    const origin = request.nextUrl.origin;
     
     // If promotion code is provided, look it up and apply it
     let discounts: Array<{ promotion_code: string }> | undefined;

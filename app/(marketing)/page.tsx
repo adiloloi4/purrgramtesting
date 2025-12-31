@@ -83,8 +83,6 @@ export default function LandingPage() {
         <Hero 
           title="Turn ideas into apps with vibe coding."
           description="A gamified coding platform that lets you build SaaS with AI, without drowning in docs. Get started today and build your first app."
-          badgeText="Private Beta"
-          badgeLabel="New"
           ctaButtons={[]}
           microDetails={["Gamified Learning", "AI Workflows", "Founder Badges"]}
         >
@@ -590,7 +588,7 @@ export const getUser = async (id: string) => {
                   <AccordionItem value="item-2" className="border-white/10">
                       <AccordionTrigger className="text-white/80 font-light hover:text-white">How much does it cost?</AccordionTrigger>
                       <AccordionContent className="text-white/50 font-light leading-relaxed">
-                          Purrgram is a premium course priced at $80. This gives you lifetime access to the full game map, all future updates, and the community. We do not offer a free tier because we filter for committed builders only.
+                          Purrgram is a premium course priced at $150. This gives you lifetime access to the full game map, all future updates, and the community. We do not offer a free tier because we filter for committed builders only.
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3" className="border-white/10">
@@ -602,7 +600,7 @@ export const getUser = async (id: string) => {
                   <AccordionItem value="item-4" className="border-white/10">
                       <AccordionTrigger className="text-white/80 font-light hover:text-white">Do I get lifetime access?</AccordionTrigger>
                       <AccordionContent className="text-white/50 font-light leading-relaxed">
-                          Yes! A single payment of $80 unlocks everything forever. No monthly subscriptions, no hidden fees. You also get access to all future worlds we add to the map.
+                          Yes! A single payment of $150 unlocks everything forever. No monthly subscriptions, no hidden fees. You also get access to all future worlds we add to the map.
                       </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-5" className="border-white/10">

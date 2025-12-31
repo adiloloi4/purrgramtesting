@@ -103,7 +103,8 @@ export default function MarketingLayout({
              <div className="flex gap-6 text-sm text-white/40 font-light">
                  <Link href="#" className="hover:text-white transition-colors">Twitter</Link>
                  <Link href="#" className="hover:text-white transition-colors">GitHub</Link>
-                 <Link href="#" className="hover:text-white transition-colors">Discord</Link>
+                 <Link href="https://discord.gg/TSrXQWpF86" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Discord</Link>
+                 <Link href="https://www.instagram.com/getpurrgram?igsh=cTZ6dGExeG9yYm0y&utm_source=qr" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</Link>
              </div>
         </div>
       </footer>

@@ -247,8 +247,8 @@ interface HeroProps {
 export default function Hero({
   title,
   description,
-  badgeText = "Generative Surfaces",
-  badgeLabel = "New",
+  badgeText,
+  badgeLabel,
   ctaButtons = [
     { text: "Get started", href: "#get-started", primary: true },
     { text: "View showcase", href: "#showcase" }
@@ -338,11 +338,17 @@ export default function Hero({
       <ShaderBackground />
 
       <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
-        <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-          <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
-          <span className="h-1 w-1 rounded-full bg-white/40" />
-          <span className="text-xs font-light tracking-tight text-white/80">{badgeText}</span>
-        </div>
+        {badgeText && (
+          <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+            {badgeLabel && (
+              <>
+                <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
+                <span className="h-1 w-1 rounded-full bg-white/40" />
+              </>
+            )}
+            <span className="text-xs font-light tracking-tight text-white/80">{badgeText}</span>
+          </div>
+        )}
 
         <h1 ref={headerRef} className="max-w-2xl text-left text-5xl font-extralight leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
           {title}
