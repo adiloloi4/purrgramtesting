@@ -25,6 +25,25 @@ export default function LandingPage() {
   const router = useRouter();
   const { user, profile, loading } = useAuth();
 
+  // Handle OAuth callback code from Supabase (when redirected to root URL)
+  useEffect(() => {
+    // Check query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    let code = urlParams.get('code');
+    
+    // Also check hash fragment (Supabase sometimes uses #)
+    if (!code && window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      code = hashParams.get('code');
+    }
+    
+    if (code) {
+      // Redirect to auth callback with the code
+      router.replace(`/auth/callback?code=${code}`);
+      return;
+    }
+  }, [router]);
+
   // Redirect logged-in users who completed flow to dashboard
   useEffect(() => {
     if (!loading && user && profile) {
