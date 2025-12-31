@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refreshProfile } = useAuth();
@@ -21,11 +21,32 @@ export default function PaymentSuccessPage() {
         return;
       }
 
-      // Wait a moment for webhook to process
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Refresh profile to get updated subscription status
-      await refreshProfile();
+      try {
+        // Verify payment directly with Stripe and update subscription
+        const response = await fetch('/api/verify-payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sessionId }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // If verification fails, wait a bit for webhook and try again
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          await refreshProfile();
+        } else {
+          // Payment verified, refresh profile to get updated status
+          await refreshProfile();
+        }
+      } catch (error) {
+        // On error, wait for webhook and refresh
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await refreshProfile();
+      }
+
       setIsLoading(false);
     };
 
@@ -76,6 +97,18 @@ export default function PaymentSuccessPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-white/60">Loading...</div>
+      </div>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
 

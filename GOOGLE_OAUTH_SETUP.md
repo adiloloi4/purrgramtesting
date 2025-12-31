@@ -27,7 +27,22 @@ This guide will help you configure Google OAuth authentication in your Supabase 
 8. Click **Create**
 9. Copy the **Client ID** and **Client Secret**
 
-## Step 2: Configure Google OAuth in Supabase
+## Step 2: Configure Site URL in Supabase (IMPORTANT!)
+
+**This is critical for production!** Supabase needs to know your production domain.
+
+1. Go to your [Supabase Dashboard](https://app.supabase.com/)
+2. Select your project
+3. Navigate to **Authentication** > **URL Configuration**
+4. Set **Site URL** to your production domain:
+   - For production: `https://purrgram.com`
+   - For local development: `http://localhost:3000`
+5. Add **Redirect URLs**:
+   - `https://purrgram.com/auth/callback` (production)
+   - `http://localhost:3000/auth/callback` (local development)
+6. Click **Save**
+
+## Step 3: Configure Google OAuth in Supabase
 
 1. Go to your [Supabase Dashboard](https://app.supabase.com/)
 2. Select your project
@@ -38,7 +53,17 @@ This guide will help you configure Google OAuth authentication in your Supabase 
 7. Enter your **Client Secret** (from Step 1)
 8. Click **Save**
 
-## Step 3: Test Google OAuth
+## Step 4: Add Environment Variable (Production)
+
+For production deployments, add this to your environment variables:
+
+```env
+NEXT_PUBLIC_SITE_URL=https://purrgram.com
+```
+
+This ensures the OAuth redirect uses the correct production URL.
+
+## Step 5: Test Google OAuth
 
 1. Go to your application's login or signup page
 2. Click **Continue with Google**
@@ -52,6 +77,20 @@ This guide will help you configure Google OAuth authentication in your Supabase 
 
 - Make sure the redirect URI in Google Cloud Console exactly matches: `https://<your-project-ref>.supabase.co/auth/v1/callback`
 - The project reference is found in your Supabase dashboard URL
+
+### Redirecting to localhost:3000 in Production
+
+**This is the most common issue!** If you're getting redirected to `localhost:3000` after Google login on production:
+
+1. **Check Supabase Site URL**: Go to **Authentication** > **URL Configuration** in Supabase
+   - Site URL should be: `https://purrgram.com` (not `http://localhost:3000`)
+   - Redirect URLs should include: `https://purrgram.com/auth/callback`
+
+2. **Add Environment Variable**: Set `NEXT_PUBLIC_SITE_URL=https://purrgram.com` in your production environment
+
+3. **Clear Browser Cache**: Sometimes browsers cache the old redirect URL
+
+4. **Verify in Supabase Logs**: Check the Authentication logs in Supabase dashboard to see what redirect URL is being used
 
 ### User Not Created
 

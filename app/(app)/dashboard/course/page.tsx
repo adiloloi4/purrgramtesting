@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { curriculum } from '@/data/curriculum';
 import { useCourseStore } from '@/store/courseStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { ChevronDown, ChevronUp, CheckCircle, Circle, Play, Brain, Shield, Sparkles, Rocket, ArrowRight, Flame, Zap, Target, Trophy, TrendingUp, Unlock } from 'lucide-react';
@@ -13,6 +14,7 @@ import { cn } from '@/lib/utils';
 export default function CourseMapPage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
+  const { profile } = useAuth();
   const { 
     isWorldUnlocked, 
     isWorldCompleted, 
@@ -140,13 +142,15 @@ export default function CourseMapPage() {
         })}
       </div>
 
-      {/* Dev Tools - For Testing */}
-      <div className="flex justify-center gap-4 mb-8 opacity-50 hover:opacity-100 transition-opacity">
-            <Button variant="outline" size="sm" onClick={unlockAll} className="text-xs border-white/10 hover:bg-white/5">
-                <Unlock className="w-3 h-3 mr-2" />
-          Unlock All (Testing)
-            </Button>
-      </div>
+      {/* Admin Tools - Unlock All */}
+      {profile?.is_admin && (
+        <div className="flex justify-center gap-4 mb-8 opacity-50 hover:opacity-100 transition-opacity">
+          <Button variant="outline" size="sm" onClick={unlockAll} className="text-xs border-white/10 hover:bg-white/5">
+            <Unlock className="w-3 h-3 mr-2" />
+            Unlock All (Admin)
+          </Button>
+        </div>
+      )}
 
       {/* Worlds Grid */}
       <div className="space-y-12">

@@ -30,6 +30,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow payment success route (needs to be accessible after Stripe redirect)
+  if (pathname.startsWith('/payment/success')) {
+    return NextResponse.next();
+  }
+
   // Allow API routes
   if (pathname.startsWith('/api')) {
     return NextResponse.next();

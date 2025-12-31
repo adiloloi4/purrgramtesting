@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Lock, Zap, Star, ArrowRight, Sparkles } from 'lucide-react';
+import { Lock, Zap, Star, ArrowRight, Sparkles, Tag } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -32,6 +32,9 @@ export default function Paywall({
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          promotionCode: 'LAUNCH50', // Apply launch50 coupon automatically
+        }),
       });
 
       const data = await response.json();
@@ -87,10 +90,25 @@ export default function Paywall({
               </div>
             )}
             
+            {/* Coupon Code Banner */}
+            <div className="p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-center">
+              <div className="flex items-center justify-center gap-2 text-purple-300 font-medium">
+                <Tag className="w-4 h-4" />
+                <span className="text-sm uppercase tracking-wider">Use Code: <span className="font-bold text-white">LAUNCH50</span> for 50% off</span>
+              </div>
+            </div>
+
             <div className="p-8 rounded-xl bg-white/5 border border-white/10">
               <div className="text-center mb-6">
-                <div className="text-5xl font-light text-white mb-2">$149.99</div>
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="text-2xl font-light text-white/40 line-through">$149.99</span>
+                  <div className="text-5xl font-light text-white">$74.99</div>
+                </div>
                 <div className="text-sm text-white/60 font-light uppercase tracking-wider">One-Time Payment</div>
+                <div className="mt-2 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-medium">
+                  <Sparkles className="w-3 h-3" />
+                  50% OFF - Launch Special
+                </div>
               </div>
               <ul className="space-y-3 text-sm text-white/70 font-light">
                 <li className="flex items-center gap-3">
